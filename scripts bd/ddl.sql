@@ -559,27 +559,25 @@ BEGIN
     call InsertTipoObjeto(7,'Accesorios');
     
     
-    call InsertRangoLol(1,'Hierro',1,10);
-    call InsertRangoLol(2,'Hierro',2,15);
-    call InsertRangoLol(3,'Hierro',3,30);
+    call InsertRangoLol(1,'Hierro',10,1);
+    call InsertRangoLol(2,'Hierro',15,2);
+    call InsertRangoLol(3,'Hierro',30,3);
   
-    call InsertRangoLol(4,'Bronce',1,40);
-    call InsertRangoLol(5,'Bronce',2,80);
-    call InsertRangoLol(6,'Bronce',3,120);
-	  call InsertRangoLol(7,'Palta',1,130);
-    call InsertRangoLol(8,'Palta',2,140);
-    call InsertRangoLol(9,'Palta',3,160);
-  
-    call InsertRangoLol(10,'Oro',1,180);
-    call InsertRangoLol(11,'Oro',2,200);
-    call InsertRangoLol(12,'Oro',3,220);
-  
-    call InsertRangoLol(13,'Platino',1,240);
-    call InsertRangoLol(14,'Platino',2,260);
-    call InsertRangoLol(15,'Platino',3,280);
-	  call InsertRangoLol(16,'Diamante',1,300);
-    call InsertRangoLol(17,'Diamante',2,320);
-    call InsertRangoLol(18,'Diamante',3,330);
+    call InsertRangoLol(4,'Bronce',40,1);
+    call InsertRangoLol(5,'Bronce',80,2);
+    call InsertRangoLol(6,'Bronce',120,3);
+	  call InsertRangoLol(7,'Palta',130,1);
+    call InsertRangoLol(8,'Palta',140,2);
+    call InsertRangoLol(9,'Palta',160,3);
+    call InsertRangoLol(10,'Oro',180,1);
+    call InsertRangoLol(11,'Oro',200,2);
+    call InsertRangoLol(12,'Oro',220,3);
+    call InsertRangoLol(13,'Platino',240,1);
+    call InsertRangoLol(14,'Platino',260,2);
+    call InsertRangoLol(15,'Platino',280,3);
+	  call InsertRangoLol(16,'Diamante',300,1);
+    call InsertRangoLol(17,'Diamante',320,2);
+    call InsertRangoLol(18,'Diamante',330,3);
     
 END$$
 
