@@ -2,7 +2,11 @@
 
 public class Servidor
 {
-    public sbyte idServidor { get; set; }
+    public Servidor()
+    {
+    }
+
+    public sbyte IdServidor { get; set; }
     public required string Nombre { get; set; }
     public required string Abreviado { get; set; }
 

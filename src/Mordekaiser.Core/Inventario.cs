@@ -11,8 +11,6 @@ public class Inventario
     // Properties
     public CuentaLol CuentaLol { get; private set; }
     public List<Objeto> Objetos { get; set; } = new List<Objeto>();
-    public int IdCuenta { get; set; }
-    public short IdObjeto { get; set; }
     public int Cantidad { get; set; }
 }
 

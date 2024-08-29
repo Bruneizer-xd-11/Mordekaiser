@@ -1,6 +1,9 @@
 namespace Mordekaiser.Core;
 public class CuentaLol
 {
+    public CuentaLol()
+    {
+    }
 
     public required Cuenta Cuenta { get; set; }
     public RangoLol? RangoLol { get; set; }
