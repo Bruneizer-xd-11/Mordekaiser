@@ -8,7 +8,6 @@ namespace Mordekaiser.Core
         public int PrecioEA { get; set; }
         public int PrecioRP { get; set; }
         public int Venta { get; set; }
-        public sbyte idTipoObjeto { get; set; }
 
     
     }

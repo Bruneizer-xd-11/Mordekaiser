@@ -2,7 +2,7 @@ namespace Mordekaiser.Core;
 
 public class Cuenta
 {
-    public required Servidor servidor { get; set; }
+    public required Servidor Servidor { get; set; }
     
     //composiciones
 
