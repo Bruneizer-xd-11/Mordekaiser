@@ -10,7 +10,7 @@ public class Cuenta
     
     //composiciones
 
-    public int idCuenta { get; set; }
+    public required int IdCuenta { get; set; }
     public required string Nombre { get; set; }
     public required string Contrasena { get; set; }
     public required string Email { get; set; }

@@ -3,15 +3,15 @@ namespace Mordekaiser.Core;
 public class Inventario
 {
     // Constructor
-    public Inventario(CuentaLol cuentaLol)
-    {
-        CuentaLol = cuentaLol;
+    public Inventario(int idCuenta)
+        {
+            IdCuenta = idCuenta;
+            Objetos = new List<Objeto>();
+        }
+
+        
+        public int IdCuenta { get; set; } // Identificador de la cuenta
+        public List<Objeto> Objetos { get; set; } 
+        public int Cantidad { get; set; } 
     }
-
-    // Properties
-    public CuentaLol CuentaLol { get; private set; }
-    public List<Objeto> Objetos { get; set; } = new List<Objeto>();
-    public int Cantidad { get; set; }
-}
-
-// Assuming these are placeholders for the actual classes
+// corregir idCuenta a int
