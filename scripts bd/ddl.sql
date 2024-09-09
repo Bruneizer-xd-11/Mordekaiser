@@ -221,7 +221,7 @@ DROP procedure IF EXISTS `5to_RiotGames`.`InsertServidor`;
 
 DELIMITER $$
 USE `5to_RiotGames`$$
-CREATE PROCEDURE InsertServidor (in UnidServidor tinyint,
+CREATE PROCEDURE InsertServidor (in UnidServidor tinyint UNSIGNED,
 								 in UnNombre varchar(45),
 								 in UnAbreviado char(4))
 BEGIN
@@ -241,13 +241,13 @@ DROP procedure IF EXISTS `5to_RiotGames`.`InsertCuenta`;
 DELIMITER $$
 USE `5to_RiotGames`$$
 CREATE PROCEDURE InsertCuenta (in UnidCuenta int,
-							   in UnidServidor varchar(45),
+							   in UnidServidor TINYINT UNSIGNED(45),
 							   in UnNombre varchar(45),
-							   in UnContraseña char(64),
+							   in Uncontrasena char(64),
 							   in UneMail Varchar(45))
 BEGIN
-    INSERT INTO Cuenta (idCuenta,idServidor,Nombre,Contraseña,eMail)
-    VALUES (UnidCuenta,UnidServidor,UnNombre,UnContraseña,UneMail);
+    INSERT INTO Cuenta (idCuenta,idServidor,Nombre,contrasena,eMail)
+    VALUES (UnidCuenta,UnidServidor,UnNombre,Uncontrasena,UneMail);
 END$$
 
 DELIMITER ;
