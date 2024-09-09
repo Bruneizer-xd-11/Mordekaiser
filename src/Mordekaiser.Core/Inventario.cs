@@ -12,6 +12,6 @@ public class Inventario
         
         public int IdCuenta { get; set; } // Identificador de la cuenta
         public List<Objeto> Objetos { get; set; } 
-        public int Cantidad { get; set; } 
+        public int Cantidad { get; set; }  
     }
 // corregir idCuenta a int
