@@ -11,8 +11,16 @@ public class DaoDapper : IDao
 
     public void AltaServidor(Servidor servidor)
     {
-        throw new NotImplementedException();
+        var parametros = new DynamicParameters();
+        parametros.Add("@IdServidor", servidor.IdServidor);
+        parametros.Add("@Nombre", servidor.Nombre);
+        parametros.Add("@Abreviado", servidor.Abreviado);
+    
+        // Aquí llamamos al procedimiento almacenado 'insertServidor'
+        _conexion.Execute("insertServidor", parametros, commandType: CommandType.StoredProcedure);
     }
+
+
 
     public IEnumerable<Servidor> ObtenerServidores()
     {
@@ -20,4 +28,5 @@ public class DaoDapper : IDao
         var servidores = _conexion.Query<Servidor>(query);
         return servidores;
     }
+    
 }
