@@ -15,11 +15,20 @@ public class DaoDapper : IDao
         parametros.Add("@IdServidor", servidor.IdServidor);
         parametros.Add("@Nombre", servidor.Nombre);
         parametros.Add("@Abreviado", servidor.Abreviado);
-    
-        // Aquí llamamos al procedimiento almacenado 'insertServidor'
+
         _conexion.Execute("insertServidor", parametros, commandType: CommandType.StoredProcedure);
     }
+        public void AltaCuenta(Cuenta cuenta)
+    {
+        var parametros = new DynamicParameters();
+        parametros.Add("@IdCuenta", cuenta.IdCuenta);
+        parametros.Add("@Nombre", cuenta.Nombre);
+        parametros.Add("@Contrasena", cuenta.Contrasena);
+        parametros.Add("@Email", cuenta.Email);
 
+        _conexion.Execute("insertCuenta", parametros, commandType: CommandType.StoredProcedure);
+    }
+    //seguir con los insert de dapper
 
 
     public IEnumerable<Servidor> ObtenerServidores()
