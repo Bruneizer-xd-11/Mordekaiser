@@ -6,8 +6,8 @@ public class RangoValorant
     {
     }
 
-    public short idRango { get; set; }
-    public required string Nombre { get; set; }
-    public short Numero { get; set; }
-    public short PuntosCompetitivo { get; set; }
+    public required ushort idRango { get; set; }
+    public string? Nombre { get; set; }
+    public ushort? Numero { get; set; }
+    public required short PuntosCompetitivo { get; set; }
 }

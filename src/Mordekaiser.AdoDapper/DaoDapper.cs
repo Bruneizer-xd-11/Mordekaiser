@@ -41,7 +41,7 @@ public class DaoDapper : IDao
 
         _conexion.Execute("insertRangoLol", parametros, commandType: CommandType.StoredProcedure);
 
-        rangoLol.IdRango = parametros.Get<sbyte>("@IdRango");
+        rangoLol.IdRango = parametros.Get<byte>("@IdRango");
     }
     public void AltaRangoValorant(RangoValorant rangoValorant)
     {
@@ -53,7 +53,7 @@ public class DaoDapper : IDao
 
         _conexion.Execute("insertRangoValorant", parametros, commandType: CommandType.StoredProcedure);
 
-        rangoValorant.idRango = parametros.Get<short>("@idRango");
+        rangoValorant.idRango = parametros.Get<ushort>("@idRango");
     }
 
     //seguir con los insert de dapper

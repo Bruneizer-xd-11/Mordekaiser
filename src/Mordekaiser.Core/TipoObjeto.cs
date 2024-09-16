@@ -6,6 +6,6 @@ public class TipoObjeto
     {
     }
 
-    public sbyte idTipoObjeto { get; set; }
+    public byte idTipoObjeto { get; set; }
     public required string Nombre { get; set; }
 }

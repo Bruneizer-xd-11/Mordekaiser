@@ -11,11 +11,11 @@ public class CuentaValorant
 
     //composiciones
 
-    public int idCuenta { get; set; }
-    public required string Nombre { get; set; }
-    public int Nivel { get; set; }
-    public int Experiencia { get; set; }
-    public int PuntosCompetitivo { get; set; }
-    public short idRango { get; set; }
+    public required uint idCuenta { get; set; }
+    public string? Nombre { get; set; }
+    public required uint Nivel { get; set; }
+    public required uint Experiencia { get; set; }
+    public required int PuntosCompetitivo { get; set; }
+    public ushort? idRango { get; set; }
 
 }

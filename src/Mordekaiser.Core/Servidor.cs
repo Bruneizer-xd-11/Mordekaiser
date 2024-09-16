@@ -6,8 +6,8 @@ public class Servidor
     {
     }
 
-    public byte IdServidor { get; set; }
-    public required string? Nombre { get; set; }
-    public required string? Abreviado { get; set; }
+    public required byte IdServidor { get; set; }
+    public  string? Nombre { get; set; }
+    public  string? Abreviado { get; set; }
 
 }

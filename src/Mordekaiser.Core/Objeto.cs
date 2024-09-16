@@ -8,9 +8,9 @@ public class Objeto
     }
 
     public required TipoObjeto TipoObjeto { get; set; }
-    public short idObjeto { get; set; }
+    public required ushort idObjeto { get; set; }
     public required string Nombre { get; set; }
-    public uint PrecioEA { get; set; }
-    public uint PrecioRP { get; set; }
-    public int Venta { get; set; }
+    public uint? PrecioEA { get; set; }
+    public uint? PrecioRP { get; set; }
+    public uint? Venta { get; set; }
 }
