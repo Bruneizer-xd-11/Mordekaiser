@@ -279,14 +279,15 @@ DROP procedure IF EXISTS `5to_RiotGames`.`InsertRangoValorant`;
 
 DELIMITER $$
 USE `5to_RiotGames`$$
-CREATE PROCEDURE InsertRangoValorant (in UnidRango smallint ,
+CREATE PROCEDURE InsertRangoValorant (in UnidRango smallint OUT,
 									  in UnNombre varchar(45),
 									  in UnNumero smallint,
                                       in UnPuntosNecesarios mediumint)
 BEGIN
    INSERT INTO RangoValorant (idRango, Nombre, Numero, PuntosNecesarios)
    VALUES (Unidrango, Unnombre, UnNumero, UnpuntosNecesarios);
-
+  
+   SET IdRango = LAST_INSERT_ID();
 END$$
 
 DELIMITER ;
@@ -320,13 +321,14 @@ DROP procedure IF EXISTS `5to_RiotGames`.`InsertRangoLol`;
 
 DELIMITER $$
 USE `5to_RiotGames`$$
-CREATE PROCEDURE InsertRangoLol (in UnidRango tinyint,
+CREATE PROCEDURE InsertRangoLol (in UnidRango tinyint OUT,
 									  in UnNombre varchar(45),
 									  in UnPuntosLigaNecesario mediumint,
                                       in UnNumero int)
 BEGIN
    INSERT INTO RangoLol  (idRango, Nombre, PuntosLigaNecesario, Numero)
    VALUES (UnidRango, UnNombre, UnPuntosLigaNecesario, UnNumero);
+   SET IdRango = LAST_INSERT_ID();
 END $$
 -- hierro
 -- 	1:0
