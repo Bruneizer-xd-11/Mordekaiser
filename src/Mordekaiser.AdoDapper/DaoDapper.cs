@@ -55,6 +55,35 @@ public class DaoDapper : IDao
 
         rangoValorant.idRango = parametros.Get<ushort>("@idRango");
     }
+    public void AltaCuentaLol(CuentaLol cuentaLol)
+    {
+        var parametros = new DynamicParameters();
+        parametros.Add("@idCuenta", cuentaLol.IdCuenta); // ID de la cuenta existente
+        parametros.Add("@Nombre", cuentaLol.Nombre);
+        parametros.Add("@Nivel", cuentaLol.Nivel);
+        parametros.Add("@EsenciaAzul", cuentaLol.EsenciaAzul);
+        parametros.Add("@PuntosRiot", cuentaLol.PuntosRiot);
+        parametros.Add("@PuntosLiga", cuentaLol.PuntosLiga);
+
+        // Ejecutamos el procedimiento almacenado para insertar la cuenta de LoL
+        _conexion.Execute("InserCuentaLol", parametros, commandType: CommandType.StoredProcedure);
+    }
+    public void AltaCuentaValorant(CuentaValorant cuentaValorant)
+    {
+        var parametros = new DynamicParameters();
+        parametros.Add("@idCuenta", cuentaValorant.idCuenta); // ID de la cuenta existente
+        parametros.Add("@Nombre", cuentaValorant.Nombre);
+        parametros.Add("@Nivel", cuentaValorant.Nivel);
+        parametros.Add("@Experiencia", cuentaValorant.Experiencia);
+        parametros.Add("@PuntosCompetitivo", cuentaValorant.PuntosCompetitivo);
+        parametros.Add("@idRango", cuentaValorant.idRango); // Puede ser null si no se asigna rango
+
+        // Ejecutamos el procedimiento almacenado para insertar la cuenta de Valorant
+        _conexion.Execute("InsertCuentaValorant", parametros, commandType: CommandType.StoredProcedure);
+    }
+
+
+    
 
     //seguir con los insert de dapper
 
