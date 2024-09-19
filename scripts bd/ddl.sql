@@ -64,7 +64,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `5to_RiotGames`.`RangoLol` ;
 
 CREATE TABLE IF NOT EXISTS `5to_RiotGames`.`RangoLol` (
-  `idRango` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `idRango` TINYINT UNSIGNED  NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(45) NOT NULL,
   `PuntosLigaNecesario` MEDIUMINT NOT NULL,
   `Numero` TINYINT UNSIGNED NULL,
@@ -172,7 +172,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `5to_RiotGames`.`RangoValorant` ;
 
 CREATE TABLE IF NOT EXISTS `5to_RiotGames`.`RangoValorant` (
-  `idRango` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `idRango` SMALLINT UNSIGNED  NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(45) NULL,
   `Numero` SMALLINT UNSIGNED NULL,
   `PuntosNecesarios` MEDIUMINT NOT NULL,
@@ -241,7 +241,7 @@ DROP procedure IF EXISTS `5to_RiotGames`.`InsertCuenta`;
 DELIMITER $$
 USE `5to_RiotGames`$$
 CREATE PROCEDURE InsertCuenta (in UnidCuenta int,
-							   in UnidServidor TINYINT UNSIGNED(45),
+							   in UnidServidor TINYINT UNSIGNED,
 							   in UnNombre varchar(45),
 							   in Uncontrasena char(64),
 							   in UneMail Varchar(45))
@@ -274,43 +274,24 @@ DELIMITER ;
 -- procedure InsertRangoValorant
 -- -----------------------------------------------------
 
-USE `5to_RiotGames`;
-DROP procedure IF EXISTS `5to_RiotGames`.`InsertRangoValorant`;
-
 DELIMITER $$
-USE `5to_RiotGames`$$
-CREATE PROCEDURE InsertRangoValorant (in UnidRango smallint OUT,
-									  in UnNombre varchar(45),
-									  in UnNumero smallint,
-                                      in UnPuntosNecesarios mediumint)
+
+CREATE PROCEDURE InsertRangoValorant (
+    IN UnidRango SMALLINT,
+    IN UnNombre VARCHAR(45),
+    IN UnNumero SMALLINT,
+    IN UnPuntosNecesarios MEDIUMINT,
+    OUT NewIdRango SMALLINT
+)
 BEGIN
-   INSERT INTO RangoValorant (idRango, Nombre, Numero, PuntosNecesarios)
-   VALUES (Unidrango, Unnombre, UnNumero, UnpuntosNecesarios);
-  
-   SET IdRango = LAST_INSERT_ID();
+    INSERT INTO RangoValorant (idRango, Nombre, Numero, PuntosNecesarios)
+    VALUES (UnidRango, UnNombre, UnNumero, UnPuntosNecesarios);
+    
+    SET NewIdRango = LAST_INSERT_ID(); -- Guarda el último ID insertado
 END$$
 
 DELIMITER ;
 
--- -----------------------------------------------------
--- procedure InserCuentaLol
--- -----------------------------------------------------
-
-USE `5to_RiotGames`;
-DROP procedure IF EXISTS `5to_RiotGames`.`InserCuentaLol`;
-
-DELIMITER $$
-USE `5to_RiotGames`$$
-CREATE PROCEDURE InserCuentaLol (in UnidCuenta int,
-									  in UnNombre varchar(45))
-                                       
-BEGIN
-   INSERT INTO CuentaLol (idCuenta, Nombre)
-   VALUES (idCuenta, UnNombre);
-
-END$$
-
-DELIMITER ;
 
 -- -----------------------------------------------------
 -- procedure InsertRangoLol
@@ -321,14 +302,14 @@ DROP procedure IF EXISTS `5to_RiotGames`.`InsertRangoLol`;
 
 DELIMITER $$
 USE `5to_RiotGames`$$
-CREATE PROCEDURE InsertRangoLol (in UnidRango tinyint OUT,
+CREATE PROCEDURE InsertRangoLol (in UnidRango tinyint ,
 									  in UnNombre varchar(45),
 									  in UnPuntosLigaNecesario mediumint,
                                       in UnNumero int)
 BEGIN
    INSERT INTO RangoLol  (idRango, Nombre, PuntosLigaNecesario, Numero)
    VALUES (UnidRango, UnNombre, UnPuntosLigaNecesario, UnNumero);
-   SET IdRango = LAST_INSERT_ID();
+   SET idRango = LAST_INSERT_ID();
 END $$
 -- hierro
 -- 	1:0
@@ -456,7 +437,7 @@ DELIMITER ;
 -- -----------------------------------------------------
 
 USE `5to_RiotGames`;
-DROP procedure IF EXISTS `5to_RiotGames`.`InserObjeto`;
+DROP procedure IF EXISTS `5to_RiotGames`.`InsertObjeto`;
 
 DELIMITER $$
 USE `5to_RiotGames`$$
@@ -550,9 +531,9 @@ DROP procedure IF EXISTS `5to_RiotGames`.`Inserts`;
 
 DELIMITER $$
 USE `5to_RiotGames`$$
-CREATE PROCEDURE Inserts ()
+CREATE PROCEDURE Inserts()
 BEGIN
-	call InsertTipoObjeto(1,'Skins');
+	  call InsertTipoObjeto(1,'Skins');
     call InsertServidor (1, 'Norteamérica', 'NA'); 
     call InsertServidor (2, 'Europa Occidental', 'EUW'); 
     call InsertServidor (3, 'Brasil', 'BR'); 
@@ -563,7 +544,7 @@ BEGIN
     call InsertServidor (8, 'América Latin Sur', 'LAS'); 
     call InsertServidor (9, 'Turquía', 'TR,'); 
     call InsertServidor (10, 'Rusia', 'RU'); 
-    call InsertServidor (11, 'Asia Pacífico', 'AP')
+    call InsertServidor (11, 'Asia Pacífico', 'AP');
 
     call InsertTipoObjeto(2,'Centinelas');
     call InsertTipoObjeto(3,'Campeones');
@@ -632,4 +613,5 @@ END$$
 
 DELIMITER ;
 
+SELECT 'Voy a invocar inserts' Estado;
 call Inserts();
