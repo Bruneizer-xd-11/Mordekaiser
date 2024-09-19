@@ -1,10 +1,13 @@
 namespace Mordekaiser.AdoDapper.Test;
 
-public class UnitTest1
+public class DaoServidorTest : TestBase
 {
     [Fact]
-    public void Test1()
+    public void ObtenerServidoresTestOK()
     {
+        var servidores = Dao.ObtenerServidores();
 
+        Assert.NotEmpty(servidores);
+        Assert.Contains(servidores, s=> s.Nombre == "");
     }
 }

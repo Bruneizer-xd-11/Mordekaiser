@@ -1,5 +1,4 @@
 ﻿using System.Data;
-using System.Runtime.CompilerServices;
 using Dapper;
 using Mordekaiser.Core;
 
@@ -71,14 +70,14 @@ public class DaoDapper : IDao
     public void AltaCuentaValorant(CuentaValorant cuentaValorant)
     {
         var parametros = new DynamicParameters();
-        parametros.Add("@idCuenta", cuentaValorant.idCuenta); // ID de la cuenta existente
+        parametros.Add("@idCuenta", cuentaValorant.idCuenta); 
         parametros.Add("@Nombre", cuentaValorant.Nombre);
         parametros.Add("@Nivel", cuentaValorant.Nivel);
         parametros.Add("@Experiencia", cuentaValorant.Experiencia);
         parametros.Add("@PuntosCompetitivo", cuentaValorant.PuntosCompetitivo);
-        parametros.Add("@idRango", cuentaValorant.idRango); // Puede ser null si no se asigna rango
+        parametros.Add("@idRango", cuentaValorant.idRango);
 
-        // Ejecutamos el procedimiento almacenado para insertar la cuenta de Valorant
+
         _conexion.Execute("InsertCuentaValorant", parametros, commandType: CommandType.StoredProcedure);
     }
 

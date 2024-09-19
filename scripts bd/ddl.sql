@@ -553,6 +553,18 @@ USE `5to_RiotGames`$$
 CREATE PROCEDURE Inserts ()
 BEGIN
 	call InsertTipoObjeto(1,'Skins');
+    call InsertServidor (1, 'Norteamérica', 'NA'); 
+    call InsertServidor (2, 'Europa Occidental', 'EUW'); 
+    call InsertServidor (3, 'Brasil', 'BR'); 
+    call InsertServidor (4, 'Corea', 'KR'); 
+    call InsertServidor (5, 'Oceanía', 'OC;'); 
+    call InsertServidor (6, 'Japón', 'JP'); 
+    call InsertServidor (7, 'América Latin Norte', 'LAN'); 
+    call InsertServidor (8, 'América Latin Sur', 'LAS'); 
+    call InsertServidor (9, 'Turquía', 'TR,'); 
+    call InsertServidor (10, 'Rusia', 'RU'); 
+    call InsertServidor (11, 'Asia Pacífico', 'AP')
+
     call InsertTipoObjeto(2,'Centinelas');
     call InsertTipoObjeto(3,'Campeones');
     call InsertTipoObjeto(4,'FragmentosSkin');
@@ -581,6 +593,7 @@ BEGIN
     call InsertRangoLol(17,'Diamante',320,2);
     call InsertRangoLol(18,'Diamante',330,3);
     
+
 END$$
 
 DELIMITER ;
@@ -595,7 +608,7 @@ DELIMITER $$
 USE `5to_RiotGames`$$
 DROP TRIGGER IF EXISTS `5to_RiotGames`.`Cuenta_BEFORE_INSERT` $$
 USE `5to_RiotGames`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `5to_RiotGames`.`Cuenta_BEFORE_INSERT` 
+CREATE DEFINER = CURREInsertServidorNT_USER TRIGGER `5to_RiotGames`.`Cuenta_BEFORE_INSERT` 
 BEFORE INSERT ON `Cuenta` FOR EACH ROW
 BEGIN
 	SET NEW.contrasena = SHA2(NEW.contrasena, 256);
