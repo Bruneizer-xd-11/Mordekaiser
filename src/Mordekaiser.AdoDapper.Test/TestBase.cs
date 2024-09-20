@@ -21,3 +21,5 @@ public abstract class TestBase
         Dao = new DaoDapper(Conexion);
     }
 }
+
+/*Qué wachin Luis. Cómo vas a dejar tu cuenta abierta*/
