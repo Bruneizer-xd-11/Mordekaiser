@@ -59,26 +59,26 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table 5to_RiotGames.RangoLol
+-- Table `5to_RiotGames`.RangoLol
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS 5to_RiotGames.RangoLol ;
+DROP TABLE IF EXISTS `5to_RiotGames`.RangoLol ;
 
-CREATE TABLE IF NOT EXISTS 5to_RiotGames.RangoLol (
+CREATE TABLE IF NOT EXISTS `5to_RiotGames`.RangoLol (
   idRango TINYINT UNSIGNED  NOT NULL AUTO_INCREMENT,
   Nombre VARCHAR(45) NOT NULL,
   PuntosLigaNecesario MEDIUMINT NOT NULL,
   Numero TINYINT UNSIGNED NULL,
-  PRIMARY KEY (idRango),
-)
+  PRIMARY KEY (idRango))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table 5to_RiotGames.CuentaLol
+-- Table `5to_RiotGames`.CuentaLol
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS 5to_RiotGames.CuentaLol ;
 
-CREATE TABLE IF NOT EXISTS 5to_RiotGames.CuentaLol (
+DROP TABLE IF EXISTS `5to_RiotGames`.CuentaLol;
+
+CREATE TABLE IF NOT EXISTS `5to_RiotGames`.CuentaLol (
   idCuenta INT UNSIGNED NOT NULL,
   Nombre VARCHAR(45) NOT NULL,
   Nivel INT UNSIGNED NOT NULL DEFAULT 0,
@@ -87,20 +87,14 @@ CREATE TABLE IF NOT EXISTS 5to_RiotGames.CuentaLol (
   PuntosLiga MEDIUMINT NULL DEFAULT 0,
   idRango TINYINT UNSIGNED NULL DEFAULT 0,
   PRIMARY KEY (idCuenta),
-  INDEX fk_Cuenta_de_lol_Rango1_idx (idRango ASC) VISIBLE,
+  INDEX fk_Cuenta_de_lol_rango_idx (idRango ASC) VISIBLE,
   UNIQUE INDEX idCuenta_UNIQUE (idCuenta ASC) VISIBLE,
-
-  CONSTRAINT fk_Cuenta de lol_Rango1
+  CONSTRAINT fk_Cuenta_de_lol_rango
     FOREIGN KEY (idRango)
-    REFERENCES 5to_RiotGames.RangoLol (idRango)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-    CONSTRAINT fk_CuentaLol_Cuenta1
-    FOREIGN KEY (idCuenta)
-    REFERENCES 5to_RiotGames.Cuenta (idCuenta)
+    REFERENCES `5to_RiotGames`.RangoLol (idRango)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
-ENGINE = InnoDB;
+) ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -114,7 +108,7 @@ CREATE TABLE IF NOT EXISTS 5to_RiotGames.TipoObjeto (
   PRIMARY KEY (idTipoObjeto),
   UNIQUE INDEX idTipoObjeto_UNIQUE (idTipoObjeto ASC) VISIBLE,
   UNIQUE INDEX nombre_UNIQUE (nombre ASC) VISIBLE)
-ENGINE = InnoDB;)
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -302,14 +296,15 @@ DROP procedure IF EXISTS 5to_RiotGames.InsertRangoLol;
 
 DELIMITER $$
 USE 5to_RiotGames$$
-CREATE PROCEDURE InsertRangoLol (in UnidRango tinyint ,
+SELECT('aca esta');
+CREATE PROCEDURE InsertRangoLol (out UnidRango tinyint ,
 									  in UnNombre varchar(45),
 									  in UnPuntosLigaNecesario mediumint,
                                       in UnNumero int)
 BEGIN
-   INSERT INTO RangoLol  (idRango, Nombre, PuntosLigaNecesario, Numero)
-   VALUES (UnidRango, UnNombre, UnPuntosLigaNecesario, UnNumero);
-   SET idRango = LAST_INSERT_ID();
+   INSERT INTO RangoLol  ( Nombre, PuntosLigaNecesario, Numero)
+   VALUES (UnNombre, UnPuntosLigaNecesario, UnNumero);
+   SET UnidRango = LAST_INSERT_ID();
 END $$
 -- hierro
 -- 	1:0
@@ -554,25 +549,24 @@ BEGIN
     call InsertTipoObjeto(7,'Accesorios');
     
     
-    call InsertRangoLol(1,'Hierro',10,1);
-    call InsertRangoLol(2,'Hierro',15,2);
-    call InsertRangoLol(3,'Hierro',30,3);
-  
-    call InsertRangoLol(4,'Bronce',40,1);
-    call InsertRangoLol(5,'Bronce',80,2);
-    call InsertRangoLol(6,'Bronce',120,3);
-	  call InsertRangoLol(7,'Palta',130,1);
-    call InsertRangoLol(8,'Palta',140,2);
-    call InsertRangoLol(9,'Palta',160,3);
-    call InsertRangoLol(10,'Oro',180,1);
-    call InsertRangoLol(11,'Oro',200,2);
-    call InsertRangoLol(12,'Oro',220,3);
-    call InsertRangoLol(13,'Platino',240,1);
-    call InsertRangoLol(14,'Platino',260,2);
-    call InsertRangoLol(15,'Platino',280,3);
-	  call InsertRangoLol(16,'Diamante',300,1);
-    call InsertRangoLol(17,'Diamante',320,2);
-    call InsertRangoLol(18,'Diamante',330,3);
+    call InsertRangoLol(@hierroUno,'Hierro',10,1);
+    call InsertRangoLol(@hierroDos,'Hierro',15,2);
+    call InsertRangoLol(@hierroTres,'Hierro',30,3);
+    call InsertRangoLol(@BronceUno,'Bronce',40,1);
+    call InsertRangoLol(@BronceDos,'Bronce',80,2);
+    call InsertRangoLol(@BronceTres,'Bronce',120,3);
+	  call InsertRangoLol(@PlataUno,'Palta',130,1);
+    call InsertRangoLol(@PlataDos,'Palta',140,2);
+    call InsertRangoLol(@PlataTres,'Palta',160,3);
+    call InsertRangoLol(@OroUno,'Oro',180,1);
+    call InsertRangoLol(@OroDos,'Oro',200,2);
+    call InsertRangoLol(@OroTres,'Oro',220,3);
+    call InsertRangoLol(@PlatinoUno,'Platino',240,1);
+    call InsertRangoLol(@PlatinoDos,'Platino',260,2);
+    call InsertRangoLol(@PlatinoTres,'Platino',280,3);
+	  call InsertRangoLol(@DiamanteUno,'Diamante',300,1);
+    call InsertRangoLol(@DiamanteDos,'Diamante',320,2);
+    call InsertRangoLol(@DiamanteTres,'Diamante',330,3);
     
 
 END$$
