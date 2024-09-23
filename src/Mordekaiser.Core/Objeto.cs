@@ -13,4 +13,5 @@ public class Objeto
     public uint? PrecioEA { get; set; }
     public uint? PrecioRP { get; set; }
     public uint? Venta { get; set; }
+    public byte idTipoObjeto { get; set; } 
 }

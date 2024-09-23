@@ -9,7 +9,7 @@ public class Inventario
             Objetos = new List<Objeto>();
         }
 
-        
+        public required int idInventario { get; set; }
         public required uint IdCuenta { get; set; } // Identificador de la cuenta
         public required List<Objeto> Objetos { get; set; } 
         public int? Cantidad { get; set; }  
