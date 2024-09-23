@@ -14,14 +14,13 @@ namespace Mordekaiser.AdoDapper
         public void AltaServidor(Servidor servidor)
         {
             var parametros = new DynamicParameters();
-            parametros.Add("@IdServidor", direction: ParameterDirection.Output);
+            parametros.Add("@IdServidor", direction: ParameterDirection.Output); 
             parametros.Add("@Nombre", servidor.Nombre);
             parametros.Add("@Abreviado", servidor.Abreviado);
 
             _conexion.Execute("InsertServidor", parametros, commandType: CommandType.StoredProcedure);
-            servidor.IdServidor = parametros.Get<byte>("@IdServidor");
+            // servidor.IdServidor = parametros.Get<byte>("@IdServidor");
         }
-
         public void AltaCuenta(Cuenta cuenta)
         {
             var parametros = new DynamicParameters();
@@ -38,9 +37,9 @@ namespace Mordekaiser.AdoDapper
             parametros.Add("@Nombre", rangoLol.Nombre);
             parametros.Add("@Numero", rangoLol.Numero);
             parametros.Add("@PuntosLigaNecesarios", rangoLol.PuntosLigaNecesarios);
-
+        
             _conexion.Execute("InsertRangoLol", parametros, commandType: CommandType.StoredProcedure);
-            rangoLol.IdRango = parametros.Get<byte>("@IdRango");
+            rangoLol.IdRango = parametros.Get<byte>("@IdRango"); // Asegúrate de que sea el tipo correcto
         }
 
         public void AltaRangoValorant(RangoValorant rangoValorant)

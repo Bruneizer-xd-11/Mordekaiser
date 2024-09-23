@@ -1,4 +1,8 @@
-
+using System.Data;
+using MySqlConnector;
+using Dapper;
+using Microsoft.Extensions.Configuration;
+using Mordekaiser.Core;
 
 namespace Mordekaiser.AdoDapper.Test
 {
@@ -20,11 +24,11 @@ namespace Mordekaiser.AdoDapper.Test
             dao = new DaoDapper(Conexion);
         }
 
-        // Método para limpiar o preparar la base de datos antes de cada prueba (si es necesario)
-        protected void PrepararBaseDeDatos()
+        // Método para limpiar o preparar la base de datos antes de cada prueba
+        protected virtual void PrepararBaseDeDatos()
         {
             // Implementar aquí código para limpiar tablas, cargar datos iniciales, etc.
-            // Ejemplo: _conexion.Execute("DELETE FROM Servidor");
+            // Ejemplo: Conexion.Execute("DELETE FROM Servidor");
         }
     }
 }
