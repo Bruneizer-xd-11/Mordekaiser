@@ -69,8 +69,7 @@ CREATE TABLE IF NOT EXISTS 5to_RiotGames.RangoLol (
   PuntosLigaNecesario MEDIUMINT NOT NULL,
   Numero TINYINT UNSIGNED NULL,
   PRIMARY KEY (idRango),
-  CREATE UNIQUE INDEX lol_Rango1_idx ON RangoLol (idRango ASC);
-  UNIQUE INDEX PuntosLigaNecesario_UNIQUE (PuntosLigaNecesario ASC) VISIBLE)
+)
 ENGINE = InnoDB;
 
 
@@ -88,7 +87,7 @@ CREATE TABLE IF NOT EXISTS 5to_RiotGames.CuentaLol (
   PuntosLiga MEDIUMINT NULL DEFAULT 0,
   idRango TINYINT UNSIGNED NULL DEFAULT 0,
   PRIMARY KEY (idCuenta),
-  INDEX fk_Cuenta de lol_Rango1_idx (idRango ASC) VISIBLE,
+  INDEX fk_Cuenta_de_lol_Rango1_idx (idRango ASC) VISIBLE,
   UNIQUE INDEX idCuenta_UNIQUE (idCuenta ASC) VISIBLE,
 
   CONSTRAINT fk_Cuenta de lol_Rango1
@@ -100,7 +99,7 @@ CREATE TABLE IF NOT EXISTS 5to_RiotGames.CuentaLol (
     FOREIGN KEY (idCuenta)
     REFERENCES 5to_RiotGames.Cuenta (idCuenta)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE NO ACTION
 ENGINE = InnoDB;
 
 
@@ -115,7 +114,7 @@ CREATE TABLE IF NOT EXISTS 5to_RiotGames.TipoObjeto (
   PRIMARY KEY (idTipoObjeto),
   UNIQUE INDEX idTipoObjeto_UNIQUE (idTipoObjeto ASC) VISIBLE,
   UNIQUE INDEX nombre_UNIQUE (nombre ASC) VISIBLE)
-ENGINE = InnoDB;
+ENGINE = InnoDB;)
 
 
 -- -----------------------------------------------------
@@ -196,10 +195,10 @@ CREATE TABLE IF NOT EXISTS 5to_RiotGames.CuentaValorant (
   Experiecia INT UNSIGNED NOT NULL DEFAULT 0,
   PuntosCompetitivo MEDIUMINT NOT NULL DEFAULT 0,
   idRango SMALLINT UNSIGNED NULL DEFAULT 0,
-  INDEX fk_Cuenta de valorant_Rango valorant1_idx (idRango ASC) VISIBLE,
+  INDEX fk_Cuenta_de_valorant_Rango_valorant1_idx (idRango ASC) VISIBLE,
   PRIMARY KEY (idCuenta),
   UNIQUE INDEX idCuenta_UNIQUE (idCuenta ASC) VISIBLE,
-  CONSTRAINT fk_Cuenta de valorant_Rango valorant1
+  CONSTRAINT fk_Cuenta_de_valorant_Rango_valorant1
     FOREIGN KEY (idRango)
     REFERENCES 5to_RiotGames.RangoValorant (idRango)
     ON DELETE NO ACTION
