@@ -30,4 +30,9 @@
     <ProjectReference Include="..\Mordekaiser.AdoDapper\Mordekaiser.AdoDapper.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="appSettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
