@@ -1,66 +1,65 @@
-using System.Linq;
-using Xunit;
-using Mordekaiser.Core;
+namespace Mordekaiser.AdoDapper.Test;
 
-namespace Mordekaiser.AdoDapper.Test
+public class UnitTest : TestBase
 {
-    public class UnitTest : TestBase
+    public UnitTest() : base()
     {
-        public UnitTest() : base()
+        PrepararBaseDeDatos(); 
+    }
+
+    [Fact]
+    public void TestInsertAndDeleteServidor()
+    {
+        // Arrange
+        var nuevoServidor = new Servidor
         {
-            PrepararBaseDeDatos(); // Limpia o prepara la base de datos antes de cada prueba
-        }
+            Nombre = "Servidor_prueba",
+            Abreviado = "Sp"
+        };
 
-        [Fact]
-        public void TestInsertAndDeleteServidor()
+        dao.AltaServidor(nuevoServidor);
+
+        var servidores = dao.ObtenerServidores().ToList();
+        Assert.Single(servidores);
+        Assert.Equal("Servidor_prueba", servidores[0].Nombre); 
+
+        servidores = dao.ObtenerServidores().ToList();
+        Assert.Empty(servidores); 
+    }
+           [Fact]
+    public void TestBajaCuentaLol()
+    {
+        
+        var nuevaCuentaLol = new CuentaLol
         {
-            // Arrange
-            var nuevoServidor = new Servidor
-            {
-                Nombre = "Servidor Test",
-                Abreviado = "ST"
-            };
-
-            // Act - Insertar el nuevo servidor
-            dao.AltaServidor(nuevoServidor);
-
-            // Assert - Verificar que el servidor se insertó correctamente
-            var servidores = dao.ObtenerServidores().ToList();
-            Assert.Single(servidores); // Debería haber solo un servidor
-            Assert.Equal("Servidor Test", servidores[0].Nombre);
-            
-            // Act - Bajar el servidor
-            // Implementar el método de eliminación en IDao y DaoDapper
-            // dao.BajaServidor(nuevoServidor.IdServidor); // Descomentar cuando exista el método
-            
-            // Assert - Verificar que el servidor fue eliminado
-            servidores = dao.ObtenerServidores().ToList();
-            Assert.Empty(servidores); // La lista de servidores debería estar vacía
-        }
-
-        [Fact]
-        public void TestInsertAndDeleteCuenta()
-        {
-            // Arrange
-            var nuevaCuenta = new Cuenta
-            {
-                Nombre = "Cuenta Test",
-                Contrasena = "Contrasena123",
-                Email = "test@example.com"
-            };
-
-  
-            dao.AltaCuenta(nuevaCuenta);
-        }
+            IdCuenta = 1, 
+            Nombre = "CuentaLol Test",
+            Nivel = 10,
+            EsenciaAzul = 1000,
+            PuntosRiot = 200,
+            PuntosLiga = 50
+        };
 
 
+        dao.AltaCuentaLol(nuevaCuentaLol);
 
-        // Método para limpiar la base de datos después de cada prueba
-        protected override void PrepararBaseDeDatos()
-        {
-            // Aquí puedes limpiar las tablas específicas para asegurarte de que las pruebas sean independientes
-            Conexion.Execute("DELETE FROM Servidor");
-            Conexion.Execute("DELETE FROM Cuenta"); // Asumiendo que hay una tabla Cuenta
-        }
+        var cuentasLol = dao.ObtenerCuentasLol().ToList();
+        Assert.Single(cuentasLol);
+        Assert.Equal("CuentaLol Test", cuentasLol[0].Nombre);
+
+        dao.BajaCuentaLol(nuevaCuentaLol.IdCuenta);
+
+        cuentasLol = dao.ObtenerCuentasLol().ToList();
+        Assert.Empty(cuentasLol);
+    }
+
+    [Fact]
+            protected override void PrepararBaseDeDatos()
+    {
+        Conexion.Execute("DELETE FROM Servidor");
+        Conexion.Execute("DELETE FROM Cuenta");
+        Conexion.Execute("DELETE FROM CuentaLol");
+        Conexion.Execute("DELETE FROM CuentaValorant");
     }
 }
+

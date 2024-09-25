@@ -2,11 +2,25 @@ namespace Mordekaiser.Core;
 
 public interface IDao
 {
+    // Métodos de alta
     void AltaServidor(Servidor servidor);
-    IEnumerable<Servidor> ObtenerServidores();
-
     void AltaCuenta(Cuenta cuenta);
-    IEnumerable<Cuenta> obtenercuenta();
-}
+    void AltaRangoLol(RangoLol rangoLol);
+    void AltaRangoValorant(RangoValorant rangoValorant);
+    void AltaCuentaLol(CuentaLol cuentaLol);
+    void AltaCuentaValorant(CuentaValorant cuentaValorant);
+    void AltaTipoObjeto(TipoObjeto tipoObjeto);
+    void AltaObjeto(Objeto objeto);
+    void AltaInventario(Inventario inventario);
 
-/*Qué wachin Luis. Cómo vas a dejar tu cuenta abierta*/
+    // Métodos de obtención
+    IEnumerable<Servidor> ObtenerServidores();
+    IEnumerable<RangoLol> ObtenerRangosLol();
+    IEnumerable<RangoValorant> ObtenerRangosValorant();
+    IEnumerable<(int IdCuenta, int NivelLol)> ObtenerNivelesLol();
+    IEnumerable<(int IdCuenta, int NivelValorant)> ObtenerNivelesValorant();
+    IEnumerable<CuentaLol> ObtenerCuentasLol(); 
+    IEnumerable<CuentaValorant> ObtenerCuentasValorant();
+    void BajaCuentaLol(uint idCuenta);
+    void BajaCuentaValorant(int idCuenta);
+}

@@ -338,6 +338,27 @@ END $$
 
 DELIMITER ;
 
+DELIMITER $$
+
+CREATE PROCEDURE DeleteCuentaLol(IN IdCuenta INT)
+BEGIN
+    DELETE FROM CuentaLol WHERE idCuenta = IdCuenta;
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE DeleteCuentaValorant(IN IdCuenta INT)
+BEGIN
+    DELETE FROM CuentaValorant WHERE idCuenta = IdCuenta;
+END$$
+
+DELIMITER ;
+
+
+
+
 -- -----------------------------------------------------
 -- function CalcularTotalPuntosLiga
 -- -----------------------------------------------------

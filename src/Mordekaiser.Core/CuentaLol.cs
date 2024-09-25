@@ -5,8 +5,7 @@ public class CuentaLol
     {
     }
 
-    
-    public required Cuenta Cuenta { get; set; }
+    public Cuenta? Cuenta { get; set; }
     public RangoLol? RangoLol { get; set; }
     public Inventario? Inventario { get; set; }
     public required uint IdCuenta { get; set; }

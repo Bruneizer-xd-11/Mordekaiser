@@ -17,5 +17,4 @@ public class CuentaValorant
     public required uint Experiencia { get; set; }
     public required int PuntosCompetitivo { get; set; }
     public ushort? idRango { get; set; }
-
 }

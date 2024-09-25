@@ -13,5 +13,4 @@ public class Inventario
         public required uint IdCuenta { get; set; } // Identificador de la cuenta
         public required List<Objeto> Objetos { get; set; } 
         public int? Cantidad { get; set; }  
-    }
-// corregir idCuenta a int
+}
