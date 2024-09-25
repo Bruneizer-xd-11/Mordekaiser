@@ -2,12 +2,8 @@ namespace Mordekaiser.Core;
 
 public class Cuenta
 {
-    public Cuenta()
-    {
-    }
 
     public required Servidor Servidor { get; set; }
-    
     //composiciones
     public uint IdCuenta { get; set; }
     public required string Nombre { get; set; }

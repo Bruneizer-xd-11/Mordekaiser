@@ -19,8 +19,10 @@ public interface IDao
     IEnumerable<RangoValorant> ObtenerRangosValorant();
     IEnumerable<(int IdCuenta, int NivelLol)> ObtenerNivelesLol();
     IEnumerable<(int IdCuenta, int NivelValorant)> ObtenerNivelesValorant();
+    IEnumerable<Cuenta> ObtenerCuenta(); 
     IEnumerable<CuentaLol> ObtenerCuentasLol(); 
     IEnumerable<CuentaValorant> ObtenerCuentasValorant();
     void BajaCuentaLol(uint idCuenta);
+    void BajaCuenta(uint Cuenta);
     void BajaCuentaValorant(int idCuenta);
 }

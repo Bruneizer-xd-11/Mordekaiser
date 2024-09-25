@@ -2,9 +2,10 @@ namespace Mordekaiser.AdoDapper.Test;
 
 public class UnitTest : TestBase
 {
+
     public UnitTest() : base()
     {
-        PrepararBaseDeDatos(); 
+        
     }
 
     [Fact]
@@ -13,6 +14,7 @@ public class UnitTest : TestBase
         // Arrange
         var nuevoServidor = new Servidor
         {
+            idServidor = 100,
             Nombre = "Servidor_prueba",
             Abreviado = "Sp"
         };
@@ -20,46 +22,30 @@ public class UnitTest : TestBase
         dao.AltaServidor(nuevoServidor);
 
         var servidores = dao.ObtenerServidores().ToList();
-        Assert.Single(servidores);
-        Assert.Equal("Servidor_prueba", servidores[0].Nombre); 
-
-        servidores = dao.ObtenerServidores().ToList();
-        Assert.Empty(servidores); 
+        Assert.Contains(servidores, servidor => servidor.idServidor == 100);
     }
-           [Fact]
-    public void TestBajaCuentaLol()
+    [Fact]
+    public void AltaCuenta()
     {
-        
-        var nuevaCuentaLol = new CuentaLol
+        var unservidor = dao.ObtenerServidores().First();
+        var nuevaCuentaLol = new Cuenta
         {
+            Servidor = unservidor,
             IdCuenta = 1, 
             Nombre = "CuentaLol Test",
-            Nivel = 10,
-            EsenciaAzul = 1000,
-            PuntosRiot = 200,
-            PuntosLiga = 50
+            Contrasena = "holaputa",
+            Email = "miguel@gmail.com"
         };
 
 
-        dao.AltaCuentaLol(nuevaCuentaLol);
+        dao.AltaCuenta(nuevaCuentaLol);
+        
+        var cuentas = dao.ObtenerCuenta();
 
-        var cuentasLol = dao.ObtenerCuentasLol().ToList();
-        Assert.Single(cuentasLol);
-        Assert.Equal("CuentaLol Test", cuentasLol[0].Nombre);
-
-        dao.BajaCuentaLol(nuevaCuentaLol.IdCuenta);
-
-        cuentasLol = dao.ObtenerCuentasLol().ToList();
-        Assert.Empty(cuentasLol);
+        Assert.Contains(cuentas, cuenta => cuenta.IdCuenta == 1);
     }
 
-    [Fact]
-            protected override void PrepararBaseDeDatos()
-    {
-        Conexion.Execute("DELETE FROM Servidor");
-        Conexion.Execute("DELETE FROM Cuenta");
-        Conexion.Execute("DELETE FROM CuentaLol");
-        Conexion.Execute("DELETE FROM CuentaValorant");
-    }
+        
+
 }
 

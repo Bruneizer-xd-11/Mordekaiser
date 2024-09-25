@@ -13,9 +13,9 @@ public class DaoDapper : IDao
     public void AltaServidor(Servidor servidor)
     {
         var parametros = new DynamicParameters();
-        parametros.Add("@IdServidor", direction: ParameterDirection.Output);
-        parametros.Add("@Nombre", servidor.Nombre);
-        parametros.Add("@Abreviado", servidor.Abreviado);
+        parametros.Add("@UnidServidor", servidor.idServidor);
+        parametros.Add("@UnNombre", servidor.Nombre);
+        parametros.Add("@UnAbreviado", servidor.Abreviado);
 
         _conexion.Execute("InsertServidor", parametros, commandType: CommandType.StoredProcedure);
         // servidor.IdServidor = parametros.Get<byte>("@IdServidor");
@@ -24,10 +24,11 @@ public class DaoDapper : IDao
     public void AltaCuenta(Cuenta cuenta)
     {
         var parametros = new DynamicParameters();
-        parametros.Add("@IdCuenta", cuenta.IdCuenta);
-        parametros.Add("@Nombre", cuenta.Nombre);
-        parametros.Add("@Contrasena", cuenta.Contrasena);
-        parametros.Add("@Email", cuenta.Email);
+        parametros.Add("@UnidCuenta", cuenta.IdCuenta);
+        parametros.Add("@UnidServidor", cuenta.Servidor.idServidor);
+        parametros.Add("@UnNombre", cuenta.Nombre);
+        parametros.Add("@Uncontrasena", cuenta.Contrasena);
+        parametros.Add("@UneMail", cuenta.Email);
         _conexion.Execute("InsertCuenta", parametros, commandType: CommandType.StoredProcedure);
     }
 
@@ -158,6 +159,13 @@ public class DaoDapper : IDao
         parametros.Add("@IdCuenta", idCuenta);
         _conexion.Execute("DeleteCuentaValorant", parametros, commandType: CommandType.StoredProcedure);
     }
+    public void BajaCuenta(uint idCuenta)
+    {
+        var parametros = new DynamicParameters();
+        parametros.Add("@IdCuenta", idCuenta);
+        _conexion.Execute("DeleteCuenta", parametros, commandType: CommandType.StoredProcedure);
+    }
+
 
 
     public IEnumerable<CuentaLol> ObtenerCuentasLol()
@@ -171,4 +179,11 @@ public class DaoDapper : IDao
         var query = "SELECT * FROM CuentaValorant"; 
         return _conexion.Query<CuentaValorant>(query);
     }
+
+    public IEnumerable<Cuenta> ObtenerCuenta()
+    {
+        var query = "SELECT * FROM Cuenta";
+        return _conexion.Query<Cuenta>(query);
+    }
+
 }

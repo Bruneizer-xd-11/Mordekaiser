@@ -240,7 +240,7 @@ CREATE PROCEDURE InsertCuenta (in UnidCuenta int,
 							   in Uncontrasena char(64),
 							   in UneMail Varchar(45))
 BEGIN
-    INSERT INTO Cuenta (idCuenta,idServidor,Nombre,contrasena,eMail)
+    INSERT INTO Cuenta (idCuenta,idServidor,Nombre,Contrasena,eMail)
     VALUES (UnidCuenta,UnidServidor,UnNombre,Uncontrasena,UneMail);
 END$$
 
@@ -343,6 +343,14 @@ DELIMITER $$
 CREATE PROCEDURE DeleteCuentaLol(IN IdCuenta INT)
 BEGIN
     DELETE FROM CuentaLol WHERE idCuenta = IdCuenta;
+END$$
+
+DELIMITER ;
+DELIMITER $$
+
+CREATE PROCEDURE DeleteCuenta(IN IdCuenta INT)
+BEGIN
+    DELETE FROM Cuenta WHERE idCuenta = IdCuenta;
 END$$
 
 DELIMITER ;
