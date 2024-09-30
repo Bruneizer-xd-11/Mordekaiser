@@ -33,7 +33,7 @@ public class UnitTest : TestBase
             Servidor = unservidor,
             IdCuenta = 1, 
             Nombre = "CuentaLol Test",
-            Contrasena = "holaputa",
+            Contrasena = "hola",
             Email = "miguel@gmail.com"
         };
 

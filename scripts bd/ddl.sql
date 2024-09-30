@@ -368,6 +368,7 @@ DELIMITER $$
 CREATE PROCEDURE BajaServidor(IN p_unidServidor INT)
 BEGIN
     DELETE FROM Servidor WHERE idServidor = p_unidServidor;
+    DELETE FROM `Cuenta` WHERE `idServidor` = p_unidServidor;
 END $$
 
 DELIMITER ;
