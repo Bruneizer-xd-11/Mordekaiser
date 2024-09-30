@@ -364,6 +364,16 @@ END$$
 
 DELIMITER ;
 
+DELIMITER $$
+
+CREATE PROCEDURE BajaServidor(IN p_unidServidor INT)
+BEGIN
+    DELETE FROM Servidor WHERE UnidServidor = p_unidServidor;
+END //
+
+DELIMITER ;
+
+
 
 
 
@@ -435,6 +445,7 @@ BEGIN
 END$$
 
 DELIMITER ;
+
 
 -- -----------------------------------------------------
 -- procedure InsertTipoObjeto
