@@ -25,5 +25,5 @@ public interface IDao
     void BajaCuentaLol(uint idCuenta);
     void BajaCuenta(uint Cuenta);
     void BajaCuentaValorant(int idCuenta);
-    void BajaServidor(int unidServidor);
+    void BajaServidor(byte idServidor);
 }

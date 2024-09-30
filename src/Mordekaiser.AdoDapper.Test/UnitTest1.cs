@@ -45,7 +45,17 @@ public class UnitTest : TestBase
         Assert.Contains(cuentas, cuenta => cuenta.IdCuenta == 1);
     }
 
+    [Fact]
+    public void BajaServidor()
+    {
+        byte BajaServidor = 1;
 
+        dao.BajaServidor(BajaServidor);
+
+        var listaServidores = dao.ObtenerServidores();
+
+        Assert.DoesNotContain(listaServidores, servidor => servidor.idServidor == 1);
+    }
         
 
 }

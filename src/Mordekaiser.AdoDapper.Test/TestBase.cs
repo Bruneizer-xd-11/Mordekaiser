@@ -7,7 +7,7 @@ namespace Mordekaiser.AdoDapper.Test
 
         public TestBase()
         {
-            // Cargar configuración desde el archivo appsettings.json
+        
             IConfiguration config = new ConfigurationBuilder()
                 .AddJsonFile("appSettings.json", optional: true, reloadOnChange: true)
                 .Build();
@@ -18,6 +18,5 @@ namespace Mordekaiser.AdoDapper.Test
             dao = new DaoDapper(Conexion);
         }
 
-        // Método para limpiar o preparar la base de datos antes de cada prueba
     }
 }
