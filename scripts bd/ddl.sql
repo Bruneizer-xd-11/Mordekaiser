@@ -369,7 +369,7 @@ DELIMITER $$
 CREATE PROCEDURE BajaServidor(IN p_unidServidor INT)
 BEGIN
     DELETE FROM Servidor WHERE UnidServidor = p_unidServidor;
-END //
+END $$
 
 DELIMITER ;
 

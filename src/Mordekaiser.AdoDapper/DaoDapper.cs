@@ -185,5 +185,9 @@ public class DaoDapper : IDao
         var query = "SELECT * FROM Cuenta";
         return _conexion.Query<Cuenta>(query);
     }
-
+    public void BajaServidor(int unidServidor)
+    {
+        string sql = "CALL BajaServidor(@UnidServidor);";
+        _conexion.Execute(sql, new { UnidServidor = unidServidor });
+    }
 }
