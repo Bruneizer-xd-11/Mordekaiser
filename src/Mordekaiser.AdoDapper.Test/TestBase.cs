@@ -12,7 +12,7 @@ namespace Mordekaiser.AdoDapper.Test
                 .AddJsonFile("appSettings.json", optional: true, reloadOnChange: true)
                 .Build();
 
-            // Obtener la cadena de conexión desde el archivo de configuración
+
             string cadena = config.GetConnectionString("MySQL")!;
             Conexion = new MySqlConnection(cadena);
             dao = new DaoDapper(Conexion);

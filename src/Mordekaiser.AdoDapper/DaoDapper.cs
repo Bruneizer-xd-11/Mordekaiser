@@ -121,6 +121,13 @@ public class DaoDapper : IDao
         var query = "SELECT * FROM Servidor";
         return _conexion.Query<Servidor>(query);
     }
+        public Servidor? ObtenerServidor(byte idServidor)
+    {
+        var query = @"SELECT * FROM Servidor
+                    where idServidor = @idServidor";
+        
+        return _conexion.QuerySingleOrDefault<Servidor>(query , new {idServidor});
+    }
 
     public IEnumerable<RangoLol> ObtenerRangosLol()
     {

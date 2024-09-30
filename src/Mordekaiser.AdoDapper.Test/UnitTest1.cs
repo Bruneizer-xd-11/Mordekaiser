@@ -56,7 +56,44 @@ public class UnitTest : TestBase
 
         Assert.DoesNotContain(listaServidores, servidor => servidor.idServidor == 1);
     }
-        
+    [Fact]
+    public void ObtenerCuenta()
+    {
 
+        var rangos = dao.ObtenerRangosLol().ToList();
+
+        Assert.NotEmpty(rangos); 
+
+        Assert.Contains(rangos, r => r.Nombre == "Oro"); 
+    }
+        [Fact]
+    public void ObtenerRangosValorant()
+    {
+
+        var rangos = dao.ObtenerRangosValorant().ToList();
+
+        Assert.NotEmpty(rangos); 
+
+        Assert.Contains(rangos, r => r.Nombre == "Hierro"); 
+    }
+
+    [Theory]
+    [InlineData(2)]
+    [InlineData(3)]
+    [InlineData(4)]
+    [InlineData(5)]
+    [InlineData(6)]
+    [InlineData(7)]
+    
+    public void ObtenerServidoresPorId(byte parametro)
+    {
+        var servidorId = dao.ObtenerServidor(parametro);
+    
+        var listaServidores = dao.ObtenerServidores();
+
+        Assert.Contains(listaServidores, servidor => servidor.idServidor == servidorId.idServidor);
+    }
 }
+
+
 

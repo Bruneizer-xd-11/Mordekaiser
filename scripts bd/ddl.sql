@@ -172,8 +172,7 @@ CREATE TABLE IF NOT EXISTS 5to_RiotGames.RangoValorant (
   PuntosNecesarios MEDIUMINT NOT NULL,
   PRIMARY KEY (idRango),
   UNIQUE INDEX idRango_UNIQUE (idRango ASC) VISIBLE,
-  UNIQUE INDEX PuntosNecesarios_UNIQUE (PuntosNecesarios ASC) VISIBLE,
-  UNIQUE INDEX Numero_UNIQUE (Numero ASC) VISIBLE)
+  UNIQUE INDEX PuntosNecesarios_UNIQUE (PuntosNecesarios ASC) VISIBLE)
 ENGINE = InnoDB;
 
 
@@ -270,18 +269,17 @@ DELIMITER ;
 
 DELIMITER $$
 
+DROP PROCEDURE IF EXISTS 5to_RiotGames.InsertRangoValorant $$
 CREATE PROCEDURE InsertRangoValorant (
-    IN UnidRango SMALLINT,
+    OUT UnidRango SMALLINT UNSIGNED,
     IN UnNombre VARCHAR(45),
-    IN UnNumero SMALLINT,
-    IN UnPuntosNecesarios MEDIUMINT,
-    OUT NewIdRango SMALLINT
+    IN UnNumero SMALLINT UNSIGNED,
+    IN UnPuntosNecesarios MEDIUMINT
 )
 BEGIN
-    INSERT INTO RangoValorant (idRango, Nombre, Numero, PuntosNecesarios)
-    VALUES (UnidRango, UnNombre, UnNumero, UnPuntosNecesarios);
-    
-    SET NewIdRango = LAST_INSERT_ID(); -- Guarda el último ID insertado
+    INSERT INTO RangoValorant ( Nombre, Numero, PuntosNecesarios)
+      VALUES ( UnNombre, UnNumero, UnPuntosNecesarios);
+    SET UnIdRango = LAST_INSERT_ID(); 
 END$$
 
 DELIMITER ;
@@ -297,10 +295,11 @@ DROP procedure IF EXISTS 5to_RiotGames.InsertRangoLol;
 DELIMITER $$
 USE 5to_RiotGames$$
 SELECT('aca esta');
-CREATE PROCEDURE InsertRangoLol (out UnidRango tinyint ,
+CREATE PROCEDURE InsertRangoLol (
+                    out UnidRango tinyint ,
 									  in UnNombre varchar(45),
 									  in UnPuntosLigaNecesario mediumint,
-                                      in UnNumero int)
+                    in UnNumero int)
 BEGIN
    INSERT INTO RangoLol  ( Nombre, PuntosLigaNecesario, Numero)
    VALUES (UnNombre, UnPuntosLigaNecesario, UnNumero);
@@ -607,6 +606,25 @@ BEGIN
 	  call InsertRangoLol(@DiamanteUno,'Diamante',300,1);
     call InsertRangoLol(@DiamanteDos,'Diamante',320,2);
     call InsertRangoLol(@DiamanteTres,'Diamante',330,3);
+    
+    call InsertRangoValorant(@hierroUno,'Hierro',1,10);
+    call InsertRangoValorant(@hierroDos,'Hierro',2,20);
+    call InsertRangoValorant(@hierroTres,'Hierro',3,30);
+    call InsertRangoValorant(@BronceUno,'Bronce',1,40);
+    call InsertRangoValorant(@BronceDos,'Bronce',2,50);
+    call InsertRangoValorant(@BronceTres,'Bronce',3,60);
+	  call InsertRangoValorant(@PlataUno,'Palta',1,80);
+    call InsertRangoValorant(@PlataDos,'Palta',2,90);
+    call InsertRangoValorant(@PlataTres,'Palta',3,100);
+    call InsertRangoValorant(@OroUno,'Oro',1,110);
+    call InsertRangoValorant(@OroDos,'Oro',2,120);
+    call InsertRangoValorant(@OroTres,'Oro',3,130);
+    call InsertRangoValorant(@PlatinoUno,'Platino',1,140);
+    call InsertRangoValorant(@PlatinoDos,'Platino',2,150);
+    call InsertRangoValorant(@PlatinoTres,'Platino',3,160);
+	  call InsertRangoValorant(@DiamanteUno,'Diamante',1,170);
+    call InsertRangoValorant(@DiamanteDos,'Diamante',2,180);
+    call InsertRangoValorant(@DiamanteTres,'Diamante',3,190);
     
 
 END$$
