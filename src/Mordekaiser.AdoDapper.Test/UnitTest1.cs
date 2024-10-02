@@ -101,6 +101,19 @@ public class UnitTest : TestBase
         Assert.Contains(rangos, r => r.idRango == 2); 
     }
     
+    [Theory]
+    [InlineData(1)]
+    [InlineData(3)]
+
+    
+    public void ObtenerRangoLolPorID(byte parametro)
+    {
+        var rangoId = dao.ObtenerRangoLol(parametro);
+    
+        var listaRango = dao.ObtenerRangosLol();
+
+        Assert.Contains(listaRango, rangosLol => rangosLol.IdRango == rangoId.  IdRango);
+    }
     
 }
 
