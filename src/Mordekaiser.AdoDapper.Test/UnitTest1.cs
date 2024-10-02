@@ -104,7 +104,6 @@ public class UnitTest : TestBase
     [Theory]
     [InlineData(1)]
     [InlineData(3)]
-
     
     public void ObtenerRangoLolPorID(byte parametro)
     {
