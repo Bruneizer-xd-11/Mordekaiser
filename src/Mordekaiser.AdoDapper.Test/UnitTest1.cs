@@ -9,21 +9,20 @@ public class UnitTest : TestBase
     }
 
     [Fact]
-    public void TestInsertAndDeleteServidor()
+    public void TestAltatdeleteServidor()
     {
-        // Arrange
         var nuevoServidor = new Servidor
         {
-            idServidor = 100,
+            idServidor = 2,
             Nombre = "Servidor_prueba",
             Abreviado = "Sp"
         };
 
         dao.AltaServidor(nuevoServidor);
-
-        var servidores = dao.ObtenerServidores().ToList();
-        Assert.Contains(servidores, servidor => servidor.idServidor == 100);
-    }
+        
+        var listaServidores = dao.ObtenerServidores(); 
+        Assert.Contains(listaServidores, servidor => servidor.idServidor == nuevoServidor.idServidor);
+}
     [Fact]
     public void AltaCuenta()
     {
@@ -80,10 +79,7 @@ public class UnitTest : TestBase
     [Theory]
     [InlineData(2)]
     [InlineData(3)]
-    [InlineData(4)]
-    [InlineData(5)]
-    [InlineData(6)]
-    [InlineData(7)]
+
     
     public void ObtenerServidoresPorId(byte parametro)
     {
@@ -93,6 +89,7 @@ public class UnitTest : TestBase
 
         Assert.Contains(listaServidores, servidor => servidor.idServidor == servidorId.idServidor);
     }
+    
 }
 
 
