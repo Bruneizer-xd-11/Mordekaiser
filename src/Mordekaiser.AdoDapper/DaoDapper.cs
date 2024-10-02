@@ -134,6 +134,13 @@ public class DaoDapper : IDao
         var query = "SELECT * FROM RangoLol"; // Suponiendo que tienes una tabla RangoLol
         return _conexion.Query<RangoLol>(query);
     }
+    public RangoLol? ObtenerRangoLol(byte idRango)
+    {
+        var query = @"SELECT * FROM RangoLol
+                    where idRango = @idRango";
+        
+        return _conexion.QuerySingleOrDefault<RangoLol>(query , new {idRango});
+    }
 
     public IEnumerable<RangoValorant> ObtenerRangosValorant()
     {

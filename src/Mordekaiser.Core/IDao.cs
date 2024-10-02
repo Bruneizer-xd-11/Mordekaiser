@@ -16,6 +16,7 @@ public interface IDao
     // Métodos de obtención
     IEnumerable<Servidor> ObtenerServidores();
     Servidor ObtenerServidor(byte a);
+    RangoLol ObtenerRangoLol(byte b);
     IEnumerable<RangoLol> ObtenerRangosLol();
     IEnumerable<RangoValorant> ObtenerRangosValorant();
     IEnumerable<(int IdCuenta, int NivelLol)> ObtenerNivelesLol();

@@ -6,7 +6,7 @@ public class RangoLol
     {
     }
 
-    public required byte IdRango { get; set; }
+    public  byte IdRango { get; set; }
     public required string Nombre { get; set; }
     public byte? Numero { get; set; }
     public required int PuntosLigaNecesarios { get; set; } 

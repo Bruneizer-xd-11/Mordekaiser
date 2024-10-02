@@ -9,17 +9,18 @@ public class UnitTest : TestBase
     }
 
     [Fact]
-    public void TestAltatdeleteServidor()
+    public void TestAltaservidor()
     {
         var nuevoServidor = new Servidor
         {
-            idServidor = 2,
+            idServidor = 100,
             Nombre = "Servidor_prueba",
             Abreviado = "Sp"
         };
 
         dao.AltaServidor(nuevoServidor);
-        
+
+        // Assert
         var listaServidores = dao.ObtenerServidores(); 
         Assert.Contains(listaServidores, servidor => servidor.idServidor == nuevoServidor.idServidor);
 }
@@ -66,7 +67,7 @@ public class UnitTest : TestBase
         Assert.Contains(rangos, r => r.Nombre == "Oro"); 
     }
         [Fact]
-    public void ObtenerRangosValorant()
+    public void ObtenerRangosValorantPorNombre()
     {
 
         var rangos = dao.ObtenerRangosValorant().ToList();
@@ -89,8 +90,20 @@ public class UnitTest : TestBase
 
         Assert.Contains(listaServidores, servidor => servidor.idServidor == servidorId.idServidor);
     }
+    [Fact]
+    public void ObtenerRangosValorantPorID()
+    {
+
+        var rangos = dao.ObtenerRangosValorant().ToList();
+
+        Assert.NotEmpty(rangos); 
+
+        Assert.Contains(rangos, r => r.idRango == 2); 
+    }
     
 }
+
+
 
 
 
