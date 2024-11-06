@@ -62,30 +62,27 @@ public class DaoDapper : IDao
     public void AltaCuentaLol(CuentaLol cuentaLol)
     {
         var parametros = new DynamicParameters();
-        parametros.Add("@p_idCuenta", cuentaLol.IdCuenta);
-        parametros.Add("@p_nombre", cuentaLol.Nombre);
-        parametros.Add("@p_nivel", cuentaLol.Nivel);
-        parametros.Add("@p_esenciaAzul", cuentaLol.EsenciaAzul);
-        parametros.Add("@p_puntosRiot", cuentaLol.PuntosRiot);
-        parametros.Add("@p_puntosLiga", cuentaLol.PuntosLiga);
-        parametros.Add("@p_idRango", cuentaLol.IdRango);
+        parametros.Add("@idCuenta", cuentaLol.IdCuenta);
+        parametros.Add("@Nombre", cuentaLol.Nombre);
+        parametros.Add("@Nivel", cuentaLol.Nivel);
+        parametros.Add("@EsenciaAzul", cuentaLol.EsenciaAzul);
+        parametros.Add("@PuntosRiot", cuentaLol.PuntosRiot);
+        parametros.Add("@PuntosLiga", cuentaLol.PuntosLiga);
 
-    _conexion.Execute("InsertCuentaLol", parametros, 
-                     commandType: CommandType.StoredProcedure);
-}
+        _conexion.Execute("InsertCuentaLol", parametros, commandType: CommandType.StoredProcedure);
+    }
 
     public void AltaCuentaValorant(CuentaValorant cuentaValorant)
     {
         var parametros = new DynamicParameters();
-        parametros.Add("@p_idCuenta", cuentaValorant.idCuenta);
-        parametros.Add("@p_nombre", cuentaValorant.Nombre);
-        parametros.Add("@p_nivel", cuentaValorant.Nivel);
-        parametros.Add("@p_experiencia", cuentaValorant.Experiencia);
-        parametros.Add("@p_puntosCompetitivo", cuentaValorant.PuntosCompetitivo);
-        parametros.Add("@p_idRango", cuentaValorant.idRango);
+        parametros.Add("@idCuenta", cuentaValorant.idCuenta);
+        parametros.Add("@Nombre", cuentaValorant.Nombre);
+        parametros.Add("@Nivel", cuentaValorant.Nivel);
+        parametros.Add("@Experiencia", cuentaValorant.Experiencia);
+        parametros.Add("@PuntosCompetitivo", cuentaValorant.PuntosCompetitivo);
+        parametros.Add("@idRango", cuentaValorant.idRango);
 
-        _conexion.Execute("InsertCuentaValorant", parametros, 
-                         commandType: CommandType.StoredProcedure);
+        _conexion.Execute("InsertCuentaValorant", parametros, commandType: CommandType.StoredProcedure);
     }
 
     public void AltaTipoObjeto(TipoObjeto tipoObjeto)

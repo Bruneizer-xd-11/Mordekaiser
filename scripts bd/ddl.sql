@@ -492,23 +492,6 @@ END$$
 DELIMITER ;
 
 
---ALMACENAR CUENTA
-DELIMITER $$
-CREATE PROCEDURE InsertCuentaLol (
-    IN p_idCuenta INT,
-    IN p_nombre VARCHAR(45),
-    IN p_nivel INT,
-    IN p_esenciaAzul INT,
-    IN p_puntosRiot INT,
-    IN p_puntosLiga INT,
-    IN p_idRango TINYINT
-)
-BEGIN
-    INSERT INTO CuentaLol (idCuenta, Nombre, Nivel, EsenciaAzul, PuntosRiot, PuntosLiga, idRango)
-    VALUES (p_idCuenta, p_nombre, p_nivel, p_esenciaAzul, p_puntosRiot, p_puntosLiga, p_idRango);
-END$$
-DELIMITER ;
-
 
 
 -- -----------------------------------------------------
