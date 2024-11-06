@@ -6,9 +6,13 @@
 <h2 align="center"> E.T. Nº12 D.E. 1º "Libertador Gral. José de San Martín" </h2>
 
 **Alumnos**: Luis Armoa, Carlos Bruno, Ruben Torrent
+
 **Asignatura**:  AGBD
+
 **Nombre TP**: Mordekaiser
+
 **Curso**: 5 ° 7
+
 **Año**:  2024
 
 # Mordekaiser
