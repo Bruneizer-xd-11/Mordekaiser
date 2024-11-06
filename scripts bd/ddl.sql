@@ -571,73 +571,75 @@ DELIMITER ;
 USE 5to_RiotGames;
 DROP procedure IF EXISTS 5to_RiotGames.Inserts;
 
-DELIMITER $$
-USE 5to_RiotGames$$
-CREATE PROCEDURE Inserts()
-BEGIN
-	  call InsertTipoObjeto(1,'Skins');
-    call InsertServidor (1, 'Norteamérica', 'NA'); 
-    call InsertServidor (2, 'Europa Occidental', 'EUW'); 
-    call InsertServidor (3, 'Brasil', 'BR'); 
-    call InsertServidor (4, 'Corea', 'KR'); 
-    call InsertServidor (5, 'Oceanía', 'OC;'); 
-    call InsertServidor (6, 'Japón', 'JP'); 
-    call InsertServidor (7, 'América Latin Norte', 'LAN'); 
-    call InsertServidor (8, 'América Latin Sur', 'LAS'); 
-    call InsertServidor (9, 'Turquía', 'TR,'); 
-    call InsertServidor (10, 'Rusia', 'RU'); 
-    call InsertServidor (11, 'Asia Pacífico', 'AP');
+  DELIMITER $$
+  USE 5to_RiotGames$$
+  CREATE PROCEDURE Inserts()
+  BEGIN
+      call InsertTipoObjeto(1,'Skins');
+      call InsertServidor (1, 'Norteamérica', 'NA'); 
+      call InsertServidor (2, 'Europa Occidental', 'EUW'); 
+      call InsertServidor (3, 'Brasil', 'BR'); 
+      call InsertServidor (4, 'Corea', 'KR'); 
+      call InsertServidor (5, 'Oceanía', 'OC;'); 
+      call InsertServidor (6, 'Japón', 'JP'); 
+      call InsertServidor (7, 'América Latin Norte', 'LAN'); 
+      call InsertServidor (8, 'América Latin Sur', 'LAS'); 
+      call InsertServidor (9, 'Turquía', 'TR,'); 
+      call InsertServidor (10, 'Rusia', 'RU'); 
+      call InsertServidor (11, 'Asia Pacífico', 'AP');
 
-    call InsertTipoObjeto(2,'Centinelas');
-    call InsertTipoObjeto(3,'Campeones');
-    call InsertTipoObjeto(4,'FragmentosSkin');
-    call InsertTipoObjeto(5,'FragmentosCentinelas');
-    call InsertTipoObjeto(6,'Gestos');
-    call InsertTipoObjeto(7,'Accesorios');
-    
-    
-    call InsertRangoLol(@hierroUno,'Hierro',10,1);
-    call InsertRangoLol(@hierroDos,'Hierro',15,2);
-    call InsertRangoLol(@hierroTres,'Hierro',30,3);
-    call InsertRangoLol(@BronceUno,'Bronce',40,1);
-    call InsertRangoLol(@BronceDos,'Bronce',80,2);
-    call InsertRangoLol(@BronceTres,'Bronce',120,3);
-	  call InsertRangoLol(@PlataUno,'Palta',130,1);
-    call InsertRangoLol(@PlataDos,'Palta',140,2);
-    call InsertRangoLol(@PlataTres,'Palta',160,3);
-    call InsertRangoLol(@OroUno,'Oro',180,1);
-    call InsertRangoLol(@OroDos,'Oro',200,2);
-    call InsertRangoLol(@OroTres,'Oro',220,3);
-    call InsertRangoLol(@PlatinoUno,'Platino',240,1);
-    call InsertRangoLol(@PlatinoDos,'Platino',260,2);
-    call InsertRangoLol(@PlatinoTres,'Platino',280,3);
-	  call InsertRangoLol(@DiamanteUno,'Diamante',300,1);
-    call InsertRangoLol(@DiamanteDos,'Diamante',320,2);
-    call InsertRangoLol(@DiamanteTres,'Diamante',330,3);
-    
-    call InsertRangoValorant(@hierroUno,'Hierro',1,10);
-    call InsertRangoValorant(@hierroDos,'Hierro',2,20);
-    call InsertRangoValorant(@hierroTres,'Hierro',3,30);
-    call InsertRangoValorant(@BronceUno,'Bronce',1,40);
-    call InsertRangoValorant(@BronceDos,'Bronce',2,50);
-    call InsertRangoValorant(@BronceTres,'Bronce',3,60);
-	  call InsertRangoValorant(@PlataUno,'Palta',1,80);
-    call InsertRangoValorant(@PlataDos,'Palta',2,90);
-    call InsertRangoValorant(@PlataTres,'Palta',3,100);
-    call InsertRangoValorant(@OroUno,'Oro',1,110);
-    call InsertRangoValorant(@OroDos,'Oro',2,120);
-    call InsertRangoValorant(@OroTres,'Oro',3,130);
-    call InsertRangoValorant(@PlatinoUno,'Platino',1,140);
-    call InsertRangoValorant(@PlatinoDos,'Platino',2,150);
-    call InsertRangoValorant(@PlatinoTres,'Platino',3,160);
-	  call InsertRangoValorant(@DiamanteUno,'Diamante',1,170);
-    call InsertRangoValorant(@DiamanteDos,'Diamante',2,180);
-    call InsertRangoValorant(@DiamanteTres,'Diamante',3,190);
-    
+      call InsertTipoObjeto(2,'Centinelas');
+      call InsertTipoObjeto(3,'Campeones');
+      call InsertTipoObjeto(4,'FragmentosSkin');
+      call InsertTipoObjeto(5,'FragmentosCentinelas');
+      call InsertTipoObjeto(6,'Gestos');
+      call InsertTipoObjeto(7,'Accesorios');
+      
+      
+      call InsertRangoLol(@hierroUno,'Hierro',10,1);
+      call InsertRangoLol(@hierroDos,'Hierro',15,2);
+      call InsertRangoLol(@hierroTres,'Hierro',30,3);
+      call InsertRangoLol(@BronceUno,'Bronce',40,1);
+      call InsertRangoLol(@BronceDos,'Bronce',80,2);
+      call InsertRangoLol(@BronceTres,'Bronce',120,3);
+      call InsertRangoLol(@PlataUno,'Palta',130,1);
+      call InsertRangoLol(@PlataDos,'Palta',140,2);
+      call InsertRangoLol(@PlataTres,'Palta',160,3);
+      call InsertRangoLol(@OroUno,'Oro',180,1);
+      call InsertRangoLol(@OroDos,'Oro',200,2);
+      call InsertRangoLol(@OroTres,'Oro',220,3);
+      call InsertRangoLol(@PlatinoUno,'Platino',240,1);
+      call InsertRangoLol(@PlatinoDos,'Platino',260,2);
+      call InsertRangoLol(@PlatinoTres,'Platino',280,3);
+      call InsertRangoLol(@DiamanteUno,'Diamante',300,1);
+      call InsertRangoLol(@DiamanteDos,'Diamante',320,2);
+      call InsertRangoLol(@DiamanteTres,'Diamante',330,3);
+      
+      call InsertRangoValorant(@hierroUno,'Hierro',1,10);
+      call InsertRangoValorant(@hierroDos,'Hierro',2,20);
+      call InsertRangoValorant(@hierroTres,'Hierro',3,30);
+      call InsertRangoValorant(@BronceUno,'Bronce',1,40);
+      call InsertRangoValorant(@BronceDos,'Bronce',2,50);
+      call InsertRangoValorant(@BronceTres,'Bronce',3,60);
+      call InsertRangoValorant(@PlataUno,'Palta',1,80);
+      call InsertRangoValorant(@PlataDos,'Palta',2,90);
+      call InsertRangoValorant(@PlataTres,'Palta',3,100);
+      call InsertRangoValorant(@OroUno,'Oro',1,110);
+      call InsertRangoValorant(@OroDos,'Oro',2,120);
+      call InsertRangoValorant(@OroTres,'Oro',3,130);
+      call InsertRangoValorant(@PlatinoUno,'Platino',1,140);
+      call InsertRangoValorant(@PlatinoDos,'Platino',2,150);
+      call InsertRangoValorant(@PlatinoTres,'Platino',3,160);
+      call InsertRangoValorant(@DiamanteUno,'Diamante',1,170);
+      call InsertRangoValorant(@DiamanteDos,'Diamante',2,180);
+      call InsertRangoValorant(@DiamanteTres,'Diamante',3,190);
+      
 
-END$$
+  END$$
 
-DELIMITER ;
+  DELIMITER ;
+
+  
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

@@ -104,7 +104,7 @@ public class DaoDapper : IDao
         parametros.Add("@PrecioRP", objeto.PrecioRP);
         parametros.Add("@Venta", objeto.Venta);
         parametros.Add("@IdTipoObjeto", objeto.idTipoObjeto); // Asegúrate de que este ID provenga de TipoObjeto
-
+        
         _conexion.Execute("InsertObjeto", parametros, commandType: CommandType.StoredProcedure);
         objeto.idObjeto = parametros.Get<byte>("@idObjeto");
     }
