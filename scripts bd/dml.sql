@@ -16,7 +16,7 @@ BEGIN TRY
     WHERE Nombre = 'Plata';  -- Suponiendo que queremos asignar el rango "Plata"
 
     -- Paso 3: Insertar la nueva cuenta en cuentas_lol con los valores seleccionados
-    INSERT INTO cuentas_lol (nombre_usuario, nivel, esencia_azul, puntos_riot, puntos_liga, id_rango)
+    INSERT INTO CuentaLol (Nombre, nivel, esencia_azul, puntos_riot, puntos_liga, id_rango)
     VALUES (@nuevo_usuario, @nivel, @esencia_azul, @puntos_riot, @puntos_liga, @id_rango);
 
     -- Confirmar la transacción
@@ -32,4 +32,4 @@ BEGIN CATCH
 END CATCH;
 
 -- Consultar los valores para verificar la inserción
-SELECT * FROM cuentas_lol;
+SELECT * FROM CuentaLol;
