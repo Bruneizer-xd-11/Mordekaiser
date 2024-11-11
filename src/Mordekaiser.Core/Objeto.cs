@@ -1,5 +1,6 @@
 namespace Mordekaiser.Core;
 
+
 public class Objeto
 {
     public Objeto(TipoObjeto tipoObjeto)

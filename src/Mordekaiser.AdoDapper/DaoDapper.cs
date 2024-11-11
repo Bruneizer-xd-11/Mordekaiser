@@ -88,25 +88,23 @@ public class DaoDapper : IDao
     public void AltaTipoObjeto(TipoObjeto tipoObjeto)
     {
         var parametros = new DynamicParameters();
-        parametros.Add("@idTipoObjeto", direction: ParameterDirection.Output);
-        parametros.Add("@Nombre", tipoObjeto.Nombre);
+        parametros.Add("@UnidTipoObjeto", tipoObjeto.idTipoObjeto, DbType.Byte);
+        parametros.Add("@UnNombre", tipoObjeto.Nombre, DbType.String);
 
         _conexion.Execute("InsertTipoObjeto", parametros, commandType: CommandType.StoredProcedure);
-        tipoObjeto.idTipoObjeto = parametros.Get<byte>("@idTipoObjeto");
     }
 
     public void AltaObjeto(Objeto objeto)
     {
         var parametros = new DynamicParameters();
-        parametros.Add("@IdObjeto", direction: ParameterDirection.Output);
-        parametros.Add("@Nombre", objeto.Nombre);
-        parametros.Add("@PrecioEA", objeto.PrecioEA);
-        parametros.Add("@PrecioRP", objeto.PrecioRP);
-        parametros.Add("@Venta", objeto.Venta);
-        parametros.Add("@IdTipoObjeto", objeto.idTipoObjeto); // Asegúrate de que este ID provenga de TipoObjeto
-        
+        parametros.Add("@IdObjeto", objeto.idObjeto, DbType.UInt16);
+        parametros.Add("@Nombre", objeto.Nombre, DbType.String);
+        parametros.Add("@PrecioEA", objeto.PrecioEA, DbType.UInt32);
+        parametros.Add("@PrecioRP", objeto.PrecioRP, DbType.UInt32);
+        parametros.Add("@Venta", objeto.Venta, DbType.UInt32);
+        parametros.Add("@IdTipoObjeto", objeto.idTipoObjeto, DbType.Byte);
+
         _conexion.Execute("InsertObjeto", parametros, commandType: CommandType.StoredProcedure);
-        objeto.idObjeto = parametros.Get<byte>("@idObjeto");
     }
 
     public void AltaInventario(Inventario inventario)
@@ -127,7 +125,7 @@ public class DaoDapper : IDao
         public Servidor? ObtenerServidor(byte idServidor)
     {
         var query = @"SELECT * FROM Servidor
-                    where idServidor = @idServidor";
+                    WHERE idServidor = @idServidor";
         
         return _conexion.QuerySingleOrDefault<Servidor>(query , new {idServidor});
     }
@@ -140,7 +138,7 @@ public class DaoDapper : IDao
     public RangoLol? ObtenerRangoLol(byte idRango)
     {
         var query = @"SELECT * FROM RangoLol
-                    where idRango = @idRango";
+                    WHERE idRango = @idRango";
         
         return _conexion.QuerySingleOrDefault<RangoLol>(query , new {idRango});
     }
@@ -208,4 +206,28 @@ public class DaoDapper : IDao
         _conexion.Execute("BajaServidor", new { p_unidServidor = idServidorParametro } , commandType: CommandType.StoredProcedure);
     }
     
+    public void BajaObjeto(ushort idObjeto)
+    {
+        var parametros = new DynamicParameters();
+        parametros.Add("@idObjeto", idObjeto, DbType.UInt16);
+
+        _conexion.Execute("DeleteObjeto", parametros, commandType: CommandType.StoredProcedure);
+    }
+
+    public IEnumerable<Objeto> ObtenerObjetos()
+    {
+        string consulta = "SELECT * FROM Objeto";
+        return _conexion.Query<Objeto>(consulta);
+    }
+
+    // Implementación del método Login
+    public Cuenta? Login(string nombreUsuario, string contrasena)
+    {
+        string consulta = @"
+            SELECT * FROM Cuenta 
+            WHERE Nombre = @Nombre 
+              AND Contrasena = SHA2(@Contrasena, 256)";
+
+        return _conexion.QuerySingleOrDefault<Cuenta>(consulta, new { Nombre = nombreUsuario, Contrasena = contrasena });
+    }
 }

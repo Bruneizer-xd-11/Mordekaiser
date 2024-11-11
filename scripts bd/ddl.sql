@@ -209,6 +209,7 @@ USE 5to_RiotGames ;
 -- procedure InsertServidor
 -- -----------------------------------------------------
 
+
 USE 5to_RiotGames;
 DROP procedure IF EXISTS 5to_RiotGames.InsertServidor;
 
@@ -224,9 +225,15 @@ END$$
 
 DELIMITER ;
 
--- -----------------------------------------------------
--- procedure InsertCuenta
--- -----------------------------------------------------
+DELIMITER $$
+USE 5to_RiotGames;
+
+CREATE PROCEDURE DeleteObjeto(IN UnidObjeto SMALLINT UNSIGNED)
+BEGIN
+    DELETE FROM Objeto WHERE idObjeto = UnidObjeto;
+END$$
+
+DELIMITER ;
 
 USE 5to_RiotGames;
 DROP procedure IF EXISTS 5to_RiotGames.InsertCuenta;
@@ -677,3 +684,16 @@ DELIMITER ;
 
 SELECT 'Voy a invocar inserts' Estado;
 call Inserts();
+
+CREATE PROCEDURE InsertObjeto (
+    IN UnidObjeto SMALLINT,
+    IN UnNombre VARCHAR(45),
+    IN UnPrecioEA INT,
+    IN UnPrecioRP INT,
+    IN UnVenta INT,
+    IN UnidTipoObjeto TINYINT
+)
+BEGIN
+    INSERT INTO Objeto (idObjeto, Nombre, PrecioEA, PrecioRP, Venta, idTipoObjeto)
+    VALUES (UnidObjeto, UnNombre, UnPrecioEA, UnPrecioRP, UnVenta, UnidTipoObjeto);
+END$$

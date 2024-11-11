@@ -15,8 +15,8 @@ public interface IDao
 
     // Métodos de obtención
     IEnumerable<Servidor> ObtenerServidores();
-    Servidor ObtenerServidor(byte a);
-    RangoLol ObtenerRangoLol(byte b);
+    Servidor? ObtenerServidor(byte a);
+    RangoLol? ObtenerRangoLol(byte b);
     IEnumerable<RangoLol> ObtenerRangosLol();
     IEnumerable<RangoValorant> ObtenerRangosValorant();
     IEnumerable<(int IdCuenta, int NivelLol)> ObtenerNivelesLol();
@@ -28,4 +28,11 @@ public interface IDao
     void BajaCuenta(uint Cuenta);
     void BajaCuentaValorant(int idCuenta);
     void BajaServidor(byte idServidor);
+    void BajaObjeto(ushort idObjeto);
+
+    // Método de login
+    Cuenta? Login(string nombreUsuario, string contrasena);
+
+    // Método de obtención de objetos
+    IEnumerable<Objeto> ObtenerObjetos();
 }

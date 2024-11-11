@@ -11,6 +11,7 @@ public class UnitTest : TestBase
     [Fact]
     public void TestAltaservidor()
     {
+        // Arrange
         var nuevoServidor = new Servidor
         {
             idServidor = 100,
@@ -18,33 +19,14 @@ public class UnitTest : TestBase
             Abreviado = "Sp"
         };
 
+        // Act
         dao.AltaServidor(nuevoServidor);
 
         // Assert
         var listaServidores = dao.ObtenerServidores(); 
-        Assert.Contains(listaServidores, servidor => servidor.idServidor == nuevoServidor.idServidor);
-}
-  /*  [Fact]
-    public void AltaCuenta()
-    {
-        var unservidor = dao.ObtenerServidores().First();
-        var nuevaCuentaLol = new Cuenta
-        {
-            Servidor = unservidor,
-            IdCuenta = 1, 
-            Nombre = "CuentaLol Test",
-            Contrasena = "hola",
-            Email = "miguel@gmail.com"
-        };
-
-
-        dao.AltaCuenta(nuevaCuentaLol);
-        
-        var cuentas = dao.ObtenerCuenta();
-
-        Assert.Contains(cuentas, cuenta => cuenta.IdCuenta == 1);
+           Assert.Contains(listaServidores, servidor => servidor.idServidor == nuevoServidor.idServidor);
     }
-    */ // por si el profe quiere probar el alta de cuenta juasjuas perdon por el comentario
+
     [Fact]
     public void BajaServidor()
     {
@@ -88,7 +70,9 @@ public class UnitTest : TestBase
     
         var listaServidores = dao.ObtenerServidores();
 
-        Assert.Contains(listaServidores, servidor => servidor.idServidor == servidorId.idServidor);
+            Assert.Contains(listaServidores, servidor => servidor.idServidor == servidorId.idServidor);
+
+
     }
     [Fact]
     public void ObtenerRangosValorantPorID()
@@ -110,10 +94,61 @@ public class UnitTest : TestBase
         var rangoId = dao.ObtenerRangoLol(parametro);
     
         var listaRango = dao.ObtenerRangosLol();
-
-        Assert.Contains(listaRango, rangosLol => rangosLol.IdRango == rangoId.  IdRango);
+        Assert.Contains(listaRango, rangosLol => rangosLol.IdRango == rangoId?.IdRango);
     }
     
+    [Fact]
+    public void TestAltaObjeto()
+    {
+        // Arrange
+        var tipoObjeto = new TipoObjeto { idTipoObjeto = 1, Nombre = "Skins" };
+        dao.AltaTipoObjeto(tipoObjeto);
+
+        var objeto = new Objeto(tipoObjeto)
+        {
+            TipoObjeto = tipoObjeto, // Asegúrate de incluir esta línea
+            idObjeto = 1,
+            Nombre = "SkinTest",
+            PrecioEA = 1000,
+            PrecioRP = 500,
+            Venta = 1500,
+            idTipoObjeto = tipoObjeto.idTipoObjeto
+        };
+
+        // Act
+        dao.AltaObjeto(objeto);
+        var objetos = dao.ObtenerObjetos();
+
+        // Assert
+        Assert.Contains(objetos, o => o.idObjeto == objeto.idObjeto && o.Nombre == "SkinTest");
+    }
+
+    [Fact]
+    public void TestBajaObjeto()
+    {
+        // Arrange
+        var tipoObjeto = new TipoObjeto { idTipoObjeto = 2, Nombre = "Centinelas" };
+        dao.AltaTipoObjeto(tipoObjeto);
+
+        var objeto = new Objeto(tipoObjeto)
+        {
+            TipoObjeto = tipoObjeto,
+            idObjeto = 1,
+            Nombre = "SkinTest",
+            PrecioEA = 1000,
+            PrecioRP = 500,
+            Venta = 1500,
+            idTipoObjeto = tipoObjeto.idTipoObjeto
+        };
+
+        // Act
+        dao.AltaObjeto(objeto);
+        dao.BajaObjeto(objeto.idObjeto);
+        var objetos = dao.ObtenerObjetos();
+
+        // Assert
+        Assert.DoesNotContain(objetos, o => o.idObjeto == objeto.idObjeto);
+    }
 }
 
 
