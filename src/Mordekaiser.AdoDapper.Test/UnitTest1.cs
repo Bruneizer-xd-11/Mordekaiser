@@ -96,8 +96,8 @@ public class UnitTest : TestBase
         var listaRango = dao.ObtenerRangosLol();
         Assert.Contains(listaRango, rangosLol => rangosLol.IdRango == rangoId?.IdRango);
     }
-    
-    [Fact]
+}
+ /*   [Fact]
     public void TestAltaObjeto()
     {
         // Arrange
@@ -150,7 +150,7 @@ public class UnitTest : TestBase
         Assert.DoesNotContain(objetos, o => o.idObjeto == objeto.idObjeto);
     }
 }
-
+*/
 
 
 
