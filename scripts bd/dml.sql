@@ -1,14 +1,19 @@
 START TRANSACTION;
 
--- Obtener la suma de PuntosLiga necesarios de una cuenta específica en RangoLol
-SELECT @TotalPuntosLigaNecesario := SUM(PuntosLigaNecesarios) 
-FROM 5to_RiotGames.RangoLol 
-WHERE IdRango = 2;
+START TRANSACTION;
 
--- Obtener la suma de PuntosCompetitivo de una cuenta específica en RangoValorant
-SELECT @TotalPuntosCompetitivo := SUM(PuntosCompetitivo) 
-FROM 5to_RiotGames.RangoValorant 
-WHERE idRango = 1;
+-- Reducir PuntosRiot de la cuenta de origen
+UPDATE 5to_RiotGames.CuentaLol
+SET PuntosRiot = PuntosRiot - 100
+WHERE idCuenta = 1;
+
+-- Incrementar PuntosRiot en la cuenta de destino
+UPDATE 5to_RiotGames.CuentaLol
+SET PuntosRiot = PuntosRiot + 100
+WHERE idCuenta = 2;
+
+COMMIT;
+
 
 -- Aumentar los puntos de liga en la cuenta de LOL (en la tabla CuentaLol)
 UPDATE 5to_RiotGames.CuentaLol
