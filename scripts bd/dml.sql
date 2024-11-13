@@ -1,7 +1,5 @@
 START TRANSACTION;
 
-START TRANSACTION;
-
 -- Reducir PuntosRiot de la cuenta de origen
 UPDATE 5to_RiotGames.CuentaLol
 SET PuntosRiot = PuntosRiot - 100

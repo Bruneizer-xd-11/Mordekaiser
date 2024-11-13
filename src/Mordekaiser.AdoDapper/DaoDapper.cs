@@ -230,4 +230,6 @@ public class DaoDapper : IDao
 
         return _conexion.QuerySingleOrDefault<Cuenta>(consulta, new { Nombre = nombreUsuario, Contrasena = contrasena });
     }
+
+    
 }
