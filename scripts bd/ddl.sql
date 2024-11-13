@@ -685,6 +685,8 @@ DELIMITER ;
 SELECT 'Voy a invocar inserts' Estado;
 call Inserts();
 
+DELIMITER $$
+
 CREATE PROCEDURE InsertObjeto (
     IN UnidObjeto SMALLINT,
     IN UnNombre VARCHAR(45),
@@ -697,3 +699,5 @@ BEGIN
     INSERT INTO Objeto (idObjeto, Nombre, PrecioEA, PrecioRP, Venta, idTipoObjeto)
     VALUES (UnidObjeto, UnNombre, UnPrecioEA, UnPrecioRP, UnVenta, UnidTipoObjeto);
 END$$
+
+DELIMITER ;
