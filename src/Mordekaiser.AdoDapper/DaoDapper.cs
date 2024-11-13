@@ -220,14 +220,19 @@ public class DaoDapper : IDao
         return _conexion.Query<Objeto>(consulta);
     }
 
-    // Implementación del método Login
     public Cuenta? Login(string nombreUsuario, string contrasena)
     {
         string consulta = @"
             SELECT * FROM Cuenta 
             WHERE Nombre = @Nombre 
-              AND Contrasena = SHA2(@Contrasena, 256)";
+            AND Contrasena = SHA2(@Contrasena, 256)";
 
         return _conexion.QuerySingleOrDefault<Cuenta>(consulta, new { Nombre = nombreUsuario, Contrasena = contrasena });
+
     }
+     public IEnumerable<TipoObjeto> ObtenerTiposObjetos()
+     {
+        var obtener = "select * from TipoObjeto";
+        return _conexion.Query<TipoObjeto>(obtener);
+     }
 }
