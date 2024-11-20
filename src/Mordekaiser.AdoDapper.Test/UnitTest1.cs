@@ -25,6 +25,8 @@ public class UnitTest : TestBase
         // Assert
         var listaServidores = dao.ObtenerServidores(); 
            Assert.Contains(listaServidores, servidor => servidor.idServidor == nuevoServidor.idServidor);
+        // Asegúrate de que el servidor no exista antes de la prueba
+        dao.BajaServidor(nuevoServidor.idServidor); // Elimina el servidor si ya existe
     }
 
     [Fact]
@@ -96,45 +98,48 @@ public class UnitTest : TestBase
         var listaRango = dao.ObtenerRangosLol();
         Assert.Contains(listaRango, rangosLol => rangosLol.IdRango == rangoId?.IdRango);
     }
-}
- /*   [Fact]
+    
+    [Fact]
     public void TestAltaObjeto()
     {
-        // Arrange
-        var tipoObjeto = new TipoObjeto { idTipoObjeto = 1, Nombre = "Skins" };
+        var tipoObjeto = new TipoObjeto { 
+            Nombre = "Skins_Test_" + DateTime.Now.Ticks 
+        };
         dao.AltaTipoObjeto(tipoObjeto);
-
+    
         var objeto = new Objeto(tipoObjeto)
         {
-            TipoObjeto = tipoObjeto, // Asegúrate de incluir esta línea
-            idObjeto = 1,
+            TipoObjeto = tipoObjeto,
             Nombre = "SkinTest",
             PrecioEA = 1000,
             PrecioRP = 500,
             Venta = 1500,
             idTipoObjeto = tipoObjeto.idTipoObjeto
         };
-
+    
         // Act
         dao.AltaObjeto(objeto);
         var objetos = dao.ObtenerObjetos();
-
+        
         // Assert
-        Assert.Contains(objetos, o => o.idObjeto == objeto.idObjeto && o.Nombre == "SkinTest");
+        Assert.Contains(objetos, o => o.Nombre == objeto.Nombre);
     }
-
     [Fact]
     public void TestBajaObjeto()
     {
-        // Arrange
-        var tipoObjeto = new TipoObjeto { idTipoObjeto = 2, Nombre = "Centinelas" };
+        // Asegúrate de que el TipoObjeto se inserte correctamente
+        var tipoObjeto = new TipoObjeto { 
+            idTipoObjeto = 100, // Asegúrate de que este ID no esté en uso
+            Nombre = "Centinelas_Test_" + DateTime.Now.Ticks
+        };
         dao.AltaTipoObjeto(tipoObjeto);
 
+        // Ahora crea el objeto usando el tipoObjeto recién insertado
         var objeto = new Objeto(tipoObjeto)
         {
             TipoObjeto = tipoObjeto,
-            idObjeto = 1,
-            Nombre = "SkinTest",
+            idObjeto = 101,
+            Nombre = "SkinTest_" + DateTime.Now.Ticks,
             PrecioEA = 1000,
             PrecioRP = 500,
             Venta = 1500,
@@ -150,7 +155,7 @@ public class UnitTest : TestBase
         Assert.DoesNotContain(objetos, o => o.idObjeto == objeto.idObjeto);
     }
 }
-*/
+
 
 
 
