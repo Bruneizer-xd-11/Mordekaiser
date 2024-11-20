@@ -14,9 +14,8 @@ public class UnitTest : TestBase
         // Arrange
         var nuevoServidor = new Servidor
         {
-            idServidor = 100,
-            Nombre = "Servidor_prueba",
-            Abreviado = "Sp"
+            Nombre = "Servidor_prueba_" + DateTime.Now.Ticks,
+            Abreviado = "S" + new Random().Next(10,99)
         };
 
         // Act
@@ -24,7 +23,7 @@ public class UnitTest : TestBase
 
         // Assert
         var listaServidores = dao.ObtenerServidores(); 
-           Assert.Contains(listaServidores, servidor => servidor.idServidor == nuevoServidor.idServidor);
+           Assert.Contains(listaServidores, servidor => servidor.Nombre == nuevoServidor.Nombre);
     }
 
     [Fact]
@@ -96,61 +95,181 @@ public class UnitTest : TestBase
         var listaRango = dao.ObtenerRangosLol();
         Assert.Contains(listaRango, rangosLol => rangosLol.IdRango == rangoId?.IdRango);
     }
-}
- /*   [Fact]
-    public void TestAltaObjeto()
+
+    [Fact]
+    public void TestAltaCuenta()
     {
         // Arrange
-        var tipoObjeto = new TipoObjeto { idTipoObjeto = 1, Nombre = "Skins" };
-        dao.AltaTipoObjeto(tipoObjeto);
-
-        var objeto = new Objeto(tipoObjeto)
+        var servidor = dao.ObtenerServidor(1);
+        Assert.NotNull(servidor);
+        
+        var cuenta = new Cuenta
         {
-            TipoObjeto = tipoObjeto, // Asegúrate de incluir esta línea
-            idObjeto = 1,
-            Nombre = "SkinTest",
-            PrecioEA = 1000,
-            PrecioRP = 500,
-            Venta = 1500,
-            idTipoObjeto = tipoObjeto.idTipoObjeto
+            Servidor = servidor,
+            Nombre = "TestUser_" + DateTime.Now.Ticks,
+            Contrasena = "TestPass123!",
+            Email = $"test_{DateTime.Now.Ticks}@test.com"
         };
 
         // Act
-        dao.AltaObjeto(objeto);
-        var objetos = dao.ObtenerObjetos();
+        dao.AltaCuenta(cuenta);
 
         // Assert
-        Assert.Contains(objetos, o => o.idObjeto == objeto.idObjeto && o.Nombre == "SkinTest");
+        var cuentas = dao.ObtenerCuenta();
+        Assert.Contains(cuentas, c => c.IdCuenta == cuenta.IdCuenta);
     }
 
     [Fact]
-    public void TestBajaObjeto()
+    public void TestAltaCuentaLol()
     {
         // Arrange
-        var tipoObjeto = new TipoObjeto { idTipoObjeto = 2, Nombre = "Centinelas" };
-        dao.AltaTipoObjeto(tipoObjeto);
-
-        var objeto = new Objeto(tipoObjeto)
+        var servidor = dao.ObtenerServidor(1);
+        Assert.NotNull(servidor);
+        
+        var cuenta = new Cuenta
         {
-            TipoObjeto = tipoObjeto,
-            idObjeto = 1,
-            Nombre = "SkinTest",
-            PrecioEA = 1000,
-            PrecioRP = 500,
-            Venta = 1500,
-            idTipoObjeto = tipoObjeto.idTipoObjeto
+            Servidor = servidor,
+            Nombre = "TestLolAccount_" + DateTime.Now.Ticks,
+            Contrasena = "TestPass123!",
+            Email = $"test_{DateTime.Now.Ticks}@test.com"
         };
-
+        dao.AltaCuenta(cuenta);
+        
+        var rangoLol = dao.ObtenerRangoLol(1);
+        Assert.NotNull(rangoLol);
+        
+        var cuentaLol = new CuentaLol
+        {
+            Cuenta = cuenta,
+            RangoLol = rangoLol,
+            IdCuenta = cuenta.IdCuenta,
+            Nombre = cuenta.Nombre,
+            Nivel = 30,
+            EsenciaAzul = 1000,
+            PuntosRiot = 500,
+            PuntosLiga = 100,
+            IdRango = rangoLol.IdRango
+        };
+        
         // Act
-        dao.AltaObjeto(objeto);
-        dao.BajaObjeto(objeto.idObjeto);
-        var objetos = dao.ObtenerObjetos();
+        dao.AltaCuentaLol(cuentaLol);
 
         // Assert
-        Assert.DoesNotContain(objetos, o => o.idObjeto == objeto.idObjeto);
+        var cuentasLol = dao.ObtenerCuentasLol();
+        Assert.Contains(cuentasLol, c => c.IdCuenta == cuentaLol.IdCuenta);
+    }
+
+    [Fact]
+    public void TestAltaCuentaValorant()
+    {
+        // Arrange
+        var servidor = dao.ObtenerServidor(1);
+        Assert.NotNull(servidor);
+        
+        var cuenta = new Cuenta
+        {
+            Servidor = servidor,
+            Nombre = "TestValAccount_" + DateTime.Now.Ticks,
+            Contrasena = "TestPass123!",
+            Email = $"test_{DateTime.Now.Ticks}@test.com"
+        };
+        dao.AltaCuenta(cuenta);
+        
+        var rangoValorant = dao.ObtenerRangosValorant().FirstOrDefault();
+        Assert.NotNull(rangoValorant);
+        
+        var cuentaValorant = new CuentaValorant
+        {
+            Cuenta = cuenta,
+            RangoValorant = rangoValorant,
+            idCuenta = cuenta.IdCuenta,
+            Nombre = cuenta.Nombre,
+            Nivel = 20,
+            Experiencia = 5000,
+            PuntosCompetitivo = 800,
+            idRango = rangoValorant.idRango
+        };
+        
+        // Act
+        dao.AltaCuentaValorant(cuentaValorant);
+
+        // Assert
+        var cuentasValorant = dao.ObtenerCuentasValorant();
+        Assert.Contains(cuentasValorant, c => c.idCuenta == cuentaValorant.idCuenta);
+    }
+
+    [Fact]
+    public void TestLogin()
+    {
+        // Arrange
+        var servidor = dao.ObtenerServidor(1);
+        Assert.NotNull(servidor);
+        
+        var cuenta = new Cuenta
+        {
+            Servidor = servidor,
+            Nombre = "TestLogin_" + DateTime.Now.Ticks,
+            Contrasena = "TestPass123!",
+            Email = $"test_{DateTime.Now.Ticks}@test.com"
+        };
+        dao.AltaCuenta(cuenta);
+        
+        // Act
+        var loginResult = dao.Login(cuenta.Nombre, "TestPass123!");
+        
+        // Assert
+        Assert.NotNull(loginResult);
+        Assert.Equal(cuenta.Nombre, loginResult.Nombre);
+    }
+
+    [Fact]
+    public void TestBajaCuentaLol()
+    {
+        // Arrange
+        uint idCuenta = 1;
+
+        // Act
+        dao.BajaCuentaLol(idCuenta);
+
+        // Assert
+        var cuentasLol = dao.ObtenerCuentasLol();
+        Assert.DoesNotContain(cuentasLol, c => c.IdCuenta == idCuenta);
+    }
+
+    [Fact]
+    public void TestBajaCuentaValorant()
+    {
+        // Arrange
+        int idCuenta = 1;
+
+        // Act
+        dao.BajaCuentaValorant(idCuenta);
+
+        // Assert
+        var cuentasValorant = dao.ObtenerCuentasValorant();
+        Assert.DoesNotContain(cuentasValorant, c => c.idCuenta == idCuenta);
+    }
+
+    [Fact]
+    public void TestObtenerNivelesLol()
+    {
+        // Act
+        var niveles = dao.ObtenerNivelesLol().ToList();
+
+        // Assert
+        Assert.NotEmpty(niveles);
+    }
+
+    [Fact]
+    public void TestObtenerNivelesValorant()
+    {
+        // Act
+        var niveles = dao.ObtenerNivelesValorant().ToList();
+
+        // Assert
+        Assert.NotEmpty(niveles);
     }
 }
-*/
 
 
 
