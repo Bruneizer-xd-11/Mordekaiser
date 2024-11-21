@@ -226,7 +226,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-USE 5to_RiotGames;
+USE 5to_RiotGames$$
 
 CREATE PROCEDURE DeleteObjeto(IN UnidObjeto SMALLINT UNSIGNED)
 BEGIN
