@@ -259,6 +259,7 @@ DELIMITER ;
 USE 5to_RiotGames;
 DROP procedure IF EXISTS 5to_RiotGames.InsertCuentaValorant;
 
+
 DELIMITER $$
 USE 5to_RiotGames$$
 CREATE PROCEDURE InsertCuentaValorant (in UnidCuenta int,
@@ -267,6 +268,30 @@ BEGIN
     INSERT INTO CuentaValorant (idCuenta, Nombre) 
     VALUES (UnidCuenta, UnNombre);
 END$$
+
+DELIMITER ;
+
+USE 5to_RiotGames;
+DROP procedure IF EXISTS 5to_RiotGames.InsertCuentaLol;
+DELIMITER $$
+USE 5to_RiotGames$$
+CREATE PROCEDURE InsertCuentaLol(
+    IN `UnidCuenta` INT UNSIGNED,
+    IN `UnNombre` VARCHAR(45),
+    IN `UnNivel` INT UNSIGNED,
+    IN `UnEsenciaAzul` INT UNSIGNED,
+    IN `UnPuntosRiot` INT UNSIGNED,
+    IN `UnPuntosLiga` MEDIUMINT,
+    IN `UnidRango` TINYINT UNSIGNED
+)
+BEGIN
+    INSERT INTO `5to_RiotGames`.CuentaLol (
+        idCuenta, Nombre, Nivel, EsenciaAzul, PuntosRiot, PuntosLiga, idRango
+    )
+    VALUES (
+        UnidCuenta, UnNombre, UnNivel, UnEsenciaAzul, UnPuntosRiot, UnPuntosLiga, UnidRango
+    );
+END $$
 
 DELIMITER ;
 
