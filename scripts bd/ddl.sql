@@ -185,7 +185,7 @@ CREATE TABLE IF NOT EXISTS 5to_RiotGames.CuentaValorant (
   idCuenta INT UNSIGNED NOT NULL,
   Nombre VARCHAR(45) NULL,
   Nivel INT UNSIGNED NOT NULL DEFAULT 0,
-  Experiecia INT UNSIGNED NOT NULL DEFAULT 0,
+  Experiencia INT UNSIGNED NOT NULL DEFAULT 0,
   PuntosCompetitivo MEDIUMINT NOT NULL DEFAULT 0,
   idRango SMALLINT UNSIGNED NULL DEFAULT 0,
   INDEX fk_Cuenta_de_valorant_Rango_valorant1_idx (idRango ASC) VISIBLE,
