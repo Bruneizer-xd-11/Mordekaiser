@@ -127,7 +127,7 @@ public class DaoDapper : IDao
         var query = @"SELECT * FROM Servidor
                     WHERE idServidor = @idServidor";
         
-        return _conexion.QuerySingleOrDefault<Servidor>(query , new {idServidor});
+        return _conexion.QuerySingleOrDefault<Servidor>(query , new {idServidor =idServidor});
     }
 
     public IEnumerable<RangoLol> ObtenerRangosLol()

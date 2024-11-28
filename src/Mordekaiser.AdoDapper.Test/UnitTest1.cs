@@ -100,7 +100,7 @@ public class UnitTest : TestBase
     public void TestAltaCuenta()
     {
         // Arrange
-        var servidor = dao.ObtenerServidor(1);
+        var servidor = dao.ObtenerServidor(2);
         Assert.NotNull(servidor);
         
         var cuenta = new Cuenta
