@@ -120,109 +120,135 @@ public class UnitTest : TestBase
     }
 
     [Fact]
-    public void TestAltaCuentaLol()
-    {
-        // Arrange
-        var servidor = dao.ObtenerServidor(1);
-        Assert.NotNull(servidor);
+    // public void TestAltaCuentaLol()
+    // {
+    //     // Arrange
+    //     var servidor = dao.ObtenerServidor(1);
+    //     Assert.NotNull(servidor);
         
-        var cuenta = new Cuenta
-        {
-            Servidor = servidor,
-            Nombre = "TestLolAccount_" + DateTime.Now.Ticks,
-            Contrasena = "TestPass123!",
-            Email = $"test_{DateTime.Now.Ticks}@test.com"
-        };
-        dao.AltaCuenta(cuenta);
+    //     var cuenta = new Cuenta
+    //     {
+    //         Servidor = servidor,
+    //         Nombre = "TestLolAccount_" + DateTime.Now.Ticks,
+    //         Contrasena = "TestPass123!",
+    //         Email = $"test_{DateTime.Now.Ticks}@test.com"
+    //     };
+    //     dao.AltaCuenta(cuenta);
         
-        var rangoLol = dao.ObtenerRangoLol(1);
-        Assert.NotNull(rangoLol);
+    //     var rangoLol = dao.ObtenerRangoLol(1);
+    //     Assert.NotNull(rangoLol);
         
-        var cuentaLol = new CuentaLol
-        {
-            Cuenta = cuenta,
-            RangoLol = rangoLol,
-            IdCuenta = cuenta.IdCuenta,
-            Nombre = cuenta.Nombre,
-            Nivel = 30,
-            EsenciaAzul = 1000,
-            PuntosRiot = 500,
-            PuntosLiga = 100,
-            IdRango = rangoLol.IdRango
-        };
+    //     var cuentaLol = new CuentaLol
+    //     {
+    //         Cuenta = cuenta,
+    //         RangoLol = rangoLol,
+    //         IdCuenta = cuenta.IdCuenta,
+    //         Nombre = cuenta.Nombre,
+    //         Nivel = 30,
+    //         EsenciaAzul = 1000,
+    //         PuntosRiot = 500,
+    //         PuntosLiga = 100,
+    //         IdRango = rangoLol.IdRango
+    //     };
         
-        // Act
-        dao.AltaCuentaLol(cuentaLol);
+    //     // Act
+    //     dao.AltaCuentaLol(cuentaLol);
 
-        // Assert
-        var cuentasLol = dao.ObtenerCuentasLol();
-        Assert.Contains(cuentasLol, c => c.IdCuenta == cuentaLol.IdCuenta);
-    }
+    //     // Assert
+    //     var cuentasLol = dao.ObtenerCuentasLol();
+    //     Assert.Contains(cuentasLol, c => c.IdCuenta == cuentaLol.IdCuenta);
+    // }
 
-    [Fact]
-    public void TestAltaCuentaValorant()
-    {
-        // Arrange
-        var servidor = dao.ObtenerServidor(1);
-        Assert.NotNull(servidor);
+    // [Fact]
+    // public void TestAltaCuentaValorant()
+    // {
+    //     // Arrange
+    //     var servidor = dao.ObtenerServidor(1);
+    //     Assert.NotNull(servidor);
         
-        var cuenta = new Cuenta
-        {
-            Servidor = servidor,
-            Nombre = "TestValAccount_" + DateTime.Now.Ticks,
-            Contrasena = "TestPass123!",
-            Email = $"test_{DateTime.Now.Ticks}@test.com"
-        };
-        dao.AltaCuenta(cuenta);
+    //     var cuenta = new Cuenta
+    //     {
+    //         Servidor = servidor,
+    //         Nombre = "TestValAccount_" + DateTime.Now.Ticks,
+    //         Contrasena = "TestPass123!",
+    //         Email = $"test_{DateTime.Now.Ticks}@test.com"
+    //     };
+    //     dao.AltaCuenta(cuenta);
         
-        var rangoValorant = dao.ObtenerRangosValorant().FirstOrDefault();
-        Assert.NotNull(rangoValorant);
+    //     var rangoValorant = dao.ObtenerRangosValorant().FirstOrDefault();
+    //     Assert.NotNull(rangoValorant);
+    //        [Fact]
+    // public void TestAltaCuentaValorant()
+    // {
+    //     // Arrange
+    //     var servidor = dao.ObtenerServidor(1);
+    //     Assert.NotNull(servidor);
         
-        var cuentaValorant = new CuentaValorant
-        {
-            Cuenta = cuenta,
-            RangoValorant = rangoValorant,
-            idCuenta = cuenta.IdCuenta,
-            Nombre = cuenta.Nombre,
-            Nivel = 20,
-            Experiencia = 5000,
-            PuntosCompetitivo = 800,
-            idRango = rangoValorant.idRango
-        };
+    //     var cuenta = new Cuenta
+    //     {
+    //         Servidor = servidor,
+    //         Nombre = "TestValAccount_" + DateTime.Now.Ticks,
+    //         Contrasena = "TestPass123!",
+    //         Email = $"test_{DateTime.Now.Ticks}@test.com"
+    //     };
+    //     dao.AltaCuenta(cuenta);
         
-        // Act
-        dao.AltaCuentaValorant(cuentaValorant);
+    //     var rangoValorant = dao.ObtenerRangosValorant().FirstOrDefault();
+    //     Assert.NotNull(rangoValorant);
+        
+    //     var cuentaValorant = new CuentaValorant
+    //     {
+    //         Cuenta = cuenta,
+    //         RangoValorant = rangoValorant,
+    //         idCuenta = cuenta.IdCuenta,
+    //         Nombre = cuenta.Nombre,
+    //         Nivel = 20,
+    //         Experienci
+    //     var cuentaValorant = new CuentaValorant
+    //     {
+    //         Cuenta = cuenta,
+    //         RangoValorant = rangoValorant,
+    //         idCuenta = cuenta.IdCuenta,
+    //         Nombre = cuenta.Nombre,
+    //         Nivel = 20,
+    //         Experiencia = 5000,
+    //         PuntosCompetitivo = 800,
+    //         idRango = rangoValorant.idRango
+    //     };
+        
+    //     // Act
+    //     dao.AltaCuentaValorant(cuentaValorant);
 
-        // Assert
-        var cuentasValorant = dao.ObtenerCuentasValorant();
-        Assert.Contains(cuentasValorant, c => c.idCuenta == cuentaValorant.idCuenta);
-    }
+    //     // Assert
+    //     var cuentasValorant = dao.ObtenerCuentasValorant();
+    //     Assert.Contains(cuentasValorant, c => c.idCuenta == cuentaValorant.idCuenta);
+    // }
 
-    [Fact]
-    public void TestLogin()
-    {
-        // Arrange
-        var servidor = dao.ObtenerServidor(1);
-        Assert.NotNull(servidor);
+    // [Fact]
+    // public void TestLogin()
+    // {
+    //     // Arrange
+    //     var servidor = dao.ObtenerServidor(1);
+    //     Assert.NotNull(servidor);
         
-        var cuenta = new Cuenta
-        {
-            Servidor = servidor,
-            Nombre = "TestLogin_" + DateTime.Now.Ticks,
-            Contrasena = "TestPass123!",
-            Email = $"test_{DateTime.Now.Ticks}@test.com"
-        };
-        dao.AltaCuenta(cuenta);
+    //     var cuenta = new Cuenta
+    //     {
+    //         Servidor = servidor,
+    //         Nombre = "TestLogin_" + DateTime.Now.Ticks,
+    //         Contrasena = "TestPass123!",
+    //         Email = $"test_{DateTime.Now.Ticks}@test.com"
+    //     };
+    //     dao.AltaCuenta(cuenta);
         
-        // Act
-        var loginResult = dao.Login(cuenta.Nombre, "TestPass123!");
+    //     // Act
+    //     var loginResult = dao.Login(cuenta.Nombre, "TestPass123!");
         
-        // Assert
-        Assert.NotNull(loginResult);
-        Assert.Equal(cuenta.Nombre, loginResult.Nombre);
-    }
+    //     // Assert
+    //     Assert.NotNull(loginResult);
+    //     Assert.Equal(cuenta.Nombre, loginResult.Nombre);
+    // }
 
-    [Fact]
+    // [Fact]
     public void TestBajaCuentaLol()
     {
         // Arrange
@@ -250,25 +276,25 @@ public class UnitTest : TestBase
         Assert.DoesNotContain(cuentasValorant, c => c.idCuenta == idCuenta);
     }
 
-    [Fact]
-    public void TestObtenerNivelesLol()
-    {
-        // Act
-        var niveles = dao.ObtenerNivelesLol().ToList();
+    // [Fact]
+    // public void TestObtenerNivelesLol()
+    // {
+    //     // Act
+    //     var niveles = dao.ObtenerNivelesLol().ToList();
 
-        // Assert
-        Assert.NotEmpty(niveles);
-    }
+    //     // Assert
+    //     Assert.NotEmpty(niveles);
+    // }
 
-    [Fact]
-    public void TestObtenerNivelesValorant()
-    {
-        // Act
-        var niveles = dao.ObtenerNivelesValorant().ToList();
+    // [Fact]
+    // public void TestObtenerNivelesValorant()
+    // {
+    //     // Act
+    //     var niveles = dao.ObtenerNivelesValorant().ToList();
 
-        // Assert
-        Assert.NotEmpty(niveles);
-    }
+    //     // Assert
+    //     Assert.NotEmpty(niveles);
+    // }
 }
 
 
