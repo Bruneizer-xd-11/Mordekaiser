@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Threading.Tasks;
 using Dapper;
 using Mordekaiser.Core;
 
@@ -10,18 +11,17 @@ public class DaoDapper : IDao
 
     public DaoDapper(IDbConnection conexion) => _conexion = conexion;
 
-    public void AltaServidor(Servidor servidor)
+    public async Task AltaServidorAsync(Servidor servidor)
     {
         var parametros = new DynamicParameters();
         parametros.Add("@UnidServidor", servidor.idServidor);
         parametros.Add("@UnNombre", servidor.Nombre);
         parametros.Add("@UnAbreviado", servidor.Abreviado);
 
-        _conexion.Execute("InsertServidor", parametros, commandType: CommandType.StoredProcedure);
-        // servidor.IdServidor = parametros.Get<byte>("@IdServidor");
+        await _conexion.ExecuteAsync("InsertServidor", parametros, commandType: CommandType.StoredProcedure);
     }
 
-    public void AltaCuenta(Cuenta cuenta)
+    public async Task AltaCuentaAsync(Cuenta cuenta)
     {
         var parametros = new DynamicParameters();
         parametros.Add("@UnidCuenta", cuenta.IdCuenta);
@@ -29,13 +29,10 @@ public class DaoDapper : IDao
         parametros.Add("@UnNombre", cuenta.Nombre);
         parametros.Add("@Uncontrasena", cuenta.Contrasena);
         parametros.Add("@UneMail", cuenta.Email);
-        _conexion.Execute("InsertCuenta", parametros, commandType: CommandType.StoredProcedure);
+        await _conexion.ExecuteAsync("InsertCuenta", parametros, commandType: CommandType.StoredProcedure);
     }
 
-    
-
-
-    public void AltaRangoLol(RangoLol rangoLol)
+    public async Task AltaRangoLolAsync(RangoLol rangoLol)
     {
         var parametros = new DynamicParameters();
         parametros.Add("@IdRango", direction: ParameterDirection.Output);
@@ -43,11 +40,11 @@ public class DaoDapper : IDao
         parametros.Add("@Numero", rangoLol.Numero);
         parametros.Add("@PuntosLigaNecesarios", rangoLol.PuntosLigaNecesarios);
 
-        _conexion.Execute("InsertRangoLol", parametros, commandType: CommandType.StoredProcedure);
-        rangoLol.IdRango = parametros.Get<byte>("@IdRango"); // Asegúrate de que sea el tipo correcto
+        await _conexion.ExecuteAsync("InsertRangoLol", parametros, commandType: CommandType.StoredProcedure);
+        rangoLol.IdRango = parametros.Get<byte>("@IdRango");
     }
 
-    public void AltaRangoValorant(RangoValorant rangoValorant)
+    public async Task AltaRangoValorantAsync(RangoValorant rangoValorant)
     {
         var parametros = new DynamicParameters();
         parametros.Add("@IdRango", direction: ParameterDirection.Output);
@@ -55,11 +52,11 @@ public class DaoDapper : IDao
         parametros.Add("@Numero", rangoValorant.Numero);
         parametros.Add("@PuntosCompetitivo", rangoValorant.PuntosCompetitivo);
 
-        _conexion.Execute("InsertRangoValorant", parametros, commandType: CommandType.StoredProcedure);
+        await _conexion.ExecuteAsync("InsertRangoValorant", parametros, commandType: CommandType.StoredProcedure);
         rangoValorant.idRango = parametros.Get<ushort>("@IdRango");
     }
 
-    public void AltaCuentaLol(CuentaLol cuentaLol)
+    public async Task AltaCuentaLolAsync(CuentaLol cuentaLol)
     {
         var parametros = new DynamicParameters();
         parametros.Add("@idCuenta", cuentaLol.IdCuenta);
@@ -69,10 +66,10 @@ public class DaoDapper : IDao
         parametros.Add("@PuntosRiot", cuentaLol.PuntosRiot);
         parametros.Add("@PuntosLiga", cuentaLol.PuntosLiga);
 
-        _conexion.Execute("InsertCuentaLol", parametros, commandType: CommandType.StoredProcedure);
+        await _conexion.ExecuteAsync("InsertCuentaLol", parametros, commandType: CommandType.StoredProcedure);
     }
 
-    public void AltaCuentaValorant(CuentaValorant cuentaValorant)
+    public async Task AltaCuentaValorantAsync(CuentaValorant cuentaValorant)
     {
         var parametros = new DynamicParameters();
         parametros.Add("@idCuenta", cuentaValorant.idCuenta);
@@ -82,19 +79,19 @@ public class DaoDapper : IDao
         parametros.Add("@PuntosCompetitivo", cuentaValorant.PuntosCompetitivo);
         parametros.Add("@idRango", cuentaValorant.idRango);
 
-        _conexion.Execute("InsertCuentaValorant", parametros, commandType: CommandType.StoredProcedure);
+        await _conexion.ExecuteAsync("InsertCuentaValorant", parametros, commandType: CommandType.StoredProcedure);
     }
 
-    public void AltaTipoObjeto(TipoObjeto tipoObjeto)
+    public async Task AltaTipoObjetoAsync(TipoObjeto tipoObjeto)
     {
         var parametros = new DynamicParameters();
         parametros.Add("@UnidTipoObjeto", tipoObjeto.idTipoObjeto, DbType.Byte);
         parametros.Add("@UnNombre", tipoObjeto.Nombre, DbType.String);
 
-        _conexion.Execute("InsertTipoObjeto", parametros, commandType: CommandType.StoredProcedure);
+        await _conexion.ExecuteAsync("InsertTipoObjeto", parametros, commandType: CommandType.StoredProcedure);
     }
 
-    public void AltaObjeto(Objeto objeto)
+    public async Task AltaObjetoAsync(Objeto objeto)
     {
         var parametros = new DynamicParameters();
         parametros.Add("@IdObjeto", objeto.idObjeto, DbType.UInt16);
@@ -104,135 +101,127 @@ public class DaoDapper : IDao
         parametros.Add("@Venta", objeto.Venta, DbType.UInt32);
         parametros.Add("@IdTipoObjeto", objeto.idTipoObjeto, DbType.Byte);
 
-        _conexion.Execute("InsertObjeto", parametros, commandType: CommandType.StoredProcedure);
+        await _conexion.ExecuteAsync("InsertObjeto", parametros, commandType: CommandType.StoredProcedure);
     }
 
-    public void AltaInventario(Inventario inventario)
+    public async Task AltaInventarioAsync(Inventario inventario)
     {
         var parametros = new DynamicParameters();
         parametros.Add("@IdInventario", direction: ParameterDirection.Output);
-        parametros.Add("@IdCuenta", inventario.IdCuenta); // Usa la propiedad IdCuenta
+        parametros.Add("@IdCuenta", inventario.IdCuenta);
 
-        _conexion.Execute("InsertInventario", parametros, commandType: CommandType.StoredProcedure);
+        await _conexion.ExecuteAsync("InsertInventario", parametros, commandType: CommandType.StoredProcedure);
         inventario.idInventario = parametros.Get<ushort>("@idInventario");
     }
 
-    public IEnumerable<Servidor> ObtenerServidores()
+    public async Task<IEnumerable<Servidor>> ObtenerServidoresAsync()
     {
         var query = "SELECT * FROM Servidor";
-        return _conexion.Query<Servidor>(query);
-    }
-        public Servidor? ObtenerServidor(byte idServidor)
-    {
-        var query = @"SELECT * FROM Servidor
-                    WHERE idServidor = @idServidor";
-        
-        return _conexion.QuerySingleOrDefault<Servidor>(query , new {idServidor =idServidor});
+        return await _conexion.QueryAsync<Servidor>(query);
     }
 
-    public IEnumerable<RangoLol> ObtenerRangosLol()
+    public async Task<Servidor?> ObtenerServidorAsync(byte idServidor)
     {
-        var query = "SELECT * FROM RangoLol"; // Suponiendo que tienes una tabla RangoLol
-        return _conexion.Query<RangoLol>(query);
-    }
-    public RangoLol? ObtenerRangoLol(byte idRango)
-    {
-        var query = @"SELECT * FROM RangoLol
-                    WHERE idRango = @idRango";
-        
-        return _conexion.QuerySingleOrDefault<RangoLol>(query , new {idRango});
+        var query = @"SELECT * FROM Servidor WHERE idServidor = @idServidor";
+        return await _conexion.QuerySingleOrDefaultAsync<Servidor>(query, new { idServidor });
     }
 
-    public IEnumerable<RangoValorant> ObtenerRangosValorant()
+    public async Task<IEnumerable<RangoLol>> ObtenerRangosLolAsync()
     {
-        var query = "SELECT * FROM RangoValorant"; // Suponiendo que tienes una tabla RangoValorant
-        return _conexion.Query<RangoValorant>(query);
+        var query = "SELECT * FROM RangoLol";
+        return await _conexion.QueryAsync<RangoLol>(query);
     }
 
-    public IEnumerable<(int IdCuenta, int NivelLol)> ObtenerNivelesLol()
+    public async Task<RangoLol?> ObtenerRangoLolAsync(byte idRango)
     {
-        var query = "SELECT IdCuenta, Nivel FROM CuentaLol"; // Suponiendo que tienes una tabla CuentaLol
-        return _conexion.Query<(int IdCuenta, int NivelLol)>(query);
+        var query = @"SELECT * FROM RangoLol WHERE idRango = @idRango";
+        return await _conexion.QuerySingleOrDefaultAsync<RangoLol>(query, new { idRango });
     }
 
-    public IEnumerable<(int IdCuenta, int NivelValorant)> ObtenerNivelesValorant()
+    public async Task<IEnumerable<RangoValorant>> ObtenerRangosValorantAsync()
     {
-        var query = "SELECT IdCuenta, Nivel FROM CuentaValorant"; // Suponiendo que tienes una tabla CuentaValorant
-        return _conexion.Query<(int IdCuenta, int NivelValorant)>(query);
+        var query = "SELECT * FROM RangoValorant";
+        return await _conexion.QueryAsync<RangoValorant>(query);
     }
 
-    public void BajaCuentaLol(uint idCuenta)
+    public async Task<IEnumerable<(int IdCuenta, int NivelLol)>> ObtenerNivelesLolAsync()
     {
-        var parametros = new DynamicParameters();
-        parametros.Add("@IdCuenta", idCuenta);
-        _conexion.Execute("DeleteCuentaLol", parametros, commandType: CommandType.StoredProcedure);
+        var query = "SELECT IdCuenta, Nivel AS NivelLol FROM CuentaLol";
+        return await _conexion.QueryAsync<(int, int)>(query);
     }
 
-    public void BajaCuentaValorant(int idCuenta)
+    public async Task<IEnumerable<(int IdCuenta, int NivelValorant)>> ObtenerNivelesValorantAsync()
     {
-        var parametros = new DynamicParameters();
-        parametros.Add("@IdCuenta", idCuenta);
-        _conexion.Execute("DeleteCuentaValorant", parametros, commandType: CommandType.StoredProcedure);
-    }
-    public void BajaCuenta(uint idCuenta)
-    {
-        var parametros = new DynamicParameters();
-        parametros.Add("@IdCuenta", idCuenta);
-        _conexion.Execute("DeleteCuenta", parametros, commandType: CommandType.StoredProcedure);
+        var query = "SELECT IdCuenta, Nivel AS NivelValorant FROM CuentaValorant";
+        return await _conexion.QueryAsync<(int, int)>(query);
     }
 
-
-
-    public IEnumerable<CuentaLol> ObtenerCuentasLol()
-    {
-        var query = "SELECT * FROM CuentaLol"; 
-        return _conexion.Query<CuentaLol>(query);
-    }
-
-    public IEnumerable<CuentaValorant> ObtenerCuentasValorant()
-    {
-        var query = "SELECT * FROM CuentaValorant"; 
-        return _conexion.Query<CuentaValorant>(query);
-    }
-
-    public IEnumerable<Cuenta> ObtenerCuenta()
+    public async Task<IEnumerable<Cuenta>> ObtenerCuentaAsync()
     {
         var query = "SELECT * FROM Cuenta";
-        return _conexion.Query<Cuenta>(query);
+        return await _conexion.QueryAsync<Cuenta>(query);
     }
-    public void BajaServidor(byte idServidor)
+
+    public async Task<IEnumerable<CuentaLol>> ObtenerCuentasLolAsync()
     {
-        var idServidorParametro = idServidor;
-        _conexion.Execute("BajaServidor", new { p_unidServidor = idServidorParametro } , commandType: CommandType.StoredProcedure);
+        var query = "SELECT * FROM CuentaLol";
+        return await _conexion.QueryAsync<CuentaLol>(query);
     }
-    
-    public void BajaObjeto(ushort idObjeto)
+
+    public async Task<IEnumerable<CuentaValorant>> ObtenerCuentasValorantAsync()
+    {
+        var query = "SELECT * FROM CuentaValorant";
+        return await _conexion.QueryAsync<CuentaValorant>(query);
+    }
+
+    public async Task BajaCuentaLolAsync(uint idCuenta)
+    {
+        var parametros = new DynamicParameters();
+        parametros.Add("@IdCuenta", idCuenta);
+        await _conexion.ExecuteAsync("DeleteCuentaLol", parametros, commandType: CommandType.StoredProcedure);
+    }
+
+    public async Task BajaCuentaAsync(uint idCuenta)
+    {
+        var parametros = new DynamicParameters();
+        parametros.Add("@IdCuenta", idCuenta);
+        await _conexion.ExecuteAsync("DeleteCuenta", parametros, commandType: CommandType.StoredProcedure);
+    }
+
+    public async Task BajaCuentaValorantAsync(int idCuenta)
+    {
+        var parametros = new DynamicParameters();
+        parametros.Add("@IdCuenta", idCuenta);
+        await _conexion.ExecuteAsync("DeleteCuentaValorant", parametros, commandType: CommandType.StoredProcedure);
+    }
+
+    public async Task BajaServidorAsync(byte idServidor)
+    {
+        await _conexion.ExecuteAsync("BajaServidor", new { p_unidServidor = idServidor }, commandType: CommandType.StoredProcedure);
+    }
+
+    public async Task BajaObjetoAsync(ushort idObjeto)
     {
         var parametros = new DynamicParameters();
         parametros.Add("@idObjeto", idObjeto, DbType.UInt16);
-
-        _conexion.Execute("DeleteObjeto", parametros, commandType: CommandType.StoredProcedure);
+        await _conexion.ExecuteAsync("DeleteObjeto", parametros, commandType: CommandType.StoredProcedure);
     }
 
-    public IEnumerable<Objeto> ObtenerObjetos()
+    public async Task<IEnumerable<Objeto>> ObtenerObjetosAsync()
     {
-        string consulta = "SELECT * FROM Objeto";
-        return _conexion.Query<Objeto>(consulta);
+        var consulta = "SELECT * FROM Objeto";
+        return await _conexion.QueryAsync<Objeto>(consulta);
     }
 
-    public Cuenta? Login(string nombreUsuario, string contrasena)
+    public async Task<Cuenta?> LoginAsync(string nombreUsuario, string contrasena)
     {
-        string consulta = @"
-            SELECT * FROM Cuenta 
-            WHERE Nombre = @Nombre 
-            AND Contrasena = SHA2(@Contrasena, 256)";
-
-        return _conexion.QuerySingleOrDefault<Cuenta>(consulta, new { Nombre = nombreUsuario, Contrasena = contrasena });
-
+        var consulta = @"SELECT * FROM Cuenta WHERE Nombre = @Nombre AND Contrasena = SHA2(@Contrasena, 256)";
+        return await _conexion.QuerySingleOrDefaultAsync<Cuenta>(consulta, new { Nombre = nombreUsuario, Contrasena = contrasena });
     }
-     public IEnumerable<TipoObjeto> ObtenerTiposObjetos()
-     {
-        var obtener = "select * from TipoObjeto";
-        return _conexion.Query<TipoObjeto>(obtener);
-     }
+
+    public async Task<IEnumerable<TipoObjeto>> ObtenerTiposObjetosAsync()
+    {
+        var obtener = "SELECT * FROM TipoObjeto";
+        return await _conexion.QueryAsync<TipoObjeto>(obtener);
+    }
 }
