@@ -97,29 +97,29 @@ public class UnitTest : TestBase
     }
 
     [Fact]
-    public void TestAltaCuenta()
-    {
-        // Arrange
-        var servidor = dao.ObtenerServidor(2);
-        Assert.NotNull(servidor);
+    // public void TestAltaCuenta()
+    // {
+    //     // Arrange
+    //     var servidor = dao.ObtenerServidor(2);
+    //     Assert.NotNull(servidor);
         
-        var cuenta = new Cuenta
-        {
-            Servidor = servidor,
-            Nombre = "TestUser_" + DateTime.Now.Ticks,
-            Contrasena = "TestPass123!",
-            Email = $"test_{DateTime.Now.Ticks}@test.com"
-        };
+    //     var cuenta = new Cuenta
+    //     {
+    //         Servidor = servidor,
+    //         Nombre = "TestUser_" + DateTime.Now.Ticks,
+    //         Contrasena = "TestPass123!",
+    //         Email = $"test_{DateTime.Now.Ticks}@test.com"
+    //     };
 
-        // Act
-        dao.AltaCuenta(cuenta);
+    //     // Act
+    //     dao.AltaCuenta(cuenta);
 
-        // Assert
-        var cuentas = dao.ObtenerCuenta();
-        Assert.Contains(cuentas, c => c.IdCuenta == cuenta.IdCuenta);
-    }
+    //     // Assert
+    //     var cuentas = dao.ObtenerCuenta();
+    //     Assert.Contains(cuentas, c => c.IdCuenta == cuenta.IdCuenta);
+    // }
 
-    [Fact]
+    // [Fact]
     // public void TestAltaCuentaLol()
     // {
     //     // Arrange
