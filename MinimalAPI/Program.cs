@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
@@ -19,4 +20,10 @@ app.UseSwaggerUI();
 app.MapGet("/hola", () => "Hola, Scalar!");
 
 // Ejecutar
+
+var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
+
+app.MapGet("/", () => "Hello World!");
+
 app.Run();
