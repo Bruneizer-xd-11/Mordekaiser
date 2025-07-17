@@ -4,26 +4,19 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Configuración de servicios
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Construcción de la app
+
 var app = builder.Build();
 
-// Middleware
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
-// Endpoint de prueba
 app.MapGet("/hola", () => "Hola, Scalar!");
+app.MapGet("/Rango", () => "Hello World!");
+app.MapGet("/cuentas", () => cuentas);
 
-// Ejecutar
-
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
-
-app.MapGet("/", () => "Hello World!");
 
 app.Run();
