@@ -3,11 +3,10 @@ using MySqlConnector;
 using Scalar.AspNetCore;
 using Mordekaiser.Core;
 using Mordekaiser.AdoDapper;
-
+using Mordekaiser.AdoDapper.Test;
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("MySQL");
-builder.Services.AddScoped<IDbConnection>(sp => new MySqlConnection(connectionString));
+builder.Services.AddScoped<IDbConnection>(_ => new MySqlConnection("server=localhost;database=5to_RiotGames;user=root;password=root3856;"));
 
 builder.Services.AddScoped<IDao, DaoDapper>();
 
