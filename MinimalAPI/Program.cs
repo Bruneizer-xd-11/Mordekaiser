@@ -3,13 +3,10 @@ using MySqlConnector;
 using Scalar.AspNetCore;
 using Mordekaiser.Core;
 using Mordekaiser.AdoDapper;
-using Mordekaiser.AdoDapper.Test;
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddScoped<IDbConnection>(_ => new MySqlConnection("server=localhost;database=5to_RiotGames;user=root;password=root;"));
-
+var connectionString = builder.Configuration.GetConnectionString("MySQL");
+builder.Services.AddScoped<IDbConnection>(sp => new MySqlConnection(connectionString));
 builder.Services.AddScoped<IDao, DaoDapper>();
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -30,7 +27,7 @@ if (app.Environment.IsDevelopment())
 
 // Endpoints Minimal API
 
-// Servidores
+// endpoint para servidores
 app.MapGet("/servidores", async (IDao dao) =>
 {
     var servidores = await dao.ObtenerServidoresAsync();
@@ -49,7 +46,7 @@ app.MapPost("/servidores", async (Servidor nuevoServidor, IDao dao) =>
     return Results.Created($"/servidores/{nuevoServidor.idServidor}", nuevoServidor);
 }).WithTags("Servidor");
 
-// Cuentas
+// endpoints para cuentas uwuwuwuwuw
 app.MapGet("/cuentas", async (IDao dao) =>
 {
     var cuentas = await dao.ObtenerCuentaAsync();
