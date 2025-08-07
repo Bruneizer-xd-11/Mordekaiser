@@ -3,7 +3,7 @@
 1. Estar en carpeta `scripts`.
 1. Terminal:
   ```shell
-  mysql -u tuUsuarioMySQL -p
+  mysql --default-character-set=utf8mb4 -u NOMBREDEUSUARIOS -p 
   ```
 1. Terminal:tucontraseña de usuario
 1. Dentro de mysql tippear:

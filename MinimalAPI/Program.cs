@@ -6,7 +6,7 @@ using Mordekaiser.AdoDapper;
 using Mordekaiser.AdoDapper.Test;
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<IDbConnection>(_ => new MySqlConnection("server=localhost;database=5to_RiotGames;user=root;password=root3856;"));
+builder.Services.AddScoped<IDbConnection>(_ => new MySqlConnection("server=localhost;database=5to_RiotGames;user=root;password=root;"));
 
 builder.Services.AddScoped<IDao, DaoDapper>();
 
