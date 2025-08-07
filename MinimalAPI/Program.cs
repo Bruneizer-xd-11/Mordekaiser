@@ -1,29 +1,35 @@
-
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
+using System.Data;
+using MySqlConnector;
+using Scalar.AspNetCore;
+using Mordekaiser.Core;
+using Mordekaiser.AdoDapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configuración de servicios
+//  Obtener la cadena de conexión desde appsettings.json
+var connectionString = builder.Configuration.GetConnectionString("MySQL");
+
+//  Registrando IDbConnection para que se inyecte como dependencia
+//  Cada vez que se inyecte, se creará una nueva instancia con la cadena de conexión
+builder.Services.AddScoped<IDbConnection>(sp => new MySqlConnection(connectionString));
+
+//Cada vez que necesite la interfaz, se va a instanciar automaticamente AdoDapper y se va a pasar al metodo de la API
+builder.Services.AddScoped<IDao, DaoDapper>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Construcción de la app
 var app = builder.Build();
 
-// Middleware
-app.UseSwagger();
-app.UseSwaggerUI();
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger(options =>
+    {
+        options.RouteTemplate = "/openapi/{documentName}.json";
+    });
+    app.MapScalarApiReference();
+}
 
-// Endpoint de prueba
-app.MapGet("/hola", () => "Hola, Scalar!");
 
-// Ejecutar
-
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
-
-app.MapGet("/", () => "Hello World!");
 
 app.Run();
