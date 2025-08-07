@@ -140,12 +140,33 @@ public class DaoDapper : IDao
     }
     public async Task<IEnumerable<Cuenta>> ObtenerCuentaAsync()
     {
-        var query = "SELECT * FROM Cuenta";
-        return await _conexion.QueryAsync<Cuenta>(query);
-    }
+     var query = @"
+        SELECT 
+            c.IdCuenta, 
+            c.Nombre, 
+            c.Contrasena, 
+            c.Email,
+            c.idServidor,
+            s.idServidor,
+            s.Nombre,
+            s.Abreviado
+        FROM Cuenta c
+        JOIN Servidor s ON c.idServidor = s.idServidor";;
+        var cuentas = await _conexion.QueryAsync<Cuenta, Servidor, Cuenta>(
+        query,
+        (cuenta, servidor) =>
+        {
+            cuenta.Servidor = servidor;
+            return cuenta;
+        },
+        splitOn: "IdServidor"
+    );
+
+    return cuentas;
+}
     public async Task<IEnumerable<CuentaLol>> ObtenerCuentasLolAsync()
     {
-        var query = "SELECT * FROM CuentaLol";
+        var query = @"SELECT * FROM CuentaLol ";
         return await _conexion.QueryAsync<CuentaLol>(query);
     }
     public async Task<IEnumerable<CuentaValorant>> ObtenerCuentasValorantAsync()

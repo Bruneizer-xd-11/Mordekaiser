@@ -618,8 +618,10 @@ DROP procedure IF EXISTS 5to_RiotGames.Inserts;
       call InsertServidor (8, 'América Latin Sur', 'LAS'); 
       call InsertServidor (9, 'Turquía', 'TR,'); 
       call InsertServidor (10, 'Rusia', 'RU'); 
-      call InsertServidor (11, 'Asia Pacífico', 'AP');
 
+      call InsertCuenta(1,1,"Luis","123456","Luis@gmail.com");
+      call InsertCuenta(2,8,"Ruben","12345","Ruben@gmail.com");
+      call InsertCuenta(3,3,"Carlos","1234","Carlos@gmail.com");
       call InsertTipoObjeto(2,'Centinelas');
       call InsertTipoObjeto(3,'Campeones');
       call InsertTipoObjeto(4,'FragmentosSkin');
