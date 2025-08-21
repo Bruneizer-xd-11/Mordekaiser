@@ -195,7 +195,7 @@ public class DaoDapper : IDao
     public async Task<int>DeleteServidorAsync(byte idServidor)
 {
     var parametros = new DynamicParameters();
-    parametros.Add("@IdServidor", idServidor);
+    parametros.Add("p_unidServidor", idServidor);
     return await _conexion.ExecuteAsync("DeleteServidor", parametros, commandType: CommandType.StoredProcedure);
 }
     public async Task BajaObjetoAsync(ushort idObjeto)
