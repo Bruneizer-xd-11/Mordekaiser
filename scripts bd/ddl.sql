@@ -50,10 +50,8 @@ CREATE TABLE IF NOT EXISTS 5to_RiotGames.Cuenta (
   INDEX fk_Cuenta_Servidor1_idx (idServidor ASC) VISIBLE,
   UNIQUE INDEX uq_CuentaNombre (idServidor ASC, Nombre ASC) VISIBLE,
   UNIQUE INDEX uq_CuentaEmail (eMail ASC, idServidor ASC) VISIBLE,
-  CONSTRAINT fk_Cuenta_Servidor1
-    FOREIGN KEY (idServidor)
-    REFERENCES 5to_RiotGames.Servidor (idServidor)
-    ON DELETE NO ACTION
+  CONSTRAINT fk_Cuenta_Servidor1 FOREIGN KEY (idServidor)REFERENCES 5to_RiotGames.Servidor (idServidor)
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
