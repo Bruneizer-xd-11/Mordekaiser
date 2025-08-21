@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Mordekaiser.Core;
 
@@ -75,8 +73,10 @@ public interface IDao
     Task BajaCuentaValorantAsync(int idCuenta);
 
     // void BajaServidor(byte idServidor);
-    Task BajaServidorAsync(byte idServidor);
+    Task<int> DeleteServidorAsync(byte idServidor);
 
+
+    
     // void BajaObjeto(ushort idObjeto);
     Task BajaObjetoAsync(ushort idObjeto);
 

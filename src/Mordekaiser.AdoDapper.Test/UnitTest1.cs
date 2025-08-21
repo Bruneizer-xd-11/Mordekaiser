@@ -30,11 +30,11 @@ namespace Mordekaiser.AdoDapper.Test
         }
 
         [Fact]
-        public async Task BajaServidorAsync()
+        public async Task DeleteServidorAsync()
         {
             byte idBajaServidor = 1;
 
-            await dao.BajaServidorAsync(idBajaServidor);
+            await dao.DeleteServidorAsync(idBajaServidor);
 
             var listaServidores = await dao.ObtenerServidoresAsync();
             Assert.DoesNotContain(listaServidores, servidor => servidor.idServidor == idBajaServidor);

@@ -397,11 +397,15 @@ DELIMITER ;
 
 DELIMITER $$
 
-CREATE PROCEDURE BajaServidor(IN p_unidServidor INT)
+DROP PROCEDURE IF EXISTS 5to_RiotGames.DeleteServidor $$
+CREATE PROCEDURE 5to_RiotGames.DeleteServidor(IN p_unidServidor TINYINT UNSIGNED)
 BEGIN
-    DELETE FROM Servidor WHERE idServidor = p_unidServidor;
-    DELETE FROM `Cuenta` WHERE `idServidor` = p_unidServidor;
+    DELETE FROM 5to_RiotGames.Servidor
+    WHERE idServidor = p_unidServidor;
 END $$
+
+DELIMITER ;
+
 
 DELIMITER ;
 

@@ -46,6 +46,12 @@ app.MapPost("/servidores", async (Servidor nuevoServidor, IDao dao) =>
     return Results.Created($"/servidores/{nuevoServidor.idServidor}", nuevoServidor);
 }).WithTags("Servidor");
 
+app.MapDelete("/servidores/{id}", async (byte id, IDao dao) =>
+{
+     var filas = await dao.DeleteServidorAsync(id);
+    return Results.NoContent();
+}).WithTags("Servidor");
+
 // endpoints para cuentas uwuwuwuwuw
 app.MapGet("/cuentas", async (IDao dao) =>
 {
