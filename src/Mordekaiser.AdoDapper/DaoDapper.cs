@@ -180,11 +180,11 @@ public class DaoDapper : IDao
         parametros.Add("@IdCuenta", idCuenta);
         await _conexion.ExecuteAsync("DeleteCuentaLol", parametros, commandType: CommandType.StoredProcedure);
     }
-    public async Task BajaCuentaAsync(uint idCuenta)
+    public async Task<int> DeleteCuentaAsync(uint unidCuenta)
     {
         var parametros = new DynamicParameters();
-        parametros.Add("@IdCuenta", idCuenta);
-        await _conexion.ExecuteAsync("DeleteCuenta", parametros, commandType: CommandType.StoredProcedure);
+        parametros.Add("unidCuenta", unidCuenta);
+        return await _conexion.ExecuteAsync("DeleteCuenta", parametros, commandType: CommandType.StoredProcedure);
     }
     public async Task BajaCuentaValorantAsync(int idCuenta)
     {

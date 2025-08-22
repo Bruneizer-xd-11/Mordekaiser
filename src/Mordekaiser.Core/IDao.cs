@@ -67,7 +67,7 @@ public interface IDao
     Task BajaCuentaLolAsync(uint idCuenta);
 
     // void BajaCuenta(uint Cuenta);
-    Task BajaCuentaAsync(uint Cuenta);
+    Task <int >DeleteCuentaAsync(uint Cuenta);
 
     // void BajaCuentaValorant(int idCuenta);
     Task BajaCuentaValorantAsync(int idCuenta);

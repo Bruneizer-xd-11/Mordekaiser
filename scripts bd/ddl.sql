@@ -377,9 +377,9 @@ END$$
 DELIMITER ;
 DELIMITER $$
 
-CREATE PROCEDURE DeleteCuenta(IN IdCuenta INT)
+CREATE PROCEDURE DeleteCuenta(IN unidCuenta INT)
 BEGIN
-    DELETE FROM Cuenta WHERE idCuenta = IdCuenta;
+    DELETE FROM Cuenta WHERE idCuenta = unidCuenta;
 END$$
 
 DELIMITER ;
