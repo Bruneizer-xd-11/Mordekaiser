@@ -37,7 +37,7 @@ app.MapGet("/servidores", async (IDao dao) =>
 app.MapGet("/servidores/{id}", async (byte id, IDao dao) =>
 {
     var servidor = await dao.ObtenerServidorAsync(id);
-    return servidor is not null ? Results.Ok(servidor) : Results.NotFound();
+    return servidor is null ? Results.NotFound("Servidor no encontrado") :Results.Ok(servidor) ;
 }).WithTags("Servidor");
 
 app.MapPost("/servidores", async (Servidor nuevoServidor, IDao dao) =>
@@ -49,7 +49,7 @@ app.MapPost("/servidores", async (Servidor nuevoServidor, IDao dao) =>
 app.MapDelete("/servidores/{id}", async (byte id, IDao dao) =>
 {
      var servidor = await dao.DeleteServidorAsync(id);
-    return servidor > 0 ? Results.NoContent()  : Results.NotFound();
+    return servidor > 0 ? Results.NoContent()  : Results.NotFound("Servidor no encontrado");
 }).WithTags("Servidor");
 
 
@@ -64,7 +64,7 @@ app.MapGet("/cuentas", async (IDao dao) =>
 app.MapGet("/cuentas/{id}", async (uint id, IDao dao) =>
 {
     var cuenta = (await dao.ObtenerCuentaAsync()).FirstOrDefault(c => c.IdCuenta == id);
-    return cuenta is not null ? Results.Ok(cuenta) : Results.NotFound();
+    return cuenta is not null ? Results.Ok(cuenta) : Results.NotFound("Cuenta no encontrada");
 }).WithTags("Cuenta");
 
 app.MapPost("/cuentas", async (Cuenta nuevaCuenta, IDao dao) =>
@@ -76,7 +76,7 @@ app.MapPost("/cuentas", async (Cuenta nuevaCuenta, IDao dao) =>
 app.MapDelete("/cuentas/{id}", async (byte id, IDao dao) =>
 {
     var cuentas = await dao.DeleteCuentaAsync(id);
-    return cuentas > 0 ? Results.NoContent() : Results.NotFound();
+    return cuentas > 0 ? Results.NoContent() : Results.NotFound("Cuenta no encontrada");
 
 }).WithTags("Cuenta");
 
