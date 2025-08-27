@@ -37,6 +37,7 @@ app.MapGet("/servidores", async (IDao dao) =>
 app.MapGet("/servidores/{id}", async (byte id, IDao dao) =>
 {
     var servidor = await dao.ObtenerServidorAsync(id);
+    // operacion ternaria--------- condición ? devuelve_valor_si_verdadero : devuelve_valor_si_falso;
     return servidor is null ? Results.NotFound("Servidor no encontrado") :Results.Ok(servidor) ;
 }).WithTags("Servidor");
 
@@ -76,6 +77,7 @@ app.MapPost("/cuentas", async (Cuenta nuevaCuenta, IDao dao) =>
 app.MapDelete("/cuentas/{id}", async (byte id, IDao dao) =>
 {
     var cuentas = await dao.DeleteCuentaAsync(id);
+    
     return cuentas > 0 ? Results.NoContent() : Results.NotFound("Cuenta no encontrada");
 
 }).WithTags("Cuenta");
