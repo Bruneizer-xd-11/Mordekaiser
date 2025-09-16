@@ -1,20 +1,22 @@
+using Microsoft.AspNetCore.Mvc;
+using Mordekaiser.Core;
 namespace MVC.Controllers;
-public class ServidorController
-{
+
+
+
 
 public class ServidorController : Controller
 {
-private readonly Idao idaoo;
-public ServidorController(Idao idao)
-{
- idaoo = idao;
-}
-}
-public async Task<IactionResult> Index()
-{
-    var servidores = await idaoo.ObtenerServidoresAsync();
-    return View(servidores);
-}
+    private readonly IDao _idao;
+    public ServidorController(IDao idao)
+    {
+        _idao = idao;
+    }
+    public async Task<IActionResult> Index()
+    {
+        var servidores = await _idao.ObtenerServidoresAsync();
+        return View(servidores);
+    }
 }
 
 

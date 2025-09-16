@@ -2,9 +2,7 @@
 
 public class Servidor
 {
-
-    public  string? Nombre { get; set; }
+    public string? Nombre { get; set; }
     public  string? Abreviado { get; set; }
     public byte idServidor { get; set; }
-
 }
