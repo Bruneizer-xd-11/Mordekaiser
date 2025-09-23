@@ -108,7 +108,7 @@ public class DaoDapper : IDao
     {
         var query = @"SELECT * FROM Servidor WHERE idServidor = @idServidor";
         return await _conexion.QuerySingleOrDefaultAsync<Servidor>(query, new { idServidor });
-    }
+    }   
     public async Task<IEnumerable<RangoLol>> ObtenerRangosLolAsync()
     {
         var query = "SELECT * FROM RangoLol";
