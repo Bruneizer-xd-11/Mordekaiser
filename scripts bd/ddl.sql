@@ -614,7 +614,7 @@ DROP procedure IF EXISTS 5to_RiotGames.Inserts;
       call InsertServidor (2, 'Europa Occidental', 'EUW'); 
       call InsertServidor (3, 'Brasil', 'BR'); 
       call InsertServidor (4, 'Corea', 'KR'); 
-      call InsertServidor (5, 'Oceanía', 'OC;'); 
+      call InsertServidor (5, 'Oceanía', 'OC'); 
       call InsertServidor (6, 'Japón', 'JP'); 
       call InsertServidor (7, 'América Latin Norte', 'LAN'); 
       call InsertServidor (8, 'América Latin Sur', 'LAS'); 

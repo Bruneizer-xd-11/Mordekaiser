@@ -1,10 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Mordekaiser.Core;
 namespace MVC.Controllers;
-
-
-
-
 public class ServidorController : Controller
 {
     private readonly IDao _idao;
