@@ -200,7 +200,7 @@ CREATE TABLE IF NOT EXISTS 5to_RiotGames.CuentaValorant (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
+    
 USE 5to_RiotGames ;
 
 -- -----------------------------------------------------
@@ -618,7 +618,7 @@ DROP procedure IF EXISTS 5to_RiotGames.Inserts;
       call InsertServidor (6, 'Japón', 'JP'); 
       call InsertServidor (7, 'América Latin Norte', 'LAN'); 
       call InsertServidor (8, 'América Latin Sur', 'LAS'); 
-      call InsertServidor (9, 'Turquía', 'TR,'); 
+      call InsertServidor (9, 'Turquía', 'TR'); 
       call InsertServidor (10, 'Rusia', 'RU'); 
 
       call InsertCuenta(1,1,"Luis","123456","Luis@gmail.com");
