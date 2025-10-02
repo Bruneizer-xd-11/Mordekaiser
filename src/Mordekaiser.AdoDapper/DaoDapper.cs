@@ -65,12 +65,13 @@ public class DaoDapper : IDao
     public async Task AltaCuentaValorantAsync(CuentaValorant cuentaValorant)
     {
         var parametros = new DynamicParameters();
-        parametros.Add("@idCuenta", cuentaValorant.idCuenta);
-        parametros.Add("@Nombre", cuentaValorant.Nombre);
-        parametros.Add("@Nivel", cuentaValorant.Nivel);
-        parametros.Add("@Experiencia", cuentaValorant.Experiencia);
-        parametros.Add("@PuntosCompetitivo", cuentaValorant.PuntosCompetitivo);
-        parametros.Add("@idRango", cuentaValorant.idRango);
+        parametros.Add("@UnidCuenta", cuentaValorant.idCuenta);
+        parametros.Add("@UnNombre", cuentaValorant.Nombre);
+        parametros.Add("@UnNivel", cuentaValorant.Nivel);
+        parametros.Add("@UnExperiencia", cuentaValorant.Experiencia);
+        parametros.Add("@UnPuntosCompetitivo", cuentaValorant.PuntosCompetitivo);
+        parametros.Add("@UnidRango", cuentaValorant.idRango);
+
         await _conexion.ExecuteAsync("InsertCuentaValorant", parametros, commandType: CommandType.StoredProcedure);
     }
     public async Task AltaTipoObjetoAsync(TipoObjeto tipoObjeto)
@@ -108,7 +109,7 @@ public class DaoDapper : IDao
     {
         var query = @"SELECT * FROM Servidor WHERE idServidor = @idServidor";
         return await _conexion.QuerySingleOrDefaultAsync<Servidor>(query, new { idServidor });
-    }   
+    }
     public async Task<IEnumerable<RangoLol>> ObtenerRangosLolAsync()
     {
         var query = "SELECT * FROM RangoLol";
@@ -140,7 +141,7 @@ public class DaoDapper : IDao
     }
     public async Task<IEnumerable<Cuenta>> ObtenerCuentaAsync()
     {
-     var query = @"
+        var query = @"
         SELECT 
             c.IdCuenta, 
             c.Nombre, 
@@ -151,7 +152,7 @@ public class DaoDapper : IDao
             s.Nombre,
             s.Abreviado
         FROM Cuenta c
-        JOIN Servidor s ON c.idServidor = s.idServidor";;
+        JOIN Servidor s ON c.idServidor = s.idServidor"; ;
         var cuentas = await _conexion.QueryAsync<Cuenta, Servidor, Cuenta>(
         query,
         (cuenta, servidor) =>
@@ -162,8 +163,8 @@ public class DaoDapper : IDao
         splitOn: "IdServidor"
     );
 
-    return cuentas;
-}
+        return cuentas;
+    }
     public async Task<IEnumerable<CuentaLol>> ObtenerCuentasLolAsync()
     {
         var query = @"SELECT * FROM CuentaLol ";
@@ -192,12 +193,12 @@ public class DaoDapper : IDao
         parametros.Add("@IdCuenta", idCuenta);
         await _conexion.ExecuteAsync("DeleteCuentaValorant", parametros, commandType: CommandType.StoredProcedure);
     }
-    public async Task<int>DeleteServidorAsync(byte idServidor)
-{
-    var parametros = new DynamicParameters();
-    parametros.Add("p_unidServidor", idServidor);
-    return await _conexion.ExecuteAsync("DeleteServidor", parametros, commandType: CommandType.StoredProcedure);
-}
+    public async Task<int> DeleteServidorAsync(byte idServidor)
+    {
+        var parametros = new DynamicParameters();
+        parametros.Add("p_unidServidor", idServidor);
+        return await _conexion.ExecuteAsync("DeleteServidor", parametros, commandType: CommandType.StoredProcedure);
+    }
     public async Task BajaObjetoAsync(ushort idObjeto)
     {
         var parametros = new DynamicParameters();

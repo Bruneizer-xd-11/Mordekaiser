@@ -1,0 +1,69 @@
+@model Mordekaiser.Core.CuentaValorant
+@using Mordekaiser.Core
+
+@{
+    ViewData["Title"] = "Crear Cuenta Valorant";
+    var cuentas = (IEnumerable<Cuenta>)ViewBag.Cuentas;
+    var rangos = (IEnumerable<RangoValorant>)ViewBag.Rangos;
+}
+
+<h1>Crear Cuenta Valorant</h1>
+
+<form asp-action="Crear" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        <label class="form-label">Cuenta base</label>
+        <select class="form-select" name="idCuenta" required>
+            <option value="">-- Seleccione Cuenta --</option>
+            @foreach (var c in cuentas)
+            {
+                <option value="@c.IdCuenta">@c.IdCuenta - @c.Nombre (@c.Email)</option>
+            }
+        </select>
+        <span class="text-danger">@Html.ValidationMessage("idCuenta")</span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Nombre" class="form-label"></label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Nivel" class="form-label"></label>
+        <input asp-for="Nivel" type="number" class="form-control" min="0" />
+        <span asp-validation-for="Nivel" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Experiencia" class="form-label"></label>
+        <input asp-for="Experiencia" type="number" class="form-control" min="0" />
+        <span asp-validation-for="Experiencia" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PuntosCompetitivo" class="form-label"></label>
+        <input asp-for="PuntosCompetitivo" type="number" class="form-control" min="0" />
+        <span asp-validation-for="PuntosCompetitivo" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Rango</label>
+        <select class="form-select" name="idRango" required>
+            <option value="">-- Seleccione Rango --</option>
+            @foreach (var r in rangos)
+            {
+                <option value="@r.idRango">@r.Nombre (#{@r.Numero})</option>
+            }
+        </select>
+        <span class="text-danger">@Html.ValidationMessage("idRango")</span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a asp-action="Listado" class="btn btn-secondary">Volver</a>
+</form>
+
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

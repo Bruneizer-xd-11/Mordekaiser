@@ -3,72 +3,74 @@
 -- Model: New Model    Version: 1.0
 -- MySQL Workbench Forward Engineering
 
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+SET @OLD_UNIQUE_CHECKS = @@UNIQUE_CHECKS, UNIQUE_CHECKS = 0;
+
+SET
+    @OLD_FOREIGN_KEY_CHECKS = @@FOREIGN_KEY_CHECKS,
+    FOREIGN_KEY_CHECKS = 0;
+
+SET
+    @OLD_SQL_MODE = @@SQL_MODE,
+    SQL_MODE = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
 -- Schema 5to_RiotGames
 -- -----------------------------------------------------
-DROP SCHEMA IF EXISTS 5to_RiotGames ;
+DROP SCHEMA IF EXISTS 5to_RiotGames;
 
 -- -----------------------------------------------------
 -- Schema 5to_RiotGames
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS 5to_RiotGames DEFAULT CHARACTER SET utf8 ;
-USE 5to_RiotGames ;
+CREATE SCHEMA IF NOT EXISTS 5to_RiotGames DEFAULT CHARACTER SET utf8;
+
+USE 5to_RiotGames;
 
 -- -----------------------------------------------------
 -- Table 5to_RiotGames.Servidor
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS 5to_RiotGames.Servidor ;
+DROP TABLE IF EXISTS 5to_RiotGames.Servidor;
 
 CREATE TABLE IF NOT EXISTS 5to_RiotGames.Servidor (
-  idServidor TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  Nombre VARCHAR(45) NULL,
-  Abreviado CHAR(4) NULL,
-  PRIMARY KEY (idServidor),
-  UNIQUE INDEX idServidor_UNIQUE (idServidor ASC) VISIBLE,
-  UNIQUE INDEX Abreviado_UNIQUE (Abreviado ASC) VISIBLE,
-  UNIQUE INDEX Nombre_UNIQUE (Nombre ASC) VISIBLE)
-ENGINE = InnoDB;
-
+    idServidor TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    Nombre VARCHAR(45) NULL,
+    Abreviado CHAR(4) NULL,
+    PRIMARY KEY (idServidor),
+    UNIQUE INDEX idServidor_UNIQUE (idServidor ASC) VISIBLE,
+    UNIQUE INDEX Abreviado_UNIQUE (Abreviado ASC) VISIBLE,
+    UNIQUE INDEX Nombre_UNIQUE (Nombre ASC) VISIBLE
+) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table 5to_RiotGames.Cuenta
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS 5to_RiotGames.Cuenta ;
+DROP TABLE IF EXISTS 5to_RiotGames.Cuenta;
 
 CREATE TABLE IF NOT EXISTS 5to_RiotGames.Cuenta (
-  idCuenta INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  idServidor TINYINT UNSIGNED NOT NULL,
-  Nombre VARCHAR(45) NOT NULL,
-  Contrasena CHAR(64) NOT NULL,
-  eMail VARCHAR(45) NULL,
-  PRIMARY KEY (idCuenta),
-  UNIQUE INDEX idServidor_UNIQUE (idCuenta ASC) VISIBLE,
-  INDEX fk_Cuenta_Servidor1_idx (idServidor ASC) VISIBLE,
-  UNIQUE INDEX uq_CuentaNombre (idServidor ASC, Nombre ASC) VISIBLE,
-  UNIQUE INDEX uq_CuentaEmail (eMail ASC, idServidor ASC) VISIBLE,
-  CONSTRAINT fk_Cuenta_Servidor1 FOREIGN KEY (idServidor)REFERENCES 5to_RiotGames.Servidor (idServidor)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
+    idCuenta INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    idServidor TINYINT UNSIGNED NOT NULL,
+    Nombre VARCHAR(45) NOT NULL,
+    Contrasena CHAR(64) NOT NULL,
+    eMail VARCHAR(45) NULL,
+    PRIMARY KEY (idCuenta),
+    UNIQUE INDEX idServidor_UNIQUE (idCuenta ASC) VISIBLE,
+    INDEX fk_Cuenta_Servidor1_idx (idServidor ASC) VISIBLE,
+    UNIQUE INDEX uq_CuentaNombre (idServidor ASC, Nombre ASC) VISIBLE,
+    UNIQUE INDEX uq_CuentaEmail (eMail ASC, idServidor ASC) VISIBLE,
+    CONSTRAINT fk_Cuenta_Servidor1 FOREIGN KEY (idServidor) REFERENCES 5to_RiotGames.Servidor (idServidor) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `5to_RiotGames`.RangoLol
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `5to_RiotGames`.RangoLol ;
+DROP TABLE IF EXISTS `5to_RiotGames`.RangoLol;
 
 CREATE TABLE IF NOT EXISTS `5to_RiotGames`.RangoLol (
-  idRango TINYINT UNSIGNED  NOT NULL AUTO_INCREMENT,
-  Nombre VARCHAR(45) NOT NULL,
-  PuntosLigaNecesario MEDIUMINT NOT NULL,
-  Numero TINYINT UNSIGNED NULL,
-  PRIMARY KEY (idRango))
-ENGINE = InnoDB;
-
+    idRango TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    Nombre VARCHAR(45) NOT NULL,
+    PuntosLigaNecesario MEDIUMINT NOT NULL,
+    Numero TINYINT UNSIGNED NULL,
+    PRIMARY KEY (idRango)
+) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `5to_RiotGames`.CuentaLol
@@ -77,142 +79,115 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `5to_RiotGames`.CuentaLol;
 
 CREATE TABLE IF NOT EXISTS `5to_RiotGames`.CuentaLol (
-  idCuenta INT UNSIGNED NOT NULL,
-  Nombre VARCHAR(45) NOT NULL,
-  Nivel INT UNSIGNED NOT NULL DEFAULT 0,
-  EsenciaAzul INT UNSIGNED NULL DEFAULT 0,
-  PuntosRiot INT UNSIGNED NULL DEFAULT 0,
-  PuntosLiga MEDIUMINT NULL DEFAULT 0,
-  idRango TINYINT UNSIGNED NULL DEFAULT 0,
-  PRIMARY KEY (idCuenta),
-  INDEX fk_Cuenta_de_lol_rango_idx (idRango ASC) VISIBLE,
-  UNIQUE INDEX idCuenta_UNIQUE (idCuenta ASC) VISIBLE,
-  CONSTRAINT fk_Cuenta_de_lol_rango
-    FOREIGN KEY (idRango)
-    REFERENCES `5to_RiotGames`.RangoLol (idRango)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION
+    idCuenta INT UNSIGNED NOT NULL,
+    Nombre VARCHAR(45) NOT NULL,
+    Nivel INT UNSIGNED NOT NULL DEFAULT 0,
+    EsenciaAzul INT UNSIGNED NULL DEFAULT 0,
+    PuntosRiot INT UNSIGNED NULL DEFAULT 0,
+    PuntosLiga MEDIUMINT NULL DEFAULT 0,
+    idRango TINYINT UNSIGNED NULL DEFAULT 0,
+    PRIMARY KEY (idCuenta),
+    INDEX fk_Cuenta_de_lol_rango_idx (idRango ASC) VISIBLE,
+    UNIQUE INDEX idCuenta_UNIQUE (idCuenta ASC) VISIBLE,
+    CONSTRAINT fk_Cuenta_de_lol_rango FOREIGN KEY (idRango) REFERENCES `5to_RiotGames`.RangoLol (idRango) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table 5to_RiotGames.TipoObjeto
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS 5to_RiotGames.TipoObjeto ;
+DROP TABLE IF EXISTS 5to_RiotGames.TipoObjeto;
 
 CREATE TABLE IF NOT EXISTS 5to_RiotGames.TipoObjeto (
-  idTipoObjeto TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  nombre VARCHAR(45) NOT NULL,
-  PRIMARY KEY (idTipoObjeto),
-  UNIQUE INDEX idTipoObjeto_UNIQUE (idTipoObjeto ASC) VISIBLE,
-  UNIQUE INDEX nombre_UNIQUE (nombre ASC) VISIBLE)
-ENGINE = InnoDB;
-
+    idTipoObjeto TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(45) NOT NULL,
+    PRIMARY KEY (idTipoObjeto),
+    UNIQUE INDEX idTipoObjeto_UNIQUE (idTipoObjeto ASC) VISIBLE,
+    UNIQUE INDEX nombre_UNIQUE (nombre ASC) VISIBLE
+) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table 5to_RiotGames.Objeto
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS 5to_RiotGames.Objeto ;
+DROP TABLE IF EXISTS 5to_RiotGames.Objeto;
 
 CREATE TABLE IF NOT EXISTS 5to_RiotGames.Objeto (
-  idObjeto SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  Nombre VARCHAR(45) NOT NULL,
-  PrecioEA INT UNSIGNED NULL,
-  PrecioRP INT UNSIGNED NULL,
-  Venta INT UNSIGNED NULL,
-  idTipoObjeto TINYINT UNSIGNED NOT NULL,
-  PRIMARY KEY (idObjeto),
-  UNIQUE INDEX Objeto_UNIQUE (idObjeto ASC) VISIBLE,
-  UNIQUE INDEX Nombre_UNIQUE (Nombre ASC) VISIBLE,
-  INDEX fk_Objeto_TipoObjeto1_idx (idTipoObjeto ASC) VISIBLE,
-  CONSTRAINT fk_Objeto_TipoObjeto1
-    FOREIGN KEY (idTipoObjeto)
-    REFERENCES 5to_RiotGames.TipoObjeto (idTipoObjeto)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
+    idObjeto SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    Nombre VARCHAR(45) NOT NULL,
+    PrecioEA INT UNSIGNED NULL,
+    PrecioRP INT UNSIGNED NULL,
+    Venta INT UNSIGNED NULL,
+    idTipoObjeto TINYINT UNSIGNED NOT NULL,
+    PRIMARY KEY (idObjeto),
+    UNIQUE INDEX Objeto_UNIQUE (idObjeto ASC) VISIBLE,
+    UNIQUE INDEX Nombre_UNIQUE (Nombre ASC) VISIBLE,
+    INDEX fk_Objeto_TipoObjeto1_idx (idTipoObjeto ASC) VISIBLE,
+    CONSTRAINT fk_Objeto_TipoObjeto1 FOREIGN KEY (idTipoObjeto) REFERENCES 5to_RiotGames.TipoObjeto (idTipoObjeto) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table 5to_RiotGames.Inventario
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS 5to_RiotGames.Inventario ;
+DROP TABLE IF EXISTS 5to_RiotGames.Inventario;
 
 CREATE TABLE IF NOT EXISTS 5to_RiotGames.Inventario (
-  idCuenta INT UNSIGNED NOT NULL,
-  idObjeto SMALLINT UNSIGNED NOT NULL,
-  Cantidad INT NULL,
-  PRIMARY KEY (idCuenta, idObjeto),
-  UNIQUE INDEX idCuenta_UNIQUE (idCuenta ASC) VISIBLE,
-  UNIQUE INDEX IdObjeto_UNIQUE (idObjeto ASC) VISIBLE,
-  CONSTRAINT fk_Inventario_Objeto1
-    FOREIGN KEY (idObjeto)
-    REFERENCES 5to_RiotGames.Objeto (idObjeto)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT fk_Inventario_CuentaLol1
-    FOREIGN KEY (idCuenta)
-    REFERENCES 5to_RiotGames.CuentaLol (idCuenta)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
+    idCuenta INT UNSIGNED NOT NULL,
+    idObjeto SMALLINT UNSIGNED NOT NULL,
+    Cantidad INT NULL,
+    PRIMARY KEY (idCuenta, idObjeto),
+    UNIQUE INDEX idCuenta_UNIQUE (idCuenta ASC) VISIBLE,
+    UNIQUE INDEX IdObjeto_UNIQUE (idObjeto ASC) VISIBLE,
+    CONSTRAINT fk_Inventario_Objeto1 FOREIGN KEY (idObjeto) REFERENCES 5to_RiotGames.Objeto (idObjeto) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    CONSTRAINT fk_Inventario_CuentaLol1 FOREIGN KEY (idCuenta) REFERENCES 5to_RiotGames.CuentaLol (idCuenta) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table 5to_RiotGames.RangoValorant
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS 5to_RiotGames.RangoValorant ;
+DROP TABLE IF EXISTS 5to_RiotGames.RangoValorant;
 
 CREATE TABLE IF NOT EXISTS 5to_RiotGames.RangoValorant (
-  idRango SMALLINT UNSIGNED  NOT NULL AUTO_INCREMENT,
-  Nombre VARCHAR(45) NULL,
-  Numero SMALLINT UNSIGNED NULL,
-  PuntosNecesarios MEDIUMINT NOT NULL,
-  PRIMARY KEY (idRango),
-  UNIQUE INDEX idRango_UNIQUE (idRango ASC) VISIBLE,
-  UNIQUE INDEX PuntosNecesarios_UNIQUE (PuntosNecesarios ASC) VISIBLE)
-ENGINE = InnoDB;
-
+    idRango SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    Nombre VARCHAR(45) NULL,
+    Numero SMALLINT UNSIGNED NULL,
+    PuntosNecesarios MEDIUMINT NOT NULL,
+    PRIMARY KEY (idRango),
+    UNIQUE INDEX idRango_UNIQUE (idRango ASC) VISIBLE,
+    UNIQUE INDEX PuntosNecesarios_UNIQUE (PuntosNecesarios ASC) VISIBLE
+) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table 5to_RiotGames.CuentaValorant
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS 5to_RiotGames.CuentaValorant ;
+DROP TABLE IF EXISTS 5to_RiotGames.CuentaValorant;
 
 CREATE TABLE IF NOT EXISTS 5to_RiotGames.CuentaValorant (
-  idCuenta INT UNSIGNED NOT NULL,
-  Nombre VARCHAR(45) NULL,
-  Nivel INT UNSIGNED NOT NULL DEFAULT 0,
-  Experiencia INT UNSIGNED NOT NULL DEFAULT 0,
-  PuntosCompetitivo MEDIUMINT NOT NULL DEFAULT 0,
-  idRango SMALLINT UNSIGNED NULL DEFAULT 0,
-  INDEX fk_Cuenta_de_valorant_Rango_valorant1_idx (idRango ASC) VISIBLE,
-  PRIMARY KEY (idCuenta),
-  UNIQUE INDEX idCuenta_UNIQUE (idCuenta ASC) VISIBLE,
-  CONSTRAINT fk_Cuenta_de_valorant_Rango_valorant1
-    FOREIGN KEY (idRango)
-    REFERENCES 5to_RiotGames.RangoValorant (idRango)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT fk_CuentaValorant_Cuenta1
-    FOREIGN KEY (idCuenta)
-    REFERENCES 5to_RiotGames.Cuenta (idCuenta)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-    
-USE 5to_RiotGames ;
+    idCuenta INT UNSIGNED NOT NULL,
+    Nombre VARCHAR(45) NULL,
+    Nivel INT UNSIGNED NOT NULL DEFAULT 0,
+    Experiencia INT UNSIGNED NOT NULL DEFAULT 0,
+    PuntosCompetitivo MEDIUMINT NOT NULL DEFAULT 0,
+    idRango SMALLINT UNSIGNED NULL DEFAULT 0,
+    INDEX fk_Cuenta_de_valorant_Rango_valorant1_idx (idRango ASC) VISIBLE,
+    PRIMARY KEY (idCuenta),
+    UNIQUE INDEX idCuenta_UNIQUE (idCuenta ASC) VISIBLE,
+    CONSTRAINT fk_Cuenta_de_valorant_Rango_valorant1 FOREIGN KEY (idRango) REFERENCES 5to_RiotGames.RangoValorant (idRango) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    CONSTRAINT fk_CuentaValorant_Cuenta1 FOREIGN KEY (idCuenta) REFERENCES 5to_RiotGames.Cuenta (idCuenta) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE = InnoDB;
+
+USE 5to_RiotGames;
 
 -- -----------------------------------------------------
 -- procedure InsertServidor
 -- -----------------------------------------------------
 
-
 USE 5to_RiotGames;
+
 DROP procedure IF EXISTS 5to_RiotGames.InsertServidor;
 
 DELIMITER $$
+
 USE 5to_RiotGames$$
+
 CREATE PROCEDURE InsertServidor (in UnidServidor tinyint UNSIGNED,
 								 in UnNombre varchar(45),
 								 in UnAbreviado char(4))
@@ -221,9 +196,10 @@ BEGIN
     VALUES (UnidServidor,UnNombre,UnAbreviado);
 END$$
 
-DELIMITER ;
+DELIMITER;
 
 DELIMITER $$
+
 USE 5to_RiotGames$$
 
 CREATE PROCEDURE DeleteObjeto(IN UnidObjeto SMALLINT UNSIGNED)
@@ -231,13 +207,16 @@ BEGIN
     DELETE FROM Objeto WHERE idObjeto = UnidObjeto;
 END$$
 
-DELIMITER ;
+DELIMITER;
 
 USE 5to_RiotGames;
+
 DROP procedure IF EXISTS 5to_RiotGames.InsertCuenta;
 
 DELIMITER $$
+
 USE 5to_RiotGames$$
+
 CREATE PROCEDURE InsertCuenta (in UnidCuenta int,
 							   in UnidServidor TINYINT UNSIGNED,
 							   in UnNombre varchar(45),
@@ -248,31 +227,39 @@ BEGIN
     VALUES (UnidCuenta,UnidServidor,UnNombre,Uncontrasena,UneMail);
 END$$
 
-DELIMITER ;
+DELIMITER;
 
 -- -----------------------------------------------------
 -- procedure InsertCuentaValorant
 -- -----------------------------------------------------
 
 USE 5to_RiotGames;
-DROP procedure IF EXISTS 5to_RiotGames.InsertCuentaValorant;
-
-
+DROP PROCEDURE IF EXISTS InsertCuentaValorant;
 DELIMITER $$
-USE 5to_RiotGames$$
-CREATE PROCEDURE InsertCuentaValorant (in UnidCuenta int,
-									   in UnNombre varchar(45))
-BEGIN
-    INSERT INTO CuentaValorant (idCuenta, Nombre) 
-    VALUES (UnidCuenta, UnNombre);
-END$$
 
+CREATE PROCEDURE InsertCuentaValorant (
+    IN idCuenta INT,
+    IN Nombre VARCHAR(45),
+    IN Nivel INT,
+    IN Experiencia INT,
+    IN PuntosCompetitivo MEDIUMINT,
+    IN idRango SMALLINT UNSIGNED
+)
+BEGIN
+    INSERT INTO CuentaValorant (idCuenta, Nombre, Nivel, Experiencia, PuntosCompetitivo, idRango) 
+    VALUES (idCuenta, Nombre, Nivel, Experiencia, PuntosCompetitivo, idRango);
+END $$
 DELIMITER ;
 
+
 USE 5to_RiotGames;
+
 DROP procedure IF EXISTS 5to_RiotGames.InsertCuentaLol;
+
 DELIMITER $$
+
 USE 5to_RiotGames$$
+
 CREATE PROCEDURE InsertCuentaLol(
     IN `UnidCuenta` INT UNSIGNED,
     IN `UnNombre` VARCHAR(45),
@@ -291,7 +278,7 @@ BEGIN
     );
 END $$
 
-DELIMITER ;
+DELIMITER;
 
 -- -----------------------------------------------------
 -- procedure InsertRangoValorant
@@ -300,6 +287,7 @@ DELIMITER ;
 DELIMITER $$
 
 DROP PROCEDURE IF EXISTS 5to_RiotGames.InsertRangoValorant $$
+
 CREATE PROCEDURE InsertRangoValorant (
     OUT UnidRango SMALLINT UNSIGNED,
     IN UnNombre VARCHAR(45),
@@ -312,19 +300,22 @@ BEGIN
     SET UnIdRango = LAST_INSERT_ID(); 
 END$$
 
-DELIMITER ;
-
+DELIMITER;
 
 -- -----------------------------------------------------
 -- procedure InsertRangoLol
 -- -----------------------------------------------------
 
 USE 5to_RiotGames;
+
 DROP procedure IF EXISTS 5to_RiotGames.InsertRangoLol;
 
 DELIMITER $$
+
 USE 5to_RiotGames$$
-SELECT('aca esta');
+
+SELECT ('aca esta');
+
 CREATE PROCEDURE InsertRangoLol (
                     out UnidRango tinyint ,
 									  in UnNombre varchar(45),
@@ -365,7 +356,7 @@ END $$
 -- 	2:320
 -- 	3:330$$
 
-DELIMITER ;
+DELIMITER;
 
 DELIMITER $$
 
@@ -374,7 +365,8 @@ BEGIN
     DELETE FROM CuentaLol WHERE idCuenta = IdCuenta;
 END$$
 
-DELIMITER ;
+DELIMITER;
+
 DELIMITER $$
 
 CREATE PROCEDURE DeleteCuenta(IN unidCuenta INT)
@@ -382,7 +374,7 @@ BEGIN
     DELETE FROM Cuenta WHERE idCuenta = unidCuenta;
 END$$
 
-DELIMITER ;
+DELIMITER;
 
 DELIMITER $$
 
@@ -391,35 +383,34 @@ BEGIN
     DELETE FROM CuentaValorant WHERE idCuenta = IdCuenta;
 END$$
 
-DELIMITER ;
+DELIMITER;
 
 DELIMITER $$
 
 DROP PROCEDURE IF EXISTS 5to_RiotGames.DeleteServidor $$
+
 CREATE PROCEDURE 5to_RiotGames.DeleteServidor(IN p_unidServidor TINYINT UNSIGNED)
 BEGIN
     DELETE FROM 5to_RiotGames.Servidor
     WHERE idServidor = p_unidServidor;
 END $$
 
-DELIMITER ;
+DELIMITER;
 
-
-DELIMITER ;
-
-
-
-
+DELIMITER;
 
 -- -----------------------------------------------------
 -- function CalcularTotalPuntosLiga
 -- -----------------------------------------------------
 
 USE 5to_RiotGames;
+
 DROP function IF EXISTS 5to_RiotGames.CalcularTotalPuntosLiga;
 
 DELIMITER $$
+
 USE 5to_RiotGames$$
+
 CREATE FUNCTION CalcularTotalPuntosLiga (UnidCuenta INT)RETURNS INT
 										             READS SQL DATA
 BEGIN
@@ -432,17 +423,20 @@ BEGIN
     RETURN TotalPuntos;
 END$$
 
-DELIMITER ;
+DELIMITER;
 
 -- -----------------------------------------------------
 -- function ObtenerNivelValorant
 -- -----------------------------------------------------
 
 USE 5to_RiotGames;
+
 DROP function IF EXISTS 5to_RiotGames.ObtenerNivelValorant;
 
 DELIMITER $$
+
 USE 5to_RiotGames$$
+
 CREATE FUNCTION ObtenerNivelValorant (UnidCuenta INT)
 RETURNS INT READS SQL DATA
 BEGIN
@@ -455,17 +449,20 @@ BEGIN
     RETURN Nivel;
 END$$
 
-DELIMITER ;
+DELIMITER;
 
 -- -----------------------------------------------------
 -- function ObtenerNombreObjeto
 -- -----------------------------------------------------
 
 USE 5to_RiotGames;
+
 DROP function IF EXISTS 5to_RiotGames.ObtenerNombreObjeto;
 
 DELIMITER $$
+
 USE 5to_RiotGames$$
+
 CREATE FUNCTION ObtenerNombreObjeto (UnidObjeto INT)
 RETURNS VARCHAR(45) READS SQL DATA
 BEGIN
@@ -478,18 +475,20 @@ BEGIN
     RETURN NombreObjeto;
 END$$
 
-DELIMITER ;
-
+DELIMITER;
 
 -- -----------------------------------------------------
 -- procedure InsertTipoObjeto
 -- -----------------------------------------------------
 
 USE 5to_RiotGames;
+
 DROP procedure IF EXISTS 5to_RiotGames.InsertTipoObjeto;
 
 DELIMITER $$
+
 USE 5to_RiotGames$$
+
 CREATE PROCEDURE  InsertTipoObjeto (in UnidTipoObjeto TINYint,
 									  in UnNombre varchar(45))
 									
@@ -499,17 +498,20 @@ BEGIN
 
 END$$
 
-DELIMITER ;
+DELIMITER;
 
 -- -----------------------------------------------------
 -- procedure InserObjeto
 -- -----------------------------------------------------
 
 USE 5to_RiotGames;
+
 DROP procedure IF EXISTS 5to_RiotGames.InsertObjeto;
 
 DELIMITER $$
+
 USE 5to_RiotGames$$
+
 CREATE PROCEDURE  InserObjeto (in UnidObjeto smallint,
 									  in UnNombre varchar(45),
                                       UnPrecioEA INT,
@@ -523,24 +525,20 @@ BEGIN
 
 END$$
 
-DELIMITER ;
-
-
-
+DELIMITER;
 
 -- -----------------------------------------------------
 -- procedure altaProductoInventario
 -- -----------------------------------------------------
 
-
-
-
-
 USE 5to_RiotGames;
+
 DROP procedure IF EXISTS 5to_RiotGames.altaProductoInventario;
 
 DELIMITER $$
+
 USE 5to_RiotGames$$
+
 CREATE PROCEDURE altaProductoInventario (in UnidUsuario int,
 								 in UnidObjeto smallint,
 								 in UnaCantidad int)
@@ -550,17 +548,20 @@ BEGIN
 
 END$$
 
-DELIMITER ;
+DELIMITER;
 
 -- -----------------------------------------------------
 -- procedure anadirValorLol
 -- -----------------------------------------------------
 
 USE 5to_RiotGames;
+
 DROP procedure IF EXISTS 5to_RiotGames.anadirValorLol;
 
 DELIMITER $$
+
 USE 5to_RiotGames$$
+
 CREATE PROCEDURE anadirValorLol (in UnidCuenta int,
 									  in UnNivel int,
                                       in UnEsenciaAzul int,
@@ -573,17 +574,20 @@ BEGIN
    where UnidCuenta = idCuenta;
 END$$
 
-DELIMITER ;
+DELIMITER;
 
 -- -----------------------------------------------------
 -- procedure anadirValorVal
 -- -----------------------------------------------------
 
 USE 5to_RiotGames;
+
 DROP procedure IF EXISTS 5to_RiotGames.anadirValorVal;
 
 DELIMITER $$
+
 USE 5to_RiotGames$$
+
 CREATE PROCEDURE anadirValorVal (in UnidCuenta int,
 									  in UnNivel int,
                                       in UnExperiencia int,
@@ -596,18 +600,21 @@ BEGIN
    where UnidCuenta = idCuenta;
 END$$
 
-DELIMITER ;
+DELIMITER;
 
 -- -----------------------------------------------------
 -- procedure Inserts
 -- -----------------------------------------------------
 
 USE 5to_RiotGames;
+
 DROP procedure IF EXISTS 5to_RiotGames.Inserts;
 
-  DELIMITER $$
-  USE 5to_RiotGames$$
-  CREATE PROCEDURE Inserts()
+DELIMITER $$
+
+USE 5to_RiotGames$$
+
+CREATE PROCEDURE Inserts()
   BEGIN
       call InsertTipoObjeto(1,'Skins');
       call InsertServidor (1, 'Norteamérica', 'NA'); 
@@ -673,30 +680,36 @@ DROP procedure IF EXISTS 5to_RiotGames.Inserts;
 
   END$$
 
-  DELIMITER ;
+DELIMITER;
 
-  
+SET SQL_MODE = @OLD_SQL_MODE;
 
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS;
+
+SET UNIQUE_CHECKS = @OLD_UNIQUE_CHECKS;
+
 USE 5to_RiotGames;
 
 DELIMITER $$
 
 USE 5to_RiotGames$$
+
 DROP TRIGGER IF EXISTS 5to_RiotGames.Cuenta_BEFORE_INSERT $$
+
 USE 5to_RiotGames$$
+
 CREATE TRIGGER 5to_RiotGames.Cuenta_BEFORE_INSERT 
 BEFORE INSERT ON Cuenta FOR EACH ROW
 BEGIN
 	SET NEW.contrasena = SHA2(NEW.contrasena, 256);
 END$$
 
+USE 5to_RiotGames$$
+
+DROP TRIGGER IF EXISTS 5to_RiotGames.Cuenta_AFTER_DELETE $$
 
 USE 5to_RiotGames$$
-DROP TRIGGER IF EXISTS 5to_RiotGames.Cuenta_AFTER_DELETE $$
-USE 5to_RiotGames$$
+
 CREATE TRIGGER 5to_RiotGames.Cuenta_AFTER_DELETE AFTER DELETE ON Cuenta FOR EACH ROW
 BEGIN
     DELETE FROM CuentaValorant 
@@ -708,11 +721,11 @@ BEGIN
 -- este trigger hace que al eliminar la cuenta elimina todo el historial
 END$$
 
-
-DELIMITER ;
+DELIMITER;
 
 SELECT 'Voy a invocar inserts' Estado;
-call Inserts();
+
+call Inserts ();
 
 DELIMITER $$
 
@@ -729,4 +742,4 @@ BEGIN
     VALUES (UnidObjeto, UnNombre, UnPrecioEA, UnPrecioRP, UnVenta, UnidTipoObjeto);
 END$$
 
-DELIMITER ;
+DELIMITER;

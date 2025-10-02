@@ -1,0 +1,41 @@
+@model IEnumerable<Mordekaiser.Core.CuentaValorant>
+
+@{
+    ViewData["Title"] = "Listado de Cuentas Valorant";
+}
+<h1>Listado de Cuentas Valorant</h1>
+<p>
+    <a class="btn btn-success" asp-action="Crear">Crear Cuenta Valorant</a>
+</p>
+@if (Model == null || !Model.Any())
+{
+    <p>No hay cuentas Valorant cargadas.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>IdCuenta</th>
+                <th>Nombre</th>
+                <th>Nivel</th>
+                <th>Experiencia</th>
+                <th>Puntos Competitivo</th>
+                <th>Id Rango</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var CuentaValorant in Model)
+        {
+            <tr>
+                <td>@CuentaValorant.idCuenta</td>
+                <td>@CuentaValorant.Nombre</td>
+                <td>@CuentaValorant.Nivel</td>
+                <td>@CuentaValorant.Experiencia</td>
+                <td>@CuentaValorant.PuntosCompetitivo</td>
+                <td>@CuentaValorant.idRango</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
