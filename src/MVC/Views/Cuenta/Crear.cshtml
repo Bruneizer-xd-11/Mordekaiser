@@ -1,0 +1,19 @@
+@model Mordekaiser.Core.Cuenta
+
+<form asp-action="Crear" method="post">
+    @Html.AntiForgeryToken()
+    <div class="mb-3">
+        <label class="form-label">Servidor</label>
+        <select class="form-select" name="Servidor.idServidor">
+            <option value="">-- Seleccione Servidor --</option>
+            @foreach (var s in (IEnumerable<Mordekaiser.Core.Servidor>)ViewBag.Servidores)
+            {
+                <option value="@s.idServidor">@s.Nombre</option>
+            }
+        </select>
+        <span class="text-danger">@Html.ValidationMessage("Servidor.idServidor")</span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Volver</a>
+</form>

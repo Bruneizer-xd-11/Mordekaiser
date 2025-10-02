@@ -1,18 +1,34 @@
 using Microsoft.AspNetCore.Mvc;
 using Mordekaiser.Core;
+
 namespace MVC.Controllers;
-
-public class CuentaController : Controller
-{
-    private readonly IDao _idao;
-    public CuentaController(IDao dao)
+    public class CuentaController : Controller
     {
-        _idao = dao;
-    }
-    public async Task<IActionResult> Index()
-    {
-        var cuentas =  await _idao.ObtenerCuentaAsync();
-        return View(cuentas);
-    }
+        private readonly IDao _idao;
+        public CuentaController(IDao dao) => _idao = dao;
 
+        public async Task<IActionResult> Listado()
+        {
+            var cuentas = await _idao.ObtenerCuentaAsync();
+            return View(cuentas);
+        }
+        public async Task<IActionResult> Crear()
+        {
+            ViewBag.Servidores = await _idao.ObtenerServidoresAsync(); // para el <select>
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Crear(Cuenta cuenta)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Servidores = await _idao.ObtenerServidoresAsync();
+                return View(cuenta);
+            }
+            await _idao.AltaCuentaAsync(cuenta);
+            return RedirectToAction(nameof(Cuenta));
+        
+    }
 }
+

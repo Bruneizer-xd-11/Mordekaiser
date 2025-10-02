@@ -7,14 +7,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
-// Inyección de conexión
+// Inyección para la conexión
 builder.Services.AddScoped<IDbConnection>(_ =>
 {
     var cs = builder.Configuration.GetConnectionString("MySQL");
     return new MySqlConnection(cs);
 });
 
-// Inyección del DAO
+// Inyección del Dao
 builder.Services.AddScoped<IDao, DaoDapper>();
 
 var app = builder.Build();
