@@ -53,8 +53,6 @@ app.MapDelete("/servidores/{id}", async (byte id, IDao dao) =>
     return servidor > 0 ? Results.NoContent()  : Results.NotFound("Servidor no encontrado");
 }).WithTags("Servidor");
 
-
-
 // endpoints para cuentas uwuwuwuwuw
 app.MapGet("/cuentas", async (IDao dao) =>
 {

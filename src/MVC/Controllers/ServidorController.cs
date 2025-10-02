@@ -1,19 +1,29 @@
 using Microsoft.AspNetCore.Mvc;
 using Mordekaiser.Core;
-namespace MVC.Controllers;
+
 public class ServidorController : Controller
 {
-    private readonly IDao _idao;
-    public ServidorController(IDao idao)
+    private readonly IDao _dao;
+    public ServidorController(IDao dao) => _dao = dao;
+
+    // GET: /Servidor/Crear
+    public IActionResult Crear() => View();
+
+    // POST: /Servidor/Crear
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Crear(Servidor servidor)
     {
-        _idao = idao;
+        if (!ModelState.IsValid) return View(servidor);
+
+        await _dao.AltaServidorAsync(servidor);
+        return RedirectToAction(nameof(Listado)); // <- volver a la lista
     }
-    public async Task<IActionResult> Index()
+
+    // GET: /Servidor/Listado
+    public async Task<IActionResult> Listado()
     {
-        var servidores = await _idao.ObtenerServidoresAsync();
+        var servidores = await _dao.ObtenerServidoresAsync();
         return View(servidores);
-        
-    }   
+    }
 }
-
-

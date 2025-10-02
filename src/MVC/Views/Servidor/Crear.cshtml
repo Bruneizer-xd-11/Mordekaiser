@@ -1,0 +1,29 @@
+@model Mordekaiser.Core.Servidor
+@{
+    ViewData["Title"] = "Crear Servidor";
+}
+
+<h1>Crear Servidor</h1>
+
+<form asp-action="Crear" method="post">  <!-- <- usar 'Crear' -->
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        <label asp-for="Nombre" class="form-label"></label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Abreviado" class="form-label"></label>
+        <input asp-for="Abreviado" class="form-control" />
+        <span asp-validation-for="Abreviado" class="text-danger"></span>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Guardar</button>
+    <a asp-action="Listado" class="btn btn-secondary">Volver</a> <!-- <- a Listado -->
+</form>
+
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
