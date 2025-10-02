@@ -1,7 +1,26 @@
 @model Mordekaiser.Core.Cuenta
 
+<h1>Crear Cuenta</h1>
+
 <form asp-action="Crear" method="post">
     @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        <label asp-for="Nombre" class="form-label"></label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Contrasena" class="form-label"></label>
+        <input asp-for="Contrasena" type="password" class="form-control" />
+        <span asp-validation-for="Contrasena" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
     <div class="mb-3">
         <label class="form-label">Servidor</label>
         <select class="form-select" name="Servidor.idServidor">
@@ -14,6 +33,6 @@
         <span class="text-danger">@Html.ValidationMessage("Servidor.idServidor")</span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Guardar</button>
-    <a asp-action="Index" class="btn btn-secondary">Volver</a>
+    <button class="btn btn-primary" type="submit">Guardar</button>
+    <a asp-action="Listado" class="btn btn-secondary">Volver</a>
 </form>

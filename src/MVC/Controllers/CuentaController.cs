@@ -6,7 +6,6 @@ namespace MVC.Controllers;
     {
         private readonly IDao _idao;
         public CuentaController(IDao dao) => _idao = dao;
-
         public async Task<IActionResult> Listado()
         {
             var cuentas = await _idao.ObtenerCuentaAsync();
@@ -14,7 +13,7 @@ namespace MVC.Controllers;
         }
         public async Task<IActionResult> Crear()
         {
-            ViewBag.Servidores = await _idao.ObtenerServidoresAsync(); // para el <select>
+            ViewBag.Servidores = await _idao.ObtenerServidoresAsync(); 
             return View();
         }
         [HttpPost]
@@ -27,8 +26,9 @@ namespace MVC.Controllers;
                 return View(cuenta);
             }
             await _idao.AltaCuentaAsync(cuenta);
-            return RedirectToAction(nameof(Cuenta));
+            return RedirectToAction(nameof(Listado));
         
     }
+
 }
 

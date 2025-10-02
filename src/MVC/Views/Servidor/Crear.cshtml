@@ -5,7 +5,7 @@
 
 <h1>Crear Servidor</h1>
 
-<form asp-action="Crear" method="post">  <!-- <- usar 'Crear' -->
+<form asp-action="Crear" method="post"> 
     @Html.AntiForgeryToken()
 
     <div class="mb-3">
@@ -21,7 +21,7 @@
     </div>
 
     <button class="btn btn-primary" type="submit">Guardar</button>
-    <a asp-action="Listado" class="btn btn-secondary">Volver</a> <!-- <- a Listado -->
+    <a asp-action="Listado" class="btn btn-secondary">Volver</a>
 </form>
 
 @section Scripts{
