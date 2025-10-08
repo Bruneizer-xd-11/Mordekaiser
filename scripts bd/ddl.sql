@@ -746,9 +746,6 @@
 -- END$$
 
 -- DELIMITER;
--- ============================================
--- install.sql (corregido)
--- ============================================
 
 SET @OLD_UNIQUE_CHECKS = @@UNIQUE_CHECKS; 
 SET UNIQUE_CHECKS = 0;
@@ -759,16 +756,16 @@ SET FOREIGN_KEY_CHECKS = 0;
 SET @OLD_SQL_MODE = @@SQL_MODE;
 SET SQL_MODE = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
--- --------------------------------------------
+
 -- Schema
--- --------------------------------------------
+
 DROP SCHEMA IF EXISTS 5to_RiotGames;
 CREATE SCHEMA IF NOT EXISTS 5to_RiotGames DEFAULT CHARACTER SET utf8;
 USE 5to_RiotGames;
 
--- --------------------------------------------
+
 -- Tablas
--- --------------------------------------------
+
 
 -- Servidor
 DROP TABLE IF EXISTS Servidor;
@@ -886,7 +883,7 @@ CREATE TABLE IF NOT EXISTS CuentaValorant (
   Nivel              INT UNSIGNED NOT NULL DEFAULT 0,
   Experiencia        INT UNSIGNED NOT NULL DEFAULT 0,
   PuntosCompetitivo  MEDIUMINT NOT NULL DEFAULT 0,
-  idRango            SMALLINT UNSIGNED NULL DEFAULT NULL,   -- <== DEFAULT NULL (no 0)
+  idRango            SMALLINT UNSIGNED NULL DEFAULT NULL,   
   INDEX fk_Cuenta_de_valorant_Rango_valorant1_idx (idRango),
   PRIMARY KEY (idCuenta),
   UNIQUE INDEX idCuenta_UNIQUE (idCuenta),
@@ -898,11 +895,11 @@ CREATE TABLE IF NOT EXISTS CuentaValorant (
     ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB;
 
--- --------------------------------------------
--- Procedimientos / Funciones / Triggers
--- --------------------------------------------
 
--- InsertServidor (con ID explícito para compatibilidad con seeds)
+-- Procedimientos / Funciones / Triggers
+
+
+-- InsertServidor 
 DROP PROCEDURE IF EXISTS InsertServidor;
 DELIMITER $$
 CREATE PROCEDURE InsertServidor (
@@ -925,7 +922,7 @@ BEGIN
 END $$
 DELIMITER ;
 
--- InsertCuenta (con ID explícito para compatibilidad con seeds)
+-- InsertCuenta 
 DROP PROCEDURE IF EXISTS InsertCuenta;
 DELIMITER $$
 CREATE PROCEDURE InsertCuenta (
@@ -941,7 +938,7 @@ BEGIN
 END $$
 DELIMITER ;
 
--- InsertCuentaValorant (CORREGIDO: 6 parámetros y columnas correctas)
+-- InsertCuentaValoran
 DROP PROCEDURE IF EXISTS InsertCuentaValorant;
 DELIMITER $$
 CREATE PROCEDURE InsertCuentaValorant (
@@ -976,7 +973,7 @@ BEGIN
 END $$
 DELIMITER ;
 
--- InsertRangoValorant (OUT correcto)
+-- InsertRangoValorant 
 DROP PROCEDURE IF EXISTS InsertRangoValorant;
 DELIMITER $$
 CREATE PROCEDURE InsertRangoValorant (
@@ -1008,7 +1005,7 @@ BEGIN
 END $$
 DELIMITER ;
 
--- Deletes
+-- Deletes pa borrar
 DROP PROCEDURE IF EXISTS DeleteCuentaLol;
 DELIMITER $$
 CREATE PROCEDURE DeleteCuentaLol (IN IdCuenta INT)
@@ -1041,7 +1038,7 @@ BEGIN
 END $$
 DELIMITER ;
 
--- Funciones (condición columna=parámetro)
+-- Funciones 
 DROP FUNCTION IF EXISTS CalcularTotalPuntosLiga;
 DELIMITER $$
 CREATE FUNCTION CalcularTotalPuntosLiga (UnidCuenta INT)
@@ -1068,7 +1065,7 @@ BEGIN
 END $$
 DELIMITER ;
 
--- Actualizaciones (fix: anadirValorVal ahora actualiza CuentaValorant)
+-- Actualizaciones
 DROP PROCEDURE IF EXISTS anadirValorLol;
 DELIMITER $#$
 CREATE PROCEDURE anadirValorLol (
@@ -1105,7 +1102,7 @@ BEGIN
 END $$
 DELIMITER ;
 
--- InsertTipoObjeto (ID explícito, como tenías)
+-- InsertTipoObjeto
 DROP PROCEDURE IF EXISTS InsertTipoObjeto;
 DELIMITER $$
 CREATE PROCEDURE InsertTipoObjeto (
@@ -1118,7 +1115,7 @@ BEGIN
 END $$
 DELIMITER ;
 
--- InsertObjeto (una sola versión coherente)
+-- InsertObjeto
 DROP PROCEDURE IF EXISTS InsertObjeto;
 DELIMITER $$
 CREATE PROCEDURE InsertObjeto (
@@ -1135,7 +1132,7 @@ BEGIN
 END $$
 DELIMITER ;
 
--- altaProductoInventario (corrigiendo columnas)
+-- altaProductoInventario
 DROP PROCEDURE IF EXISTS altaProductoInventario;
 DELIMITER $$
 CREATE PROCEDURE altaProductoInventario (
@@ -1149,7 +1146,7 @@ BEGIN
 END $$
 DELIMITER ;
 
--- Trigger de Cuenta: hash de Contrasena (case consistente)
+-- Trigger de Cuenta con cifrado xd
 DROP TRIGGER IF EXISTS Cuenta_BEFORE_INSERT;
 DELIMITER $$
 CREATE TRIGGER Cuenta_BEFORE_INSERT
@@ -1160,7 +1157,7 @@ BEGIN
 END $$
 DELIMITER ;
 
--- Trigger de borrado en cascada lógico (ya hay FKs; esto elimina extras en Inventario)
+
 DROP TRIGGER IF EXISTS Cuenta_AFTER_DELETE;
 DELIMITER $$
 CREATE TRIGGER Cuenta_AFTER_DELETE
@@ -1173,17 +1170,16 @@ BEGIN
 END $$
 DELIMITER ;
 
--- --------------------------------------------
--- Datos de prueba (Inserts)
--- --------------------------------------------
+
+-- Inserts
+
 DROP PROCEDURE IF EXISTS Inserts;
 DELIMITER $$
 CREATE PROCEDURE Inserts()
 BEGIN
-  -- TipoObjeto
+
   CALL InsertTipoObjeto(1,'Skins');
 
-  -- Servidores (IDs explícitos para ejemplo)
   CALL InsertServidor(1, 'Norteamérica',       'NA');
   CALL InsertServidor(2, 'Europa Occidental',  'EUW');
   CALL InsertServidor(3, 'Brasil',             'BR');
@@ -1194,19 +1190,19 @@ BEGIN
   CALL InsertServidor(8, 'América Latina Sur', 'LAS');
   CALL InsertServidor(9, 'Turquía',            'TR');
   CALL InsertServidor(10,'Rusia',              'RU');
-
-  -- Cuentas (Contrasena en claro: trigger la hashea)
+  -- Cuentas 
   CALL InsertCuenta(1, 1, 'Luis',   '123456', 'Luis@gmail.com');
   CALL InsertCuenta(2, 8, 'Ruben',  '12345',  'Ruben@gmail.com');
   CALL InsertCuenta(3, 3, 'Carlos', '1234',   'Carlos@gmail.com');
-
-  -- Más TipoObjeto
+  -- TipoObjeto
   CALL InsertTipoObjeto(2,'Centinelas');
   CALL InsertTipoObjeto(3,'Campeones');
   CALL InsertTipoObjeto(4,'FragmentosSkin');
   CALL InsertTipoObjeto(5,'FragmentosCentinelas');
   CALL InsertTipoObjeto(6,'Gestos');
   CALL InsertTipoObjeto(7,'Accesorios');
+  CALL InsertCuentaValorant(3,'CarlosValorant',10,2500,150,5                 
+);
 
   -- Rangos LoL
   CALL InsertRangoLol(@hierroUno,    'Hierro', 10, 1);
@@ -1227,7 +1223,6 @@ BEGIN
   CALL InsertRangoLol(@DiamanteUno,  'Diamante',300,1);
   CALL InsertRangoLol(@DiamanteDos,  'Diamante',320,2);
   CALL InsertRangoLol(@DiamanteTres, 'Diamante',330,3);
-
   -- Rangos Valorant
   CALL InsertRangoValorant(@V_Hierro1, 'Hierro', 1, 10);
   CALL InsertRangoValorant(@V_Hierro2, 'Hierro', 2, 20);
@@ -1250,12 +1245,7 @@ BEGIN
 END $$
 DELIMITER ;
 
--- Ejecutar datos de prueba
 CALL Inserts();
-
--- --------------------------------------------
--- Restaurar flags
--- --------------------------------------------
 SET SQL_MODE = @OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS = @OLD_UNIQUE_CHECKS;
