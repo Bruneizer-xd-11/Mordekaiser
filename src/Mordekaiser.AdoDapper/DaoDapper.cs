@@ -216,6 +216,11 @@ public async Task<IEnumerable<CuentaValorant>> ObtenerCuentasValorantAsync()
         parametros.Add("@IdCuenta", idCuenta);
         await _conexion.ExecuteAsync("DeleteCuentaValorant", parametros, commandType: CommandType.StoredProcedure);
     }
+    public async Task BorrarTodosServidoresAsync()
+{
+    const string sql = "DELETE FROM Servidor;";
+    await _conexion.ExecuteAsync(sql);
+}
     public async Task<int> DeleteServidorAsync(byte idServidor)
     {
         var parametros = new DynamicParameters();

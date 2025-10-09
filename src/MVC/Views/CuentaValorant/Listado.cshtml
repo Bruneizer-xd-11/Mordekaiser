@@ -4,9 +4,15 @@
     ViewData["Title"] = "Listado de Cuentas Valorant";
 }
 <h1>Listado de Cuentas Valorant</h1>
-<p>
-    <a class="btn btn-success" asp-action="Crear">Crear Cuenta Valorant</a>
-</p>
+<div class="d-flex gap-2 mb-3">
+  <a class="btn btn-success" asp-action="Crear">Crear Cuenta Valorant</a>
+
+  <form asp-action="BorrarTodasLasCuentasValorant" method="post" class="m-0"
+        onsubmit="return confirm('⚠️ Esto borrará TODAS las cuentas Valorant. ¿Seguro?');">
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-danger">Borrar TODAS</button>
+  </form>
+</div>
 @if (Model == null || !Model.Any())
 {
     <p>No hay cuentas Valorant cargadas.</p>
@@ -36,6 +42,13 @@ else
                 <td>@CuentaValorant.PuntosCompetitivo</td>
                 <td>@CuentaValorant.idRango</td>
                 <td>@CuentaValorant.RangoValorant?.Nombre</td>
+                <td>
+    <form asp-action="BorrarPorId" asp-route-id="@CuentaValorant.idCuenta" method="post" class="d-inline"
+          onsubmit="return confirm('¿Seguro que deseas borrar esta cuenta Valorant?');">
+        @Html.AntiForgeryToken()
+        <button type="submit" class="btn btn-danger btn-sm">Borrar</button>
+    </form>
+</td>
             </tr>
         }
         </tbody>

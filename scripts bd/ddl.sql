@@ -865,23 +865,26 @@ CREATE TABLE IF NOT EXISTS Inventario (
 
 -- CuentaValorant
 DROP TABLE IF EXISTS CuentaValorant;
+
 CREATE TABLE IF NOT EXISTS CuentaValorant (
   idCuenta           INT UNSIGNED NOT NULL,
   Nombre             VARCHAR(45) NULL,
   Nivel              INT UNSIGNED NOT NULL DEFAULT 0,
   Experiencia        INT UNSIGNED NOT NULL DEFAULT 0,
   PuntosCompetitivo  MEDIUMINT NOT NULL DEFAULT 0,
-  idRango            SMALLINT UNSIGNED NULL DEFAULT NULL,   
+  idRango            SMALLINT UNSIGNED NULL DEFAULT NULL,
   INDEX fk_Cuenta_de_valorant_Rango_valorant1_idx (idRango),
   PRIMARY KEY (idCuenta),
-  UNIQUE INDEX idCuenta_UNIQUE (idCuenta),
   CONSTRAINT fk_Cuenta_de_valorant_Rango_valorant1
     FOREIGN KEY (idRango) REFERENCES RangoValorant (idRango)
-    ON DELETE NO ACTION ON UPDATE NO ACTION,
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
   CONSTRAINT fk_CuentaValorant_Cuenta1
     FOREIGN KEY (idCuenta) REFERENCES Cuenta (idCuenta)
-    ON DELETE NO ACTION ON UPDATE NO ACTION
+    ON DELETE CASCADE          
+    ON UPDATE NO ACTION
 ) ENGINE=InnoDB;
+
 -- RangoValorant
 DROP TABLE IF EXISTS RangoValorant;
 CREATE TABLE IF NOT EXISTS RangoValorant (

@@ -34,4 +34,23 @@ public class CuentaValorantController : Controller
         await _dao.AltaCuentaValorantAsync(model);
         return RedirectToAction(nameof(Listado));
     }
+    [HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> BorrarTodasLasCuentasValorant()
+{
+    var cuentasVal = await _dao.ObtenerCuentasValorantAsync();
+    foreach (var c in cuentasVal)
+    {
+        await _dao.BajaCuentaValorantAsync((int)c.idCuenta);
+    }
+    return RedirectToAction(nameof(Listado));
+}
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> BorrarPorId(uint id)
+{
+    await _dao.BajaCuentaValorantAsync((int)id);
+    return RedirectToAction(nameof(Listado));
+}
+
 }

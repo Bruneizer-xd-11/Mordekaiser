@@ -4,7 +4,7 @@ public interface IDao
 {
 
     Task AltaServidorAsync(Servidor servidor);
-
+    Task BorrarTodosServidoresAsync();
     Task AltaCuentaAsync(Cuenta cuenta);
 
 
