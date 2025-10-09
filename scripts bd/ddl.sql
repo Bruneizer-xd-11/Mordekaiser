@@ -863,18 +863,6 @@ CREATE TABLE IF NOT EXISTS Inventario (
     ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB;
 
--- RangoValorant
-DROP TABLE IF EXISTS RangoValorant;
-CREATE TABLE IF NOT EXISTS RangoValorant (
-  idRango           SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  Nombre            VARCHAR(45) NULL,
-  Numero            SMALLINT UNSIGNED NULL,
-  PuntosNecesarios  MEDIUMINT NOT NULL,
-  PRIMARY KEY (idRango),
-  UNIQUE INDEX idRango_UNIQUE (idRango),
-  UNIQUE INDEX PuntosNecesarios_UNIQUE (PuntosNecesarios)
-) ENGINE=InnoDB;
-
 -- CuentaValorant
 DROP TABLE IF EXISTS CuentaValorant;
 CREATE TABLE IF NOT EXISTS CuentaValorant (
@@ -894,10 +882,17 @@ CREATE TABLE IF NOT EXISTS CuentaValorant (
     FOREIGN KEY (idCuenta) REFERENCES Cuenta (idCuenta)
     ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB;
-
-
--- Procedimientos / Funciones / Triggers
-
+-- RangoValorant
+DROP TABLE IF EXISTS RangoValorant;
+CREATE TABLE IF NOT EXISTS RangoValorant (
+  idRango           SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  Nombre            VARCHAR(45) NULL,
+  Numero            SMALLINT UNSIGNED NULL,
+  PuntosNecesarios  MEDIUMINT NOT NULL,
+  PRIMARY KEY (idRango),
+  UNIQUE INDEX idRango_UNIQUE (idRango),
+  UNIQUE INDEX PuntosNecesarios_UNIQUE (PuntosNecesarios)
+) ENGINE=InnoDB;
 
 -- InsertServidor 
 DROP PROCEDURE IF EXISTS InsertServidor;
@@ -938,20 +933,20 @@ BEGIN
 END $$
 DELIMITER ;
 
--- InsertCuentaValoran
+-- InsertCuentaValorant
 DROP PROCEDURE IF EXISTS InsertCuentaValorant;
 DELIMITER $$
 CREATE PROCEDURE InsertCuentaValorant (
-  IN idCuenta           INT,
-  IN Nombre             VARCHAR(45),
-  IN Nivel              INT,
-  IN Experiencia        INT,
-  IN PuntosCompetitivo  MEDIUMINT,
-  IN idRango            SMALLINT UNSIGNED
+  IN UnidCuenta           INT,
+  IN UnNombre             VARCHAR(45),
+  IN UnNivel              INT,
+  IN UnExperiencia        INT,
+  IN UnPuntosCompetitivo  MEDIUMINT,
+  IN UnidRango            SMALLINT UNSIGNED
 )
 BEGIN
   INSERT INTO CuentaValorant (idCuenta, Nombre, Nivel, Experiencia, PuntosCompetitivo, idRango)
-  VALUES (idCuenta, Nombre, Nivel, Experiencia, PuntosCompetitivo, idRango);
+  VALUES (UnidCuenta, UnNombre, UnNivel, UnExperiencia, UnPuntosCompetitivo, UnidRango);
 END $$
 DELIMITER ;
 
@@ -1201,8 +1196,7 @@ BEGIN
   CALL InsertTipoObjeto(5,'FragmentosCentinelas');
   CALL InsertTipoObjeto(6,'Gestos');
   CALL InsertTipoObjeto(7,'Accesorios');
-  CALL InsertCuentaValorant(3,'CarlosValorant',10,2500,150,5                 
-);
+  CALL InsertCuentaValorant(3,'CarlosValorant',10,2500,150,5);
 
   -- Rangos LoL
   CALL InsertRangoLol(@hierroUno,    'Hierro', 10, 1);

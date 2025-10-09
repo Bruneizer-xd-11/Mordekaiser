@@ -170,11 +170,34 @@ public class DaoDapper : IDao
         var query = @"SELECT * FROM CuentaLol ";
         return await _conexion.QueryAsync<CuentaLol>(query);
     }
-    public async Task<IEnumerable<CuentaValorant>> ObtenerCuentasValorantAsync()
-    {
-        var query = "SELECT * FROM CuentaValorant";
-        return await _conexion.QueryAsync<CuentaValorant>(query);
-    }
+public async Task<IEnumerable<CuentaValorant>> ObtenerCuentasValorantAsync()
+{
+    var sql = @"
+        SELECT 
+            cv.idCuenta,
+            cv.Nombre,
+            cv.Nivel,
+            cv.Experiencia,
+            cv.PuntosCompetitivo,
+            cv.idRango,
+            rv.idRango AS rv_idRango,   -- split marker para el segundo objeto
+            rv.Nombre,                  -- mantener nombres que coincidan con la clase
+            rv.Numero,
+            rv.PuntosNecesarios
+        FROM CuentaValorant cv
+        LEFT JOIN RangoValorant rv ON cv.idRango = rv.idRango;";
+
+    return await _conexion.QueryAsync<CuentaValorant, RangoValorant, CuentaValorant>(
+        sql,
+        (cv, rv) =>
+        {
+            cv.RangoValorant = rv; 
+            return cv;
+        },
+        splitOn: "rv_idRango"
+    );
+}
+
     public async Task BajaCuentaLolAsync(uint idCuenta)
     {
         var parametros = new DynamicParameters();

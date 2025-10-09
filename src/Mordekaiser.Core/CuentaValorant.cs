@@ -2,12 +2,10 @@ namespace Mordekaiser.Core;
 
 public class CuentaValorant
 {
-    public CuentaValorant()
-    {
-    }
 
-    public required Cuenta Cuenta { get; set; }
-    public required RangoValorant RangoValorant { get; set; }
+    public  Cuenta? Cuenta   { get; set; }
+    public  RangoValorant? RangoValorant { get; set; }
+
 
     //composiciones
 

@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = "Crear Cuenta Valorant";
     var cuentas = (IEnumerable<Cuenta>)ViewBag.Cuentas;
-    var rangos = (IEnumerable<RangoValorant>)ViewBag.Rangos;
+    var rangos  = (IEnumerable<RangoValorant>)ViewBag.Rangos;
 }
 
 <h1>Crear Cuenta Valorant</h1>
@@ -13,15 +13,15 @@
     @Html.AntiForgeryToken()
 
     <div class="mb-3">
-        <label class="form-label">Cuenta base</label>
-        <select class="form-select" name="idCuenta" required>
+        <label class="form-label" for="idCuenta">Cuenta base</label>
+        <select asp-for="idCuenta" class="form-select" id="idCuenta" required>
             <option value="">-- Seleccione Cuenta --</option>
             @foreach (var c in cuentas)
             {
                 <option value="@c.IdCuenta">@c.IdCuenta - @c.Nombre (@c.Email)</option>
             }
         </select>
-        <span class="text-danger">@Html.ValidationMessage("idCuenta")</span>
+        <span asp-validation-for="idCuenta" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
@@ -49,21 +49,23 @@
     </div>
 
     <div class="mb-3">
-        <label class="form-label">Rango</label>
-        <select class="form-select" name="idRango" required>
-            <option value="">-- Seleccione Rango --</option>
+        <label asp-for="idRango" class="form-label"></label>
+        <select asp-for="idRango" class="form-select">
+            <option value="">-- Sin Rango --</option>
             @foreach (var r in rangos)
             {
                 <option value="@r.idRango">@r.Nombre (#{@r.Numero})</option>
             }
         </select>
-        <span class="text-danger">@Html.ValidationMessage("idRango")</span>
+        <span asp-validation-for="idRango" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Guardar</button>
-    <a asp-action="Listado" class="btn btn-secondary">Volver</a>
+    <div class="mt-3 d-flex gap-2">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a asp-action="Listado" class="btn btn-secondary">Volver</a>
+    </div>
 </form>
 
-@section Scripts{
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }
