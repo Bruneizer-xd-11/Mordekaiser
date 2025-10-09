@@ -8,9 +8,8 @@
 
 <div class="d-flex gap-2 align-items-center">
     <a class="btn btn-success" asp-action="Crear">Crear Servidor</a>
-
     <form asp-action="BorrarTodos" method="post" class="m-0"
-          onsubmit="return confirm('Esto borrara todos los servidores y las cuentas asociadas, Seguro?');">
+         onsubmit="return confirm('Esto borrara todos los servidores y las cuentas asociadas, Seguro?');">
         @Html.AntiForgeryToken()
         <button type="submit" class="btn btn-danger">Borrar todo</button>
     </form>
@@ -29,7 +28,6 @@ else
                 <th>Id</th>
                 <th>Nombre</th>
                 <th>Abreviado</th>
-                <th>Acciones</th>   
             </tr>
         </thead>
         <tbody>

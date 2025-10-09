@@ -8,9 +8,9 @@
     <a class="btn btn-success" asp-action="Crear">Crear Cuenta</a>
 
     <form asp-action="BorrarTodos" method="post" class="m-0"
-          onsubmit="return confirm('⚠️ Esto borrará TODAS las cuentas y las de Valorant asociadas. ¿Seguro?');">
+          onsubmit="return confirm('Esto borrará TODAS las cuentas y las de Valorant asociadas, Seguro?');">
         @Html.AntiForgeryToken()
-        <button type="submit" class="btn btn-danger">Borrar TODAS</button>
+        <button type="submit" class="btn btn-danger">Borrar todo</button>
     </form>
 </div>
 @if (Model == null || !Model.Any())
