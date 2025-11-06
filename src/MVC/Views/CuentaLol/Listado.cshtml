@@ -1,0 +1,10 @@
+@model IEnumerable<Mordekaiser.Core.CuentaLol>
+ViewData ["Title"] = "Lista de cuentasLol";
+<h1>Lista de cuentasLol</h1>
+
+@if(Model == null || Model.Any())
+
+
+{
+    <p>No hay cuentas de League of legends cargadas</p>
+}

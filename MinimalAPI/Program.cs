@@ -80,4 +80,6 @@ app.MapDelete("/cuentas/{id}", async (byte id, IDao dao) =>
 
 }).WithTags("Cuenta");
 
+
+// endpoints para CuentaLoL
 app.Run();
