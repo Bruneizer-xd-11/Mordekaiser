@@ -18,16 +18,18 @@ public class DaoDapper : IDao
         parametros.Add("@UnAbreviado", servidor.Abreviado);
         await _conexion.ExecuteAsync("InsertServidor", parametros, commandType: CommandType.StoredProcedure);
     }
-    public async Task AltaCuentaAsync(Cuenta cuenta)
-    {
-        var parametros = new DynamicParameters();
-        parametros.Add("@UnidCuenta", cuenta.IdCuenta);
-        parametros.Add("@UnidServidor", cuenta.Servidor.idServidor);
-        parametros.Add("@UnNombre", cuenta.Nombre);
-        parametros.Add("@Uncontrasena", cuenta.Contrasena);
-        parametros.Add("@UneMail", cuenta.Email);
-        await _conexion.ExecuteAsync("InsertCuenta", parametros, commandType: CommandType.StoredProcedure);
-    }
+public async Task AltaCuentaAsync(Cuenta cuenta)
+{
+    var parametros = new DynamicParameters();
+    parametros.Add("@UnidCuenta", cuenta.IdCuenta);
+    parametros.Add("@UnidServidor", cuenta.IdServidor); 
+    parametros.Add("@UnNombre", cuenta.Nombre);
+    parametros.Add("@Uncontrasena", cuenta.Contrasena);
+    parametros.Add("@UneMail", cuenta.Email);
+
+    await _conexion.ExecuteAsync("InsertCuenta", parametros, commandType: CommandType.StoredProcedure);
+}
+
     public async Task AltaRangoLolAsync(RangoLol rangoLol)
     {
         var parametros = new DynamicParameters();
@@ -50,18 +52,20 @@ public class DaoDapper : IDao
         rangoValorant.idRango = parametros.Get<ushort>("@IdRango");
     }
 
-    public async Task AltaCuentaLolAsync(CuentaLol cuentaLol)
-    {
-        var parametros = new DynamicParameters();
-        parametros.Add("@idCuenta", cuentaLol.IdCuenta);
-        parametros.Add("@Nombre", cuentaLol.Nombre);
-        parametros.Add("@Nivel", cuentaLol.Nivel);
-        parametros.Add("@EsenciaAzul", cuentaLol.EsenciaAzul);
-        parametros.Add("@PuntosRiot", cuentaLol.PuntosRiot);
-        parametros.Add("@PuntosLiga", cuentaLol.PuntosLiga);
+public async Task AltaCuentaLolAsync(CuentaLol cuentaLol)
+{
+    var parametros = new DynamicParameters();
+    parametros.Add("@UnidCuenta", cuentaLol.IdCuenta);
+    parametros.Add("@UnNombre", cuentaLol.Nombre);
+    parametros.Add("@UnNivel", cuentaLol.Nivel);
+    parametros.Add("@UnEsenciaAzul", cuentaLol.EsenciaAzul);
+    parametros.Add("@UnPuntosRiot", cuentaLol.PuntosRiot);
+    parametros.Add("@UnPuntosLiga", cuentaLol.PuntosLiga);
+    parametros.Add("@UnIdRango", cuentaLol.IdRango);  
 
-        await _conexion.ExecuteAsync("InsertCuentaLol", parametros, commandType: CommandType.StoredProcedure);
-    }
+    await _conexion.ExecuteAsync("InsertCuentaLol", parametros, commandType: CommandType.StoredProcedure);
+}
+
     public async Task AltaCuentaValorantAsync(CuentaValorant cuentaValorant)
     {
         var parametros = new DynamicParameters();

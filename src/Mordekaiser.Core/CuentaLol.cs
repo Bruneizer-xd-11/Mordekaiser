@@ -26,5 +26,5 @@ public class CuentaLol
     [Required(ErrorMessage = "Debe poner un valor.")]
     [Range(0, int.MaxValue, ErrorMessage = "No se permiten valores negativos.")]
     public int PuntosLiga { get; set; }=0;
-    public byte IdRango { get; set; }=0;
+    public byte IdRango { get; set; }
 }

@@ -16,8 +16,8 @@ namespace MVC.Controllers
 
         public async Task<IActionResult> Crear()
         {
-            ViewBag.Cuentas = await _dao.ObtenerCuentaAsync();            // cuentas base
-            ViewBag.Rangos = await _dao.ObtenerRangosLolAsync();         // rangos LoL
+            ViewBag.Cuentas = await _dao.ObtenerCuentaAsync();            
+            ViewBag.Rangos = await _dao.ObtenerRangosLolAsync();         
             return View();
         }
 
