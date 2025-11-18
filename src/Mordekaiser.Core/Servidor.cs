@@ -1,8 +1,16 @@
-﻿namespace Mordekaiser.Core;
+﻿using System.ComponentModel.DataAnnotations;
 
-public class Servidor
+namespace Mordekaiser.Core
 {
-    public string? Nombre { get; set; }
-    public  string? Abreviado { get; set; }
-    public byte idServidor { get; set; }
+    public class Servidor
+    {
+        [Required(ErrorMessage = "Debe poner un nombre.")]
+        public string? Nombre { get; set; }
+
+        [Required(ErrorMessage = "Debe poner una abreviación.")]
+        [StringLength(10, ErrorMessage = "La abreviación no puede superar los 10 caracteres.")]
+        public string? Abreviado { get; set; }
+
+        public byte idServidor { get; set; }
+    }
 }

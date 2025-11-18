@@ -1,31 +1,70 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
+/* Fondo general */
 body {
-  margin-bottom: 60px;
+    background: linear-gradient(135deg, #0a0f24, #1b2a4b, #2e1a47);
+    min-height: 100vh;
+    color: white;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+/* Hacer que todos los contenedores claros se vuelvan oscuros */
+.card,
+.table,
+.form-control,
+.form-select,
+.navbar,
+.list-group,
+.modal-content,
+.container,
+.row,
+.col,
+.bg-white,
+.bg-light {
+    background-color: rgba(0, 0, 0, 0.35) !important;
+    color: white !important;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+/* Inputs con borde violeta gamer */
+.form-control,
+.form-select {
+    border: 1px solid rgba(159, 92, 255, 0.5) !important;
+}
+
+/* Inputs cuando se enfocan (hover/focus) */
+.form-control:focus,
+.form-select:focus {
+    border-color: #9f5cff !important;
+    box-shadow: 0 0 10px rgba(159, 92, 255, 0.8) !important;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    color: white !important;
+}
+
+/* Tablas */
+.table {
+    background-color: rgba(0, 0, 0, 0.35) !important;
+    color: white !important;
+}
+
+.table thead {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Botones */
+.btn-primary {
+    background-color: #9f5cff !important;
+    border-color: #9f5cff !important;
+}
+
+.btn-primary:hover {
+    background-color: #7d3df2 !important;
+}
+
+/* Textos de validación */
+.text-danger {
+    color: #ff7675 !important;
 }

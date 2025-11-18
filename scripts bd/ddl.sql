@@ -1,4 +1,3 @@
-
 SET @OLD_UNIQUE_CHECKS = @@UNIQUE_CHECKS; 
 SET UNIQUE_CHECKS = 0;
 
@@ -8,86 +7,88 @@ SET FOREIGN_KEY_CHECKS = 0;
 SET @OLD_SQL_MODE = @@SQL_MODE;
 SET SQL_MODE = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
-
 -- Schema
-
-DROP SCHEMA IF EXISTS 5to_RiotGames;
-CREATE SCHEMA IF NOT EXISTS 5to_RiotGames DEFAULT CHARACTER SET utf8;
-USE 5to_RiotGames;
-
-
--- Tablas
-
+DROP SCHEMA IF EXISTS `5to_RiotGames`;
+CREATE SCHEMA IF NOT EXISTS `5to_RiotGames` 
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
+USE `5to_RiotGames`;
 
 -- Servidor
 DROP TABLE IF EXISTS Servidor;
 CREATE TABLE IF NOT EXISTS Servidor (
   idServidor TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  Nombre     VARCHAR(45) NULL,
-  Abreviado  CHAR(4)     NULL,
+  Nombre     VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
+  Abreviado  CHAR(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
   PRIMARY KEY (idServidor),
   UNIQUE INDEX Abreviado_UNIQUE (Abreviado),
   UNIQUE INDEX Nombre_UNIQUE    (Nombre)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Cuenta
 DROP TABLE IF EXISTS Cuenta;
 CREATE TABLE IF NOT EXISTS Cuenta (
   idCuenta   INT UNSIGNED NOT NULL AUTO_INCREMENT,
   idServidor TINYINT UNSIGNED NOT NULL,
-  Nombre     VARCHAR(45) NOT NULL,
-  Contrasena CHAR(64) NOT NULL,
-  eMail      VARCHAR(45) NULL,
+  Nombre     VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  Contrasena CHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  eMail      VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
   PRIMARY KEY (idCuenta),
   INDEX fk_Cuenta_Servidor1_idx (idServidor),
   UNIQUE INDEX uq_CuentaNombre (idServidor, Nombre),
   UNIQUE INDEX uq_CuentaEmail  (eMail, idServidor),
   CONSTRAINT fk_Cuenta_Servidor1
     FOREIGN KEY (idServidor) REFERENCES Servidor (idServidor)
+    
     ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- RangoLol
 DROP TABLE IF EXISTS RangoLol;
 CREATE TABLE IF NOT EXISTS RangoLol (
   idRango               TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  Nombre                VARCHAR(45) NOT NULL,
+  Nombre                VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PuntosLigaNecesario   MEDIUMINT   NOT NULL,
   Numero                TINYINT UNSIGNED NULL,
   PRIMARY KEY (idRango)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- CuentaLol
 DROP TABLE IF EXISTS CuentaLol;
 CREATE TABLE IF NOT EXISTS CuentaLol (
   idCuenta     INT UNSIGNED NOT NULL,
-  Nombre       VARCHAR(45) NOT NULL,
+  Nombre       VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   Nivel        INT UNSIGNED NOT NULL DEFAULT 0,
   EsenciaAzul  INT UNSIGNED NULL DEFAULT 0,
   PuntosRiot   INT UNSIGNED NULL DEFAULT 0,
   PuntosLiga   MEDIUMINT   NULL DEFAULT 0,
   idRango      TINYINT UNSIGNED NULL DEFAULT 0,
   PRIMARY KEY (idCuenta),
+  
   INDEX fk_Cuenta_de_lol_rango_idx (idRango),
   CONSTRAINT fk_Cuenta_de_lol_rango
     FOREIGN KEY (idRango) REFERENCES RangoLol (idRango)
-    ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB;
+    ON DELETE SET NULL,
+    
+  CONSTRAINT fk_CuentaLol_Cuenta
+    FOREIGN KEY (idCuenta) REFERENCES Cuenta (idCuenta)
+    ON DELETE CASCADE
 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 -- TipoObjeto
 DROP TABLE IF EXISTS TipoObjeto;
 CREATE TABLE IF NOT EXISTS TipoObjeto (
   idTipoObjeto TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  Nombre       VARCHAR(45) NOT NULL,
+  Nombre       VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (idTipoObjeto),
   UNIQUE INDEX nombre_UNIQUE (Nombre)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Objeto
 DROP TABLE IF EXISTS Objeto;
 CREATE TABLE IF NOT EXISTS Objeto (
   idObjeto     SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  Nombre       VARCHAR(45) NOT NULL,
+  Nombre       VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PrecioEA     INT UNSIGNED NULL,
   PrecioRP     INT UNSIGNED NULL,
   Venta        INT UNSIGNED NULL,
@@ -98,7 +99,7 @@ CREATE TABLE IF NOT EXISTS Objeto (
   CONSTRAINT fk_Objeto_TipoObjeto1
     FOREIGN KEY (idTipoObjeto) REFERENCES TipoObjeto (idTipoObjeto)
     ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Inventario
 DROP TABLE IF EXISTS Inventario;
@@ -113,14 +114,13 @@ CREATE TABLE IF NOT EXISTS Inventario (
   CONSTRAINT fk_Inventario_CuentaLol1
     FOREIGN KEY (idCuenta) REFERENCES CuentaLol (idCuenta)
     ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- CuentaValorant
 DROP TABLE IF EXISTS CuentaValorant;
-
 CREATE TABLE IF NOT EXISTS CuentaValorant (
   idCuenta           INT UNSIGNED NOT NULL,
-  Nombre             VARCHAR(45) NULL,
+  Nombre             VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
   Nivel              INT UNSIGNED NOT NULL DEFAULT 0,
   Experiencia        INT UNSIGNED NOT NULL DEFAULT 0,
   PuntosCompetitivo  MEDIUMINT NOT NULL DEFAULT 0,
@@ -135,19 +135,19 @@ CREATE TABLE IF NOT EXISTS CuentaValorant (
     FOREIGN KEY (idCuenta) REFERENCES Cuenta (idCuenta)
     ON DELETE CASCADE          
     ON UPDATE NO ACTION
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- RangoValorant
 DROP TABLE IF EXISTS RangoValorant;
 CREATE TABLE IF NOT EXISTS RangoValorant (
   idRango           SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  Nombre            VARCHAR(45) NULL,
+  Nombre            VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
   Numero            SMALLINT UNSIGNED NULL,
   PuntosNecesarios  MEDIUMINT NOT NULL,
   PRIMARY KEY (idRango),
   UNIQUE INDEX idRango_UNIQUE (idRango),
   UNIQUE INDEX PuntosNecesarios_UNIQUE (PuntosNecesarios)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- InsertServidor 
 DROP PROCEDURE IF EXISTS InsertServidor;
