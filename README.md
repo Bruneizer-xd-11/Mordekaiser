@@ -5,7 +5,7 @@
 
 <h2 align="center"> E.T. Nº12 D.E. 1º "Libertador Gral. José de San Martín" </h2>
 
-**Alumnos**: Luis Armoa, Carlos Bruno, Ruben Torrent
+**Alumno**: Carlos Bruno
 **Asignatura**:  AGBD
 **Nombre TP**: Mordekaiser
 **Curso**: 5 ° 7
@@ -30,7 +30,6 @@ https://github.com/Armoaaa/MORDEKAISER
 - Git - [Descargar](https://git-scm.com/downloads)
 - MySQL - [Descargar](https://dev.mysql.com/downloads/mysql/)
 - Dapper - Micro ORM para .NET
-- Entity Framework Core - Para la gestión de datos en .NET
 
 ## Pasos para iniciar el proyecto 
 
@@ -112,7 +111,6 @@ El proyecto fue construido utilizando las siguientes herramientas y versiones:
 * Visual Studio Code
 * SQL Server
 * Dapper (versión 2.1.35)
-* Entity Framework Core
 * MySQL (versión 8.0 o superior)
 * XUnit (para pruebas unitarias)
-<!-- agarre de base el redme del equipo spotify XD peldon por el pecado no tenia tiempo -->
+
