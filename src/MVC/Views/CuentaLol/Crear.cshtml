@@ -1,3 +1,77 @@
 @model Mordekaiser.Core.CuentaLol
+@using Mordekaiser.Core
 
-<h1>Crear Cuenta</h1>
+@{
+    ViewData["Title"] = "Crear Cuenta LoL";
+    var cuentas = (IEnumerable<Cuenta>)ViewBag.Cuentas;
+    var rangos  = (IEnumerable<RangoLol>)ViewBag.Rangos;
+}
+
+<h1>Crear Cuenta LoL</h1>
+
+<form asp-action="Crear" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        <label class="form-label" for="IdCuenta">Cuenta base</label>
+        <select asp-for="IdCuenta" class="form-select" id="IdCuenta" required>
+            <option value="">-- Seleccione Cuenta --</option>
+            @foreach (var c in cuentas)
+            {
+                <option value="@c.IdCuenta">@c.IdCuenta - @c.Nombre (@c.Email)</option>
+            }
+        </select>
+        <span asp-validation-for="IdCuenta" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Nombre" class="form-label"></label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Nivel" class="form-label"></label>
+        <input asp-for="Nivel" type="number" class="form-control"  />
+        <span asp-validation-for="Nivel" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="EsenciaAzul" class="form-label"></label>
+        <input asp-for="EsenciaAzul" type="number" class="form-control" />
+        <span asp-validation-for="EsenciaAzul" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PuntosRiot" class="form-label"></label>
+        <input asp-for="PuntosRiot" type="number" class="form-control" />
+        <span asp-validation-for="PuntosRiot" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PuntosLiga" class="form-label"></label>
+        <input asp-for="PuntosLiga" type="number" class="form-control"  />
+        <span asp-validation-for="PuntosLiga" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="IdRango" class="form-label">Rango LoL</label>
+        <select asp-for="IdRango" class="form-select">
+            <option value="0">-- Sin Rango --</option>
+            @foreach (var r in rangos)
+            {
+                <option value="@r.IdRango">@r.Nombre (#{@r.Numero})</option>
+            }
+        </select>
+        <span asp-validation-for="IdRango" class="text-danger"></span>
+    </div>
+
+    <div class="mt-3 d-flex gap-2">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a asp-action="Listado" class="btn btn-secondary">Volver</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

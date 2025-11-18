@@ -1,10 +1,62 @@
 @model IEnumerable<Mordekaiser.Core.CuentaLol>
-ViewData ["Title"] = "Lista de cuentasLol";
-<h1>Lista de cuentasLol</h1>
 
-@if(Model == null || Model.Any())
+@{
+    ViewData["Title"] = "Listado de Cuentas LoL";
+}
 
+<h1>Listado de Cuentas LoL</h1>
 
+<div class="d-flex gap-2 mb-3">
+  <a class="btn btn-success" asp-action="Crear">Crear Cuenta LoL</a>
+
+  <form asp-action="BorrarTodasLasCuentasLol" method="post" class="m-0"
+        onsubmit="return confirm('Esto borrará todas las cuentas LoL, ¿seguro?');">
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-danger">Borrar todo</button>
+  </form>
+</div>
+
+@if (Model == null || !Model.Any())
 {
-    <p>No hay cuentas de League of legends cargadas</p>
+    <p>No hay cuentas LoL cargadas.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>IdCuenta</th>
+                <th>Nombre</th>
+                <th>Nivel</th>
+                <th>Esencia Azul</th>
+                <th>Puntos Riot</th>
+                <th>Puntos Liga</th>
+                <th>Id Rango</th>
+                <th>Nombre Rango</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var cuenta in Model)
+        {
+            <tr>
+                <td>@cuenta.IdCuenta</td>
+                <td>@cuenta.Nombre</td>
+                <td>@cuenta.Nivel</td>
+                <td>@cuenta.EsenciaAzul</td>
+                <td>@cuenta.PuntosRiot</td>
+                <td>@cuenta.PuntosLiga</td>
+                <td>@cuenta.IdRango</td>
+                <td>@cuenta.RangoLol?.Nombre</td>
+                <td>
+                    <form asp-action="BorrarPorId" asp-route-id="@cuenta.IdCuenta" method="post" class="d-inline"
+                          onsubmit="return confirm('¿Seguro que deseas borrar esta cuenta LoL?');">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-danger btn-sm">Borrar</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
 }
