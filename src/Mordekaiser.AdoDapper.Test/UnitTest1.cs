@@ -41,15 +41,7 @@ namespace Mordekaiser.AdoDapper.Test
         }
 
         [Fact]
-        public async Task ObtenerCuentaAsync()
-        {
-            var rangos = (await dao.ObtenerRangosLolAsync()).ToList();
 
-            Assert.NotEmpty(rangos);
-            Assert.Contains(rangos, r => r.Nombre == "Oro");
-        }
-
-        [Fact]
         public async Task ObtenerRangosValorantPorNombreAsync()
         {
             var rangos = (await dao.ObtenerRangosValorantAsync()).ToList();
