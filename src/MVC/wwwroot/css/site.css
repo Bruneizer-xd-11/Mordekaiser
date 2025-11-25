@@ -1,64 +1,64 @@
 
-body {
-    background: linear-gradient(135deg, #0a0f24, #1b2a4b, #2e1a47);
-    min-height: 100vh;
-    color: white;
-}
+    body {
+        background: linear-gradient(135deg, #0a0f24, #1b2a4b, #2e1a47);
+        min-height: 100vh;
+        color: white;
+    }
 
-.card,
-.table,
-.form-control,
-.form-select,
-.navbar,
-.list-group,
-.modal-content,
-.container,
-.row,
-.col,
-.bg-white,
-.bg-light {
-    background-color: rgba(0, 0, 0, 0.35) !important;
-    color: white !important;
-    backdrop-filter: blur(4px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 10px;
-}
+    .card,
+    .table,
+    .form-control,
+    .form-select,
+    .navbar,
+    .list-group,
+    .modal-content,
+    .container,
+    .row,
+    .col,
+    .bg-white,
+    .bg-light {
+        background-color: rgba(0, 0, 0, 0.35) !important;
+        color: white !important;
+        backdrop-filter: blur(4px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 10px;
+    }
 
-.form-control,
-.form-select {
-    border: 1px solid rgba(159, 92, 255, 0.5) !important;
-}
+    .form-control,
+    .form-select {
+        border: 1px solid rgba(159, 92, 255, 0.5) !important;
+    }
 
-.form-control:focus,
-.form-select:focus {
-    border-color: #9f5cff !important;
-    box-shadow: 0 0 10px rgba(159, 92, 255, 0.8) !important;
-    background-color: rgba(0, 0, 0, 0.5) !important;
-    color: white !important;
-}
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #9f5cff !important;
+        box-shadow: 0 0 10px rgba(159, 92, 255, 0.8) !important;
+        background-color: rgba(0, 0, 0, 0.5) !important;
+        color: white !important;
+    }
 
-.table {
-    background-color: rgba(0, 0, 0, 0.35) !important;
-    color: white !important;
-}
+    .table {
+        background-color: rgba(0, 0, 0, 0.35) !important;
+        color: white !important;
+    }
 
-.table thead {
-    background-color: rgba(255, 255, 255, 0.1) !important;
-}
+    .table thead {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+    }
 
-.table tbody tr:hover {
-    background-color: rgba(255, 255, 255, 0.05) !important;
-}
+    .table tbody tr:hover {
+        background-color: rgba(255, 255, 255, 0.05) !important;
+    }
 
-.btn-primary {
-    background-color: #9f5cff !important;
-    border-color: #9f5cff !important;
-}
+    .btn-primary {
+        background-color: #9f5cff !important;
+        border-color: #9f5cff !important;
+    }
 
-.btn-primary:hover {
-    background-color: #7d3df2 !important;
-}
+    .btn-primary:hover {
+        background-color: #7d3df2 !important;
+    }
 
-.text-danger {
-    color: #ff7675 !important;
-}
+    .text-danger {
+        color: #ff7675 !important;
+    }
