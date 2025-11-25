@@ -11,18 +11,18 @@ public class CuentaValorant
     public RangoValorant? RangoValorant { get; set; }
 
     [Required(ErrorMessage = "Debe elegir una cuenta base.")]
-    public uint idCuenta { get; set; }
+    public int idCuenta { get; set; }
 
     [Required(ErrorMessage = "Debe poner un nombre.")]
     public string? Nombre { get; set; }
 
     [Required(ErrorMessage = "Debe poner un valor.")]
     [Range(0, int.MaxValue, ErrorMessage = "No se permiten valores negativos.")]
-    public uint Nivel { get; set; }
+    public int Nivel { get; set; }
 
     [Required(ErrorMessage = "Debe poner un valor.")]
     [Range(0, int.MaxValue, ErrorMessage = "No se permiten valores negativos.")]
-    public uint Experiencia { get; set; }
+    public int Experiencia { get; set; }
 
     [Required(ErrorMessage = "Debe poner un valor.")]
     [Range(0, int.MaxValue, ErrorMessage = "No se permiten valores negativos.")]

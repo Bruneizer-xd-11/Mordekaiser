@@ -7,11 +7,11 @@
 <div class="d-flex gap-2 mb-3">
   <a class="btn btn-success" asp-action="Crear">Crear Cuenta Valorant</a>
 
-  <form asp-action="BorrarTodasLasCuentasValorant" method="post" class="m-0"
+  @* <form asp-action="BorrarTodasLasCuentasValorant" method="post" class="m-0"
         onsubmit="return confirm('Esto borrará todas las cuentas Valorant, seguro?');">
     @Html.AntiForgeryToken()
     <button type="submit" class="btn btn-danger">Borrar todo</button>
-  </form>
+  </form> *@
 </div>
 @if (Model == null || !Model.Any())
 {

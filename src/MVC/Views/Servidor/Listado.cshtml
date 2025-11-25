@@ -6,13 +6,14 @@
 
 <h1>Lista de Servidores</h1>
 
-<div class="d-flex gap-2 align-items-center">
+<div class="d-flex gap-2 mb-3">
     <a class="btn btn-success" asp-action="Crear">Crear Servidor</a>
-    <form asp-action="BorrarTodos" method="post" class="m-0"
+
+    @* <form asp-action="BorrarTodos" method="post" class="m-0"
          onsubmit="return confirm('Esto borrara todos los servidores y las cuentas asociadas, Seguro?');">
         @Html.AntiForgeryToken()
         <button type="submit" class="btn btn-danger">Borrar todo</button>
-    </form>
+    </form> *@
 </div>
 
 
