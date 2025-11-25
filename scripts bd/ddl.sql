@@ -454,9 +454,9 @@ BEGIN
   CALL InsertCuentaValorant(3,'CarlosValorant',10,2500,150,5);
   -- Cuentas LoL
 -- Cuentas LoL
-CALL InsertCuentaLol(1, 'LuisLoL',     5,   40,  10,  120, @PlataDos);
-CALL InsertCuentaLol(2, 'RubenLoL',   12,  120,  25,  250, @OroUno);
-CALL InsertCuentaLol(3, 'CarlosLoL',  22,  350,  70,  550, @PlatinoUno);
+CALL InsertCuentaLol(1, 'LuisLoL',     5,   40,  10,  120, 1);
+CALL InsertCuentaLol(2, 'RubenLoL',   12,  120,  25,  250, 3);
+CALL InsertCuentaLol(3, 'CarlosLoL',  22,  350,  70,  550, 5);
 
 
 
