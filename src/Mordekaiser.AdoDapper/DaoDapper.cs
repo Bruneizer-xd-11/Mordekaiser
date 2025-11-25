@@ -168,12 +168,25 @@ public async Task AltaCuentaLolAsync(CuentaLol cuentaLol)
     );
 
         return cuentas;
-    }
-    public async Task<IEnumerable<CuentaLol>> ObtenerCuentasLolAsync()
-    {
-        var query = @"SELECT * FROM CuentaLol ";
-        return await _conexion.QueryAsync<CuentaLol>(query);
-    }
+    }    
+public async Task<IEnumerable<CuentaLol>> ObtenerCuentasLolAsync()
+{
+    var sql = @"
+        SELECT c.*, r.idRango, r.Nombre, r.PuntosLigaNecesario, r.Numero
+        FROM CuentaLol c
+        LEFT JOIN RangoLol r ON c.idRango = r.idRango";
+
+    return await _conexion.QueryAsync<CuentaLol, RangoLol, CuentaLol>(
+        sql,
+        (cuenta, rango) =>
+        {
+            cuenta.RangoLol = rango;
+            return cuenta;
+        },
+        splitOn: "idRango"
+    );
+}
+
 public async Task<IEnumerable<CuentaValorant>> ObtenerCuentasValorantAsync()
 {
     var sql = @"
