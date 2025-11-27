@@ -18,12 +18,12 @@ builder.Services.AddScoped<IDbConnection>(_ =>
 // Inyección del Dao
 builder.Services.AddScoped<IDao, DaoDapper>();
 
-// 🔹 Autenticación con cookies (antes de Build)
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Auth/Login";
-        options.LogoutPath = "/Auth/Logout";
+        options.LoginPath = "/Login/Login";
+        options.LogoutPath = "/Login/Logout";
     });
 
 var app = builder.Build();
@@ -31,12 +31,11 @@ var app = builder.Build();
 app.UseStaticFiles();
 app.UseRouting();
 
-// 🔹 Middlewares (después de Build)
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Login}/{action=Login}/{id?}");
 
 app.Run();

@@ -4,12 +4,11 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using Mordekaiser.Core;
 
-public class AuthController : Controller
+public class LoginController : Controller
 {
     private readonly IDao _dao;
 
-    public AuthController(IDao dao) => _dao = dao;
-
+    public LoginController(IDao dao) => _dao = dao;
     [HttpGet]
     public IActionResult Login() => View();
 
