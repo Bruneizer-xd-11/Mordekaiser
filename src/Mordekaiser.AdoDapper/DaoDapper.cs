@@ -2,14 +2,29 @@
 using System.Threading.Tasks;
 using Dapper;
 using Mordekaiser.Core;
-
+using System.Security.Cryptography;
+using System.Text;
 namespace Mordekaiser.AdoDapper;
 
 public class DaoDapper : IDao
 {
     private readonly IDbConnection _conexion;
     public DaoDapper(IDbConnection conexion) => _conexion = conexion;
+public async Task<Cuenta?> LoginAsync(string userOrEmail, string password)
+{
+    using var sha = SHA256.Create();
+    var hashBytes = sha.ComputeHash(Encoding.UTF8.GetBytes(password));
+    var hash = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
 
+    string query = @"
+        SELECT * FROM Cuenta
+        WHERE (Nombre = @user OR eMail = @user)
+        AND Contrasena = @pass;
+    ";
+
+    return await _conexion.QueryFirstOrDefaultAsync<Cuenta>(query,
+                new { user = userOrEmail, pass = hash });
+}
     public async Task AltaServidorAsync(Servidor servidor)
     {
         var parametros = new DynamicParameters();
@@ -255,11 +270,7 @@ public async Task<IEnumerable<CuentaValorant>> ObtenerCuentasValorantAsync()
         var consulta = "SELECT * FROM Objeto";
         return await _conexion.QueryAsync<Objeto>(consulta);
     }
-    public async Task<Cuenta?> LoginAsync(string nombreUsuario, string contrasena)
-    {
-        var consulta = @"SELECT * FROM Cuenta WHERE Nombre = @Nombre AND Contrasena = SHA2(@Contrasena, 256)";
-        return await _conexion.QuerySingleOrDefaultAsync<Cuenta>(consulta, new { Nombre = nombreUsuario, Contrasena = contrasena });
-    }
+
     public async Task<IEnumerable<TipoObjeto>> ObtenerTiposObjetosAsync()
     {
         var obtener = "SELECT * FROM TipoObjeto";

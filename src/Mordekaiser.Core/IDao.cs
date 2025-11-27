@@ -7,7 +7,6 @@ public interface IDao
     Task BorrarTodosServidoresAsync();
     Task AltaCuentaAsync(Cuenta cuenta);
 
-
     Task AltaRangoLolAsync(RangoLol rangoLol);
 
 
