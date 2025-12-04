@@ -1,5 +1,5 @@
 namespace Mordekaiser.Core;
-using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 
 
     public class AuthService
@@ -11,10 +11,14 @@ using System.Linq;
             _usuarioActual = usuarioActual;
         }
 
-        public void RequiereRol(params Rol[] rolesPermitidos)
-        {
-            if (!rolesPermitidos.Contains(_usuarioActual.Rol))
-                throw new UnauthorizedAccessException("No tienes permisos para realizar esta acción.");
-        }
+        public IActionResult? RequiereRol(Rol rolRequerido)
+{
+    if (_usuarioActual.Rol != rolRequerido)
+    {
+        return new RedirectToActionResult("SinPermiso", "Home", null);
+    }
+
+    return null;
+}
     }
 

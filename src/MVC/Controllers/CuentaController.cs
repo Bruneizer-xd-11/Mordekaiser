@@ -25,7 +25,8 @@ namespace MVC.Controllers
 
         public async Task<IActionResult> Crear()
         {
-            _auth.RequiereRol(Rol.Admin);
+            var check = _auth.RequiereRol(Rol.Admin);
+            if (check != null) return check;
 
             ViewBag.Servidores = await _idao.ObtenerServidoresAsync();
             return View();
@@ -35,7 +36,8 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Crear(Cuenta cuenta)
         {
-            _auth.RequiereRol(Rol.Admin);
+            var check = _auth.RequiereRol(Rol.Admin);
+if (check != null) return check;
 
             if (!ModelState.IsValid)
             {
@@ -49,7 +51,8 @@ namespace MVC.Controllers
 
         public async Task<IActionResult> Borrar(uint id)
         {
-            _auth.RequiereRol(Rol.Admin);
+            var check = _auth.RequiereRol(Rol.Admin);
+            if (check != null) return check;
 
             await _idao.DeleteCuentaAsync(id);
             return RedirectToAction(nameof(Listado));

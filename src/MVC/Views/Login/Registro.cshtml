@@ -1,0 +1,47 @@
+@model Mordekaiser.Core.Cuenta
+
+<h2 class="text-center mb-4">Crear cuenta</h2>
+
+@if (!ViewData.ModelState.IsValid && ViewData.ModelState.Count > 0)
+{
+    <div class="alert alert-danger">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    </div>
+}
+
+<form method="post" asp-action="Registro" class="mx-auto" style="max-width: 400px;">
+    <div class="mb-3">
+        <label class="form-label">Nombre</label>
+        <input class="form-control" asp-for="Nombre" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input class="form-control" asp-for="Email" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Contraseña</label>
+        <input type="password" class="form-control" asp-for="Contrasena" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Servidor</label>
+        <select class="form-control" asp-for="IdServidor">
+            <option value="">-- Seleccionar Servidor --</option>
+            @foreach (var s in ViewBag.Servidores)
+            {
+                <option value="@s.idServidor">@s.Nombre</option>
+            }
+        </select>
+    </div>
+
+    <button class="btn btn-success w-100" type="submit">Registrarse</button>
+
+    <div class="text-center mt-3">
+        <a href="/Login/Login">¿Ya tienes cuenta? Inicia sesión</a>
+    </div>
+</form>

@@ -14,6 +14,8 @@ builder.Services.AddScoped<IDbConnection>(_ =>
     var cs = builder.Configuration.GetConnectionString("MySQL");
     return new MySqlConnection(cs);
 });
+builder.Services.AddScoped<UsuarioActualService>();
+
 
 // Inyección del Dao
 builder.Services.AddScoped<IDao, DaoDapper>();
@@ -30,7 +32,7 @@ builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
 });
-
+builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
 
 app.UseStaticFiles();

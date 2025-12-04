@@ -6,8 +6,9 @@ public interface IDao
     Task AltaServidorAsync(Servidor servidor);
     Task BorrarTodosServidoresAsync();
     Task AltaCuentaAsync(Cuenta cuenta);
-
-    Task AltaRangoLolAsync(RangoLol rangoLol);
+Task<Cuenta?> BuscarCuentaPorEmailAsync(string email);
+Task<Cuenta?> BuscarCuentaPorNombreAsync(string nombre)   ;
+ Task AltaRangoLolAsync(RangoLol rangoLol);
 
 
     Task AltaRangoValorantAsync(RangoValorant rangoValorant);

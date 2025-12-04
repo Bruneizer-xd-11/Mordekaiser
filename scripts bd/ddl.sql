@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS Cuenta (
   Nombre     VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   Contrasena CHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   eMail      VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
+  Rol INT NOT NULL DEFAULT 2,
   PRIMARY KEY (idCuenta),
   INDEX fk_Cuenta_Servidor1_idx (idServidor),
   UNIQUE INDEX uq_CuentaNombre (idServidor, Nombre),
@@ -180,11 +181,12 @@ CREATE PROCEDURE InsertCuenta (
   IN UnidServidor  TINYINT UNSIGNED,
   IN UnNombre      VARCHAR(45),
   IN UnContrasena  CHAR(64),
-  IN UneMail       VARCHAR(45)
+  IN UneMail       VARCHAR(45),
+  IN UnRol         INT
 )
 BEGIN
-  INSERT INTO Cuenta (idCuenta, idServidor, Nombre, Contrasena, eMail)
-  VALUES (UnidCuenta, UnidServidor, UnNombre, UnContrasena, UneMail);
+  INSERT INTO Cuenta (idCuenta, idServidor, Nombre, Contrasena, eMail, Rol)
+  VALUES (UnidCuenta, UnidServidor, UnNombre, UnContrasena, UneMail, UnRol);
 END $$
 DELIMITER ;
 
@@ -441,10 +443,10 @@ BEGIN
   CALL InsertServidor(9, 'Turquía',            'TR');
   CALL InsertServidor(10,'Rusia',              'RU');
   -- Cuentas 
-  Call InsertCuenta(1, 9, 'Admin',   '123456', 'admin@gmail.com');
-  CALL InsertCuenta(2, 1, 'Luis',   '123456', 'Luis@gmail.com');
-  CALL InsertCuenta(3, 8, 'Ruben',  '12345',  'Ruben@gmail.com');
-  CALL InsertCuenta(4, 3, 'Carlos', '1234',   'Carlos@gmail.com');
+  Call InsertCuenta(1, 9, 'Admin',   '123', 'admin@gmail.com',1);
+  CALL InsertCuenta(2, 1, 'Luis',   '123', 'Luis@gmail.com',2);
+  CALL InsertCuenta(3, 8, 'Ruben',  '123',  'Ruben@gmail.com',2);
+  CALL InsertCuenta(4, 3, 'Carlos', '123',   'Carlos@gmail.com',2);
   -- TipoObjeto
   CALL InsertTipoObjeto(2,'Centinelas');
   CALL InsertTipoObjeto(3,'Campeones');

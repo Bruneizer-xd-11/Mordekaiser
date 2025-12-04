@@ -25,6 +25,17 @@ public async Task<Cuenta?> LoginAsync(string userOrEmail, string password)
     return await _conexion.QueryFirstOrDefaultAsync<Cuenta>(query,
                 new { user = userOrEmail, pass = hash });
 }
+public async Task<Cuenta?> BuscarCuentaPorNombreAsync(string nombre)
+{
+    string sql = "SELECT * FROM Cuenta WHERE Nombre = @Nombre";
+    return await _conexion.QueryFirstOrDefaultAsync<Cuenta>(sql, new { Nombre = nombre });
+}
+public async Task<Cuenta?> BuscarCuentaPorEmailAsync(string email)
+{
+    string sql = "SELECT * FROM Cuenta WHERE Email = @Email";
+    return await _conexion.QueryFirstOrDefaultAsync<Cuenta>(sql, new { Email = email });
+}
+
     public async Task AltaServidorAsync(Servidor servidor)
     {
         var parametros = new DynamicParameters();
@@ -41,6 +52,7 @@ public async Task AltaCuentaAsync(Cuenta cuenta)
     parametros.Add("@UnNombre", cuenta.Nombre);
     parametros.Add("@Uncontrasena", cuenta.Contrasena);
     parametros.Add("@UneMail", cuenta.Email);
+    parametros.Add("@UnRol", cuenta.Rol);
 
     await _conexion.ExecuteAsync("InsertCuenta", parametros, commandType: CommandType.StoredProcedure);
 }
