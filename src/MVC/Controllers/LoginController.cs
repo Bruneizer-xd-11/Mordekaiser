@@ -64,22 +64,24 @@ public class LoginController : Controller
     private readonly IDao _dao;
 
     public LoginController(IDao dao) => _dao = dao;
-
-    // =========================
-    // LOGIN GET
-    // =========================
     [HttpGet]
-    public IActionResult Login() => View();
+    public IActionResult Login() {
+       
+    if(User.Identity.IsAuthenticated)
+    {
+        return RedirectToAction("Index", "Home");{
+           
+            
+        }}
+    return View();
+    }
+        
 
-    // =========================
-    // LOGIN POST
-    // =========================
     [HttpPost]
     public async Task<IActionResult> Login(LoginViewModel model)
     {
         if (!ModelState.IsValid)
             return View(model);
-
         var cuenta = await _dao.LoginAsync(model.UserOrEmail, model.Password);
 
         if (cuenta == null)
@@ -107,9 +109,6 @@ public class LoginController : Controller
         return RedirectToAction("Index", "Home");
     }
 
-    // =========================
-    // LOGOUT
-    // =========================
     [HttpPost]
     public async Task<IActionResult> Logout()
     {
@@ -117,9 +116,6 @@ public class LoginController : Controller
         return RedirectToAction("Login");
     }
 
-    // =========================
-    // REGISTRO GET
-    // =========================
     [HttpGet]
     public async Task<IActionResult> Registro()
     {
@@ -127,9 +123,6 @@ public class LoginController : Controller
         return View(); // --> Buscará la vista en Views/Login/Registro.cshtml
     }
 
-    // =========================
-    // REGISTRO POST
-    // =========================
     [HttpPost]
     public async Task<IActionResult> Registro(Cuenta model)
     {
