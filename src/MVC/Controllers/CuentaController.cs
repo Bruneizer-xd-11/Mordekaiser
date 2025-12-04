@@ -1,56 +1,74 @@
 using Microsoft.AspNetCore.Mvc;
 using Mordekaiser.Core;
 
-namespace MVC.Controllers;
-
-public class CuentaController : Controller
+namespace MVC.Controllers
 {
-    private readonly IDao _idao;
-
-    public CuentaController(IDao dao) => _idao = dao;
-
-    public async Task<IActionResult> Listado()
+    public class CuentaController : Controller
     {
-        var cuentas = await _idao.ObtenerCuentaAsync();
-        return View(cuentas);
-    }
-    public async Task<IActionResult> Crear()
-    {
-        ViewBag.Servidores = await _idao.ObtenerServidoresAsync();
-        return View();
-    }
+        private readonly IDao _idao;
+        private readonly AuthService _auth;
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Crear(Cuenta cuenta)
-    {
-        if (!ModelState.IsValid)
+        public CuentaController(IDao dao, UsuarioActualService usuarioActualService)
         {
+            _idao = dao;
+
+            var usuarioActual = usuarioActualService.ObtenerUsuario();
+
+            _auth = new AuthService(usuarioActual);
+        }
+
+        public async Task<IActionResult> Listado()
+        {
+            var cuentas = await _idao.ObtenerCuentaAsync();
+            return View(cuentas);
+        }
+
+        public async Task<IActionResult> Crear()
+        {
+            _auth.RequiereRol(Rol.Admin);
+
             ViewBag.Servidores = await _idao.ObtenerServidoresAsync();
-            return View(cuenta);
+            return View();
         }
-        await _idao.AltaCuentaAsync(cuenta);
 
-        return RedirectToAction(nameof(Listado));
-    }
-
-    public async Task<IActionResult> Borrar(uint id)
-    {
-        await _idao.DeleteCuentaAsync(id);
-        return RedirectToAction(nameof(Listado));
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> BorrarTodos()
-    {
-        var cuentas = await _idao.ObtenerCuentaAsync();
-
-        foreach (var cuenta in cuentas)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Crear(Cuenta cuenta)
         {
-            await _idao.DeleteCuentaAsync((uint)cuenta.IdCuenta);
+            _auth.RequiereRol(Rol.Admin);
+
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Servidores = await _idao.ObtenerServidoresAsync();
+                return View(cuenta);
+            }
+
+            await _idao.AltaCuentaAsync(cuenta);
+            return RedirectToAction(nameof(Listado));
         }
 
-        return RedirectToAction(nameof(Listado));
+        public async Task<IActionResult> Borrar(uint id)
+        {
+            _auth.RequiereRol(Rol.Admin);
+
+            await _idao.DeleteCuentaAsync(id);
+            return RedirectToAction(nameof(Listado));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BorrarTodos()
+        {
+            _auth.RequiereRol(Rol.Admin);
+
+            var cuentas = await _idao.ObtenerCuentaAsync();
+
+            foreach (var cuenta in cuentas)
+            {
+                await _idao.DeleteCuentaAsync((uint)cuenta.IdCuenta);
+            }
+
+            return RedirectToAction(nameof(Listado));
+        }
     }
 }

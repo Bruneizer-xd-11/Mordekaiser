@@ -18,7 +18,6 @@ builder.Services.AddScoped<IDbConnection>(_ =>
 // Inyección del Dao
 builder.Services.AddScoped<IDao, DaoDapper>();
 
-
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -26,14 +25,22 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.LogoutPath = "/Login/Logout";
     });
 
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+});
+
 var app = builder.Build();
 
 app.UseStaticFiles();
 app.UseRouting();
 
-app.UseAuthentication();
+app.UseSession();          
+app.UseAuthentication();   
 app.UseAuthorization();
 
+// Ruta por defecto
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Login}/{action=Login}/{id?}");

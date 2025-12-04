@@ -5,7 +5,7 @@ public class Cuenta
 {
     public Cuenta() { }
 
-    public uint IdCuenta { get; set; }
+    public int IdCuenta { get; set; }
 
     [Required(ErrorMessage = "Debe poner un nombre.")]
     public string Nombre { get; set; } = string.Empty;
@@ -26,4 +26,5 @@ public class Cuenta
 
     public CuentaLol? CuentaLol { get; set; }
     public CuentaValorant? CuentaValorant { get; set; }
+    public Rol Rol { get; set; }
 }

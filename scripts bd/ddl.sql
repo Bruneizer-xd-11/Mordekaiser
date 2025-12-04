@@ -441,9 +441,10 @@ BEGIN
   CALL InsertServidor(9, 'Turquía',            'TR');
   CALL InsertServidor(10,'Rusia',              'RU');
   -- Cuentas 
-  CALL InsertCuenta(1, 1, 'Luis',   '123456', 'Luis@gmail.com');
-  CALL InsertCuenta(2, 8, 'Ruben',  '12345',  'Ruben@gmail.com');
-  CALL InsertCuenta(3, 3, 'Carlos', '1234',   'Carlos@gmail.com');
+  Call InsertCuenta(1, 9, 'Admin',   '123456', 'admin@gmail.com');
+  CALL InsertCuenta(2, 1, 'Luis',   '123456', 'Luis@gmail.com');
+  CALL InsertCuenta(3, 8, 'Ruben',  '12345',  'Ruben@gmail.com');
+  CALL InsertCuenta(4, 3, 'Carlos', '1234',   'Carlos@gmail.com');
   -- TipoObjeto
   CALL InsertTipoObjeto(2,'Centinelas');
   CALL InsertTipoObjeto(3,'Campeones');
@@ -454,6 +455,7 @@ BEGIN
   CALL InsertCuentaValorant(3,'CarlosValorant',10,2500,150,5);
   -- Cuentas LoL
 -- Cuentas LoL
+
 CALL InsertCuentaLol(1, 'LuisLoL',     5,   40,  10,  120, 1);
 CALL InsertCuentaLol(2, 'RubenLoL',   12,  120,  25,  250, 3);
 CALL InsertCuentaLol(3, 'CarlosLoL',  22,  350,  70,  550, 5);
