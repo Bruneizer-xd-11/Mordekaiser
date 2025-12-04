@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Mordekaiser.Core;
+using MySqlConnector; // <--- importante, para MySqlException
 
 namespace MVC.Controllers
 {
@@ -16,8 +17,8 @@ namespace MVC.Controllers
 
         public async Task<IActionResult> Crear()
         {
-            ViewBag.Cuentas = await _dao.ObtenerCuentaAsync();            
-            ViewBag.Rangos = await _dao.ObtenerRangosLolAsync();         
+            ViewBag.Cuentas = await _dao.ObtenerCuentaAsync();
+            ViewBag.Rangos = await _dao.ObtenerRangosLolAsync();
             return View();
         }
 
@@ -32,7 +33,22 @@ namespace MVC.Controllers
                 return View(model);
             }
 
-            await _dao.AltaCuentaLolAsync(model);
+            try
+            {
+                await _dao.AltaCuentaLolAsync(model);
+            }
+            catch (MySqlException ex)
+            {
+                if (ex.Message.Contains("Duplicate"))
+                {
+                    ViewBag.Error = "No se puede crear 2 cuentas LoL en la misma cuenta.";
+                    ViewBag.Cuentas = await _dao.ObtenerCuentaAsync();
+                    ViewBag.Rangos = await _dao.ObtenerRangosLolAsync();
+                    return View(model);
+                }
+                throw; // re-lanzar si es otro error
+            }
+
             return RedirectToAction(nameof(Listado));
         }
 

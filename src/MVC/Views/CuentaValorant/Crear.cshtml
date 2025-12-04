@@ -1,16 +1,26 @@
 @model Mordekaiser.Core.CuentaValorant
 @using Mordekaiser.Core
-
 @{
     ViewData["Title"] = "Crear Cuenta Valorant";
+    
     var cuentas = (IEnumerable<Cuenta>)ViewBag.Cuentas;
     var rangos  = (IEnumerable<RangoValorant>)ViewBag.Rangos;
+    var rol = Context.Session.GetString("UsuarioRol");
+
+    var Id = Context.Session.GetInt32("UsuarioId");
 }
 
 <h1>Crear Cuenta Valorant</h1>
-
+@if (ViewBag.Error != null)
+{
+    Console.WriteLine(ViewBag.Error);
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
 <form asp-action="Crear" method="post">
     @Html.AntiForgeryToken()
+    @if( rol == "Admin")
+    {
+
 
     <div class="mb-3">
         <label class="form-label" for="idCuenta">Cuenta base</label>
@@ -23,6 +33,10 @@
         </select>
         <span asp-validation-for="idCuenta" class="text-danger"></span>
     </div>
+    }
+    else{
+        <input hidden asp-for="idCuenta" value="@Id"/>
+    }
 
     <div class="mb-3">
         <label asp-for="Nombre" class="form-label"></label>

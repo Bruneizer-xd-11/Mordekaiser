@@ -91,7 +91,7 @@ public class LoginController : Controller
         HttpContext.Session.SetString("UsuarioRol", cuenta.Rol.ToString());
         HttpContext.Session.SetString("UsuarioNombre", cuenta.Nombre);
         HttpContext.Session.SetInt32("UsuarioId", cuenta.IdCuenta);
-
+        Console.WriteLine(cuenta.IdCuenta);
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.Name, cuenta.Nombre),

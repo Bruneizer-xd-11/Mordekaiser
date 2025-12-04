@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Mordekaiser.Core;
+using MySqlConnector;  // <--- correcto para MySqlConnector
 
 namespace MVC.Controllers;
 
@@ -26,12 +27,28 @@ public class CuentaValorantController : Controller
     {
         if (!ModelState.IsValid)
         {
+                
             ViewBag.Cuentas = await _dao.ObtenerCuentaAsync();
             ViewBag.Rangos = await _dao.ObtenerRangosValorantAsync();
             return View(model);
         }
+        Console.WriteLine(model.idCuenta);
+        try{
+            await _dao.AltaCuentaValorantAsync(model);
 
-        await _dao.AltaCuentaValorantAsync(model);
+        }
+       catch (MySqlException ex)
+        {
+            if (ex.Message.Contains("Duplicate"))
+            {
+                ViewBag.Error = "No se puede crear 2 cuentas Valorant en la misma cuenta.";
+                ViewBag.Cuentas = await _dao.ObtenerCuentaAsync();
+                ViewBag.Rangos = await _dao.ObtenerRangosValorantAsync();
+                return View(model);
+            }
+            throw; // re-lanzar si es otra excepción
+        }
+
         return RedirectToAction(nameof(Listado));
     }
     [HttpPost]

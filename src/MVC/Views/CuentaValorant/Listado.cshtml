@@ -1,18 +1,16 @@
 @model IEnumerable<Mordekaiser.Core.CuentaValorant>
-
 @{
     ViewData["Title"] = "Listado de Cuentas Valorant";
+    var rol = Context.Session.GetString("UsuarioRol");
+    var miId = Context.Session.GetInt32("UsuarioId");
+    Console.WriteLine(miId);
 }
+
 <h1>Listado de Cuentas Valorant</h1>
 <div class="d-flex gap-2 mb-3">
   <a class="btn btn-success" asp-action="Crear">Crear Cuenta Valorant</a>
-
-  @* <form asp-action="BorrarTodasLasCuentasValorant" method="post" class="m-0"
-        onsubmit="return confirm('Esto borrará todas las cuentas Valorant, seguro?');">
-    @Html.AntiForgeryToken()
-    <button type="submit" class="btn btn-danger">Borrar todo</button>
-  </form> *@
 </div>
+
 @if (Model == null || !Model.Any())
 {
     <p>No hay cuentas Valorant cargadas.</p>
@@ -29,27 +27,36 @@ else
                 <th>Puntos Competitivo</th>
                 <th>Id Rango</th>
                 <th>Nombre Rango</th>
-                <th style="background-color:white;"></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
-        @foreach (var CuentaValorant in Model)
+        @foreach (var cuenta in Model)
         {
             <tr>
-                <td>@CuentaValorant.idCuenta</td>
-                <td>@CuentaValorant.Nombre</td>
-                <td>@CuentaValorant.Nivel</td>
-                <td>@CuentaValorant.Experiencia</td>
-                <td>@CuentaValorant.PuntosCompetitivo</td>
-                <td>@CuentaValorant.idRango</td>
-                <td>@CuentaValorant.RangoValorant?.Nombre</td>
                 <td>
-    <form asp-action="BorrarPorId" asp-route-id="@CuentaValorant.idCuenta" method="post" class="d-inline"
-          onsubmit="return confirm('¿Seguro que deseas borrar esta cuenta Valorant?');">
-        @Html.AntiForgeryToken()
-        <button type="submit" class="btn btn-danger btn-sm">Borrar</button>
-    </form>
-</td>
+                    @if(rol == "Admin" || cuenta.idCuenta == miId)
+                    {
+                        @cuenta.idCuenta
+                    }
+                    else
+                    {
+                        <text>-</text>
+                    }
+                </td>
+                <td>@cuenta.Nombre</td>
+                <td>@cuenta.Nivel</td>
+                <td>@cuenta.Experiencia</td>
+                <td>@cuenta.PuntosCompetitivo</td>
+                <td>@cuenta.idRango</td>
+                <td>@cuenta.RangoValorant?.Nombre</td>
+                <td>
+                    <form asp-action="BorrarPorId" asp-route-id="@cuenta.idCuenta" method="post" class="d-inline"
+                          onsubmit="return confirm('¿Seguro que deseas borrar esta cuenta Valorant?');">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-danger btn-sm">Borrar</button>
+                    </form>
+                </td>
             </tr>
         }
         </tbody>

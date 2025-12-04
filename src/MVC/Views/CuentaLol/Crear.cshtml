@@ -5,24 +5,38 @@
     ViewData["Title"] = "Crear Cuenta LoL";
     var cuentas = (IEnumerable<Cuenta>)ViewBag.Cuentas;
     var rangos  = (IEnumerable<RangoLol>)ViewBag.Rangos;
+    var rol = Context.Session.GetString("UsuarioRol");
+    var Id = Context.Session.GetInt32("UsuarioId");
 }
 
 <h1>Crear Cuenta LoL</h1>
 
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
 <form asp-action="Crear" method="post">
     @Html.AntiForgeryToken()
 
-    <div class="mb-3">
-        <label class="form-label" for="IdCuenta">Cuenta base</label>
-        <select asp-for="IdCuenta" class="form-select" id="IdCuenta" required>
-            <option value="">-- Seleccione Cuenta --</option>
-            @foreach (var c in cuentas)
-            {
-                <option value="@c.IdCuenta">@c.IdCuenta - @c.Nombre (@c.Email)</option>
-            }
-        </select>
-        <span asp-validation-for="IdCuenta" class="text-danger"></span>
-    </div>
+    @if (rol == "Admin")
+    {
+        <div class="mb-3">
+            <label class="form-label" for="IdCuenta">Cuenta base</label>
+            <select asp-for="IdCuenta" class="form-select" id="IdCuenta" required>
+                <option value="">-- Seleccione Cuenta --</option>
+                @foreach (var c in cuentas)
+                {
+                    <option value="@c.IdCuenta">@c.IdCuenta - @c.Nombre (@c.Email)</option>
+                }
+            </select>
+            <span asp-validation-for="IdCuenta" class="text-danger"></span>
+        </div>
+    }
+    else
+    {
+        <input hidden asp-for="IdCuenta" value="@Id"/>
+    }
 
     <div class="mb-3">
         <label asp-for="Nombre" class="form-label"></label>
@@ -32,7 +46,7 @@
 
     <div class="mb-3">
         <label asp-for="Nivel" class="form-label"></label>
-        <input asp-for="Nivel" type="number" class="form-control"  />
+        <input asp-for="Nivel" type="number" class="form-control" />
         <span asp-validation-for="Nivel" class="text-danger"></span>
     </div>
 
@@ -50,7 +64,7 @@
 
     <div class="mb-3">
         <label asp-for="PuntosLiga" class="form-label"></label>
-        <input asp-for="PuntosLiga" type="number" class="form-control"  />
+        <input asp-for="PuntosLiga" type="number" class="form-control" />
         <span asp-validation-for="PuntosLiga" class="text-danger"></span>
     </div>
 
