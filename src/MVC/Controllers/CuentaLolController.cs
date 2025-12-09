@@ -53,34 +53,45 @@ namespace MVC.Controllers
             return RedirectToAction(nameof(Listado));
         }
 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> BorrarPorId(uint id)
         {
-            var cuenta = await _dao.ObtenerCuentaLolPorIdAsync(id);
+            var cuentaLol = await _dao.ObtenerCuentaLolPorIdAsync(id);
 
-            if (cuenta == null)
+            if (cuentaLol == null)
             {
-                TempData["Error"] = "La cuenta LoL no existe.";
-                return RedirectToAction("Listado");
+                return NotFound();
+            }
+            if (User.FindFirst("IdCuenta") == null)
+            {
+                return Unauthorized();
             }
 
-            var usuarioId = HttpContext.Session.GetInt32("UsuarioId");
-            var usuarioRol = HttpContext.Session.GetString("UsuarioRol");
-
-            if (usuarioId == null)
+            int userId = int.Parse(User.FindFirst("IdCuenta")!.Value);
+            if (cuentaLol.IdCuenta != userId && !User.IsInRole("Admin"))
+            {
                 return Forbid();
+            }
 
-            bool esAdmin = usuarioRol == "1";
-            bool esPropietario = cuenta.IdCuenta == usuarioId; // <-- ahora está bien
 
-            if (!esAdmin && !esPropietario)
-                return Forbid();
+            try
+            {
 
-            await _dao.BajaCuentaLolAsync(id);
+                await _dao.BajaCuentaLolAsync(id);
+                TempData["SuccessMessage"] = "Cuenta League of Legends eliminada correctamente.";
+            }
+            catch (MySqlException ex)
+            {
+                TempData["ErrorMessage"] = $"Error al eliminar la cuenta LoL. Razón: {ex.Message}";
+            }
+            catch (Exception)
+            {
+                TempData["ErrorMessage"] = "Ocurrió un error al intentar eliminar la cuenta LoL.";
+            }
 
-            TempData["Success"] = "Cuenta LoL eliminada correctamente.";
-            return RedirectToAction("Listado");
+            return RedirectToAction("Listado"); 
         }
     }
 }

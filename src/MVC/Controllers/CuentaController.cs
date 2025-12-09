@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Mordekaiser.Core;
-
+using MySqlConnector;
 namespace MVC.Controllers
 {
     public class CuentaController : Controller
@@ -10,12 +10,12 @@ namespace MVC.Controllers
         private readonly IDao _dao;
         public CuentaController(IDao dao) => _dao = dao;
 
-       public async Task<IActionResult> Listado()
-{
-    // Trae todas las cuentas, sin importar el rol
-    var cuentas = (await _dao.ObtenerCuentaAsync()).ToList();
-    return View(cuentas);
-}
+        public async Task<IActionResult> Listado()
+        {
+
+            var cuentas = (await _dao.ObtenerCuentaAsync()).ToList();
+            return View(cuentas);
+        }
 
         public async Task<IActionResult> Detalle(int id)
         {
@@ -74,34 +74,48 @@ namespace MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> BorrarPorId(int id)
+        public async Task<IActionResult> BorrarPorId(int id) 
         {
-            var cuenta = await _dao.ObtenerCuentaPorIdAsync(id);
-            if (cuenta == null)
+            var cuentaBase = await _dao.ObtenerCuentaPorIdAsync(id);
+
+            if (cuentaBase == null)
             {
-                TempData["Error"] = "La cuenta no existe.";
-                return RedirectToAction("Listado");
+                return NotFound();
+            }
+            if (User.FindFirst("IdCuenta") == null)
+            {
+                return Unauthorized();
+            }
+            int userId = int.Parse(User.FindFirst("IdCuenta")!.Value);
+            if (cuentaBase.IdCuenta != userId && !User.IsInRole("Admin"))
+            {
+                return Forbid();
+            }
+            if (cuentaBase.Rol.ToString() == "Admin" && cuentaBase.IdCuenta == userId)
+            {
+                TempData["ErrorMessage"] = "No puedes eliminar tu propia cuenta de Administrador.";
+                return RedirectToAction("ListadoCuentas");
+            }
+            try
+            {
+                await _dao.BajaCuentaAsync(id);
+                TempData["SuccessMessage"] = "Cuenta base eliminada correctamente.";
+
+                if (cuentaBase.IdCuenta == userId)
+                {
+                    await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                    return RedirectToAction("Login", "Login");
+                }
+            }
+            catch (MySqlException ex)
+            {
+                TempData["ErrorMessage"] = "ERROR: La cuenta base no se puede eliminar. Debe borrar primero las cuentas LOL/Valorant que dependen de ella.";
+            }
+            catch (Exception)
+            {
+                TempData["ErrorMessage"] = "Ocurrió un error al intentar eliminar la cuenta base.";
             }
 
-            var usuarioId = HttpContext.Session.GetInt32("UsuarioId");
-            var usuarioRol = HttpContext.Session.GetInt32("UsuarioRol") ?? 0;
-
-            bool esAdmin = usuarioRol == (int)Rol.Admin;
-            bool esPropietario = usuarioId == cuenta.IdCuenta;
-
-            if (!esAdmin && !esPropietario)
-                return View("~/Views/Home/SinPermiso.cshtml");
-
-            await _dao.BajaCuentaAsync(id);
-
-            if (esPropietario)
-            {
-                HttpContext.Session.Clear();
-                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-                return RedirectToAction("Login", "Login");
-            }
-
-            TempData["Success"] = "Cuenta eliminada correctamente.";
             return RedirectToAction("Listado");
         }
     }

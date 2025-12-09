@@ -176,36 +176,36 @@ namespace MVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
-        {
-            if (!ModelState.IsValid)
-                return View(model);
+public async Task<IActionResult> Login(LoginViewModel model)
+{
+    if (!ModelState.IsValid)
+        return View(model);
 
-            var cuenta = await _dao.LoginAsync(model.UserOrEmail, model.Password);
-            if (cuenta == null)
-            {
-                ModelState.AddModelError("", "Usuario/Email o contraseña incorrectos.");
-                return View(model);
-            }
+    var cuenta = await _dao.LoginAsync(model.UserOrEmail, model.Password);
+    if (cuenta == null)
+    {
+        ModelState.AddModelError("", "Usuario/Email o contraseña incorrectos.");
+        return View(model);
+    }
+    HttpContext.Session.SetString("UsuarioRol", cuenta.Rol.ToString());
+    HttpContext.Session.SetString("UsuarioNombre", cuenta.Nombre);
+    HttpContext.Session.SetInt32("UsuarioId", cuenta.IdCuenta);
+    var claims = new List<Claim>
+    {
 
-            // Guardar rol como entero
-           HttpContext.Session.SetString("UsuarioRol", cuenta.Rol.ToString());
+        new Claim(ClaimTypes.Name, cuenta.Nombre),
+        new Claim("IdCuenta", cuenta.IdCuenta.ToString()),
+        new Claim(ClaimTypes.Role, cuenta.Rol.ToString()) 
+    };
 
-            HttpContext.Session.SetString("UsuarioNombre", cuenta.Nombre);
-            HttpContext.Session.SetInt32("UsuarioId", cuenta.IdCuenta);
+    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+    
+    await HttpContext.SignInAsync(
+        CookieAuthenticationDefaults.AuthenticationScheme,
+        new ClaimsPrincipal(identity));
 
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, cuenta.Nombre),
-                new Claim("IdCuenta", cuenta.IdCuenta.ToString())
-            };
-
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(identity));
-
-            return RedirectToAction("Index", "Home");
-        }
+    return RedirectToAction("Index", "Home");
+}
 
         [HttpPost]
         public async Task<IActionResult> Logout()
