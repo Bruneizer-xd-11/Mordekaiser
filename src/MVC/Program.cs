@@ -19,14 +19,13 @@ builder.Services.AddScoped<UsuarioActualService>();
 
 // Inyección del Dao
 builder.Services.AddScoped<IDao, DaoDapper>();
-
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
         options.LoginPath = "/Login/Login";
         options.LogoutPath = "/Login/Logout";
+        options.AccessDeniedPath = "/Home/SinPermiso"; 
     });
-
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {

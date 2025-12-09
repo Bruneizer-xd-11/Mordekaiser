@@ -47,7 +47,7 @@ else
                 <td>@cuenta.Email</td>
                 <td>@cuenta.Servidor?.Nombre</td>
                 <td>
-                    <form asp-action="Borrar" asp-route-id="@cuenta.IdCuenta" method="post" class="d-inline"
+                    <form asp-action="BorrarPorId" asp-route-id="@cuenta.IdCuenta" method="post" class="d-inline"
                           onsubmit="return confirm('¿Seguro que deseas borrar esta cuenta?');">
                         @Html.AntiForgeryToken()
                         <button type="submit" class="btn btn-danger btn-sm">Borrar</button>

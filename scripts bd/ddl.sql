@@ -447,9 +447,9 @@ BEGIN
   CALL InsertServidor(10,'Rusia',              'RU');
   -- Cuentas 
   Call InsertCuenta(1, 9, 'Admin',   '123', 'admin@gmail.com',1);
-  CALL InsertCuenta(2, 1, 'Luis',   '123', 'Luis@gmail.com',2);
-  CALL InsertCuenta(3, 8, 'Ruben',  '123',  'Ruben@gmail.com',2);
-  CALL InsertCuenta(4, 3, 'Carlos', '123',   'Carlos@gmail.com',2);
+  CALL InsertCuenta(2, 1, 'Carlos',   '123', 'Carlos@gmail.com',2);
+  CALL InsertCuenta(3, 8, 'Luis',  '123',  'Luis@gmail.com',2);
+  CALL InsertCuenta(4, 3, 'Ruben', '123',   'Ruben@gmail.com',2);
   -- TipoObjeto
   CALL InsertTipoObjeto(2,'Centinelas');
   CALL InsertTipoObjeto(3,'Campeones');
@@ -457,13 +457,15 @@ BEGIN
   CALL InsertTipoObjeto(5,'FragmentosCentinelas');
   CALL InsertTipoObjeto(6,'Gestos');
   CALL InsertTipoObjeto(7,'Accesorios');
-  CALL InsertCuentaValorant(3,'CarlosValorant',10,2500,150,5);
+  CALL InsertCuentaValorant(4,'RubenValorant',10,1000,0,5);
+  CALL InsertCuentaValorant(3,'LuisValorant',20,2000,100,5);
+  CALL InsertCuentaValorant(2,'CarlosValorant',30,3000,200,5);
   -- Cuentas LoL
 -- Cuentas LoL
 
-CALL InsertCuentaLol(1, 'LuisLoL',     5,   40,  10,  120, 1);
-CALL InsertCuentaLol(2, 'RubenLoL',   12,  120,  25,  250, 3);
-CALL InsertCuentaLol(3, 'CarlosLoL',  22,  350,  70,  550, 5);
+CALL InsertCuentaLol(2, 'CarlosLol',   12,  120,  25,  250, 3);
+CALL InsertCuentaLol(3, 'LuisLol',  22,  350,  70,  550, 5);
+CALL InsertCuentaLol(4, 'RubenLol',     5,   40,  10,  120, 1);
 
 
 

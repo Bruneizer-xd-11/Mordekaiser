@@ -1,3 +1,58 @@
+// // using Microsoft.AspNetCore.Mvc;
+// // using Microsoft.AspNetCore.Authentication;
+// // using Microsoft.AspNetCore.Authentication.Cookies;
+// // using System.Security.Claims;
+// // using Mordekaiser.Core;
+
+// // public class LoginController : Controller
+// // {
+// //     private readonly IDao _dao;
+
+// //     public LoginController(IDao dao) => _dao = dao;
+// //     [HttpGet]
+// //     public IActionResult Login() => View();
+
+// //     [HttpPost]
+// //     public async Task<IActionResult> Login(LoginViewModel model)
+// //     {
+// //         if (!ModelState.IsValid)
+// //             return View(model);
+
+// //         var cuenta = await _dao.LoginAsync(model.UserOrEmail, model.Password);
+    
+// //         if (cuenta == null)
+// //         {
+// //             ModelState.AddModelError("", "Usuario/Email o contraseña incorrectos.");
+// //             return View(model);
+// //         }
+// //         HttpContext.Session.SetString("UsuarioRol", cuenta.Rol.ToString());
+// //         HttpContext.Session.SetString("UsuarioNombre", cuenta.Nombre);
+// //         HttpContext.Session.SetInt32("UsuarioId", (int)cuenta.IdCuenta);
+
+// //         var claims = new List<Claim>
+// //         {
+// //             new Claim(ClaimTypes.Name, cuenta.Nombre),
+// //             new Claim("IdCuenta", cuenta.IdCuenta.ToString())
+// //         };
+
+// //         var identity = new ClaimsIdentity(claims,
+// //             CookieAuthenticationDefaults.AuthenticationScheme);
+
+// //         await HttpContext.SignInAsync(
+// //             CookieAuthenticationDefaults.AuthenticationScheme,
+// //             new ClaimsPrincipal(identity));
+
+// //         return RedirectToAction("Index", "Home");
+// //     }
+
+// //     [HttpPost]
+// //       public async Task<IActionResult> Logout()
+// //     {
+// //         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+// //         return RedirectToAction("Login");
+// //     }
+    
+// // }
 // using Microsoft.AspNetCore.Mvc;
 // using Microsoft.AspNetCore.Authentication;
 // using Microsoft.AspNetCore.Authentication.Cookies;
@@ -10,33 +65,42 @@
 
 //     public LoginController(IDao dao) => _dao = dao;
 //     [HttpGet]
-//     public IActionResult Login() => View();
+//     public IActionResult Login() {
+       
+//     if(User.Identity.IsAuthenticated)
+//     {
+//         return RedirectToAction("Index", "Home");{
+           
+            
+//         }}
+//     return View();
+//     }
+        
 
 //     [HttpPost]
 //     public async Task<IActionResult> Login(LoginViewModel model)
 //     {
 //         if (!ModelState.IsValid)
 //             return View(model);
-
 //         var cuenta = await _dao.LoginAsync(model.UserOrEmail, model.Password);
-    
+
 //         if (cuenta == null)
 //         {
 //             ModelState.AddModelError("", "Usuario/Email o contraseña incorrectos.");
 //             return View(model);
 //         }
+
 //         HttpContext.Session.SetString("UsuarioRol", cuenta.Rol.ToString());
 //         HttpContext.Session.SetString("UsuarioNombre", cuenta.Nombre);
-//         HttpContext.Session.SetInt32("UsuarioId", (int)cuenta.IdCuenta);
-
+//         HttpContext.Session.SetInt32("UsuarioId", cuenta.IdCuenta);
+//         Console.WriteLine(cuenta.IdCuenta);
 //         var claims = new List<Claim>
 //         {
 //             new Claim(ClaimTypes.Name, cuenta.Nombre),
 //             new Claim("IdCuenta", cuenta.IdCuenta.ToString())
 //         };
 
-//         var identity = new ClaimsIdentity(claims,
-//             CookieAuthenticationDefaults.AuthenticationScheme);
+//         var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
 //         await HttpContext.SignInAsync(
 //             CookieAuthenticationDefaults.AuthenticationScheme,
@@ -46,12 +110,48 @@
 //     }
 
 //     [HttpPost]
-//       public async Task<IActionResult> Logout()
+//     public async Task<IActionResult> Logout()
 //     {
 //         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 //         return RedirectToAction("Login");
 //     }
-    
+
+//     [HttpGet]
+//     public async Task<IActionResult> Registro()
+//     {
+//         ViewBag.Servidores = await _dao.ObtenerServidoresAsync();
+//         return View(); 
+//     }
+
+//     [HttpPost]
+//     public async Task<IActionResult> Registro(Cuenta model)
+//     {
+//         if (!ModelState.IsValid)
+//         {
+//             ViewBag.Servidores = await _dao.ObtenerServidoresAsync();
+//             return View(model);
+//         }
+
+//         var existenteEmail = await _dao.BuscarCuentaPorEmailAsync(model.Email);
+//         if (existenteEmail != null)
+//         {
+//             ModelState.AddModelError("", "El correo ya está registrado.");
+//             ViewBag.Servidores = await _dao.ObtenerServidoresAsync();
+//             return View(model);
+//         }
+
+//         var existenteNombre = await _dao.BuscarCuentaPorNombreAsync(model.Nombre);
+//         if (existenteNombre != null)
+//         {
+//             ModelState.AddModelError("", "El nombre de usuario ya está en uso.");
+//             ViewBag.Servidores = await _dao.ObtenerServidoresAsync();
+//             return View(model);
+//         }
+
+//         await _dao.AltaCuentaAsync(model);
+
+//         return RedirectToAction("Login");
+//     }
 // }
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication;
@@ -59,98 +159,99 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using Mordekaiser.Core;
 
-public class LoginController : Controller
+namespace MVC.Controllers
 {
-    private readonly IDao _dao;
-
-    public LoginController(IDao dao) => _dao = dao;
-    [HttpGet]
-    public IActionResult Login() {
-       
-    if(User.Identity.IsAuthenticated)
+    public class LoginController : Controller
     {
-        return RedirectToAction("Index", "Home");{
-           
-            
-        }}
-    return View();
-    }
-        
+        private readonly IDao _dao;
+        public LoginController(IDao dao) => _dao = dao;
 
-    [HttpPost]
-    public async Task<IActionResult> Login(LoginViewModel model)
-    {
-        if (!ModelState.IsValid)
-            return View(model);
-        var cuenta = await _dao.LoginAsync(model.UserOrEmail, model.Password);
-
-        if (cuenta == null)
+        [HttpGet]
+        public IActionResult Login()
         {
-            ModelState.AddModelError("", "Usuario/Email o contraseña incorrectos.");
-            return View(model);
+            if (User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
+            return View();
         }
 
-        HttpContext.Session.SetString("UsuarioRol", cuenta.Rol.ToString());
-        HttpContext.Session.SetString("UsuarioNombre", cuenta.Nombre);
-        HttpContext.Session.SetInt32("UsuarioId", cuenta.IdCuenta);
-        Console.WriteLine(cuenta.IdCuenta);
-        var claims = new List<Claim>
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
-            new Claim(ClaimTypes.Name, cuenta.Nombre),
-            new Claim("IdCuenta", cuenta.IdCuenta.ToString())
-        };
+            if (!ModelState.IsValid)
+                return View(model);
 
-        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var cuenta = await _dao.LoginAsync(model.UserOrEmail, model.Password);
+            if (cuenta == null)
+            {
+                ModelState.AddModelError("", "Usuario/Email o contraseña incorrectos.");
+                return View(model);
+            }
 
-        await HttpContext.SignInAsync(
-            CookieAuthenticationDefaults.AuthenticationScheme,
-            new ClaimsPrincipal(identity));
+            // Guardar rol como entero
+            HttpContext.Session.SetInt32("UsuarioRol", (int)cuenta.Rol);
+            HttpContext.Session.SetString("UsuarioNombre", cuenta.Nombre);
+            HttpContext.Session.SetInt32("UsuarioId", cuenta.IdCuenta);
 
-        return RedirectToAction("Index", "Home");
-    }
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, cuenta.Nombre),
+                new Claim("IdCuenta", cuenta.IdCuenta.ToString())
+            };
 
-    [HttpPost]
-    public async Task<IActionResult> Logout()
-    {
-        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        return RedirectToAction("Login");
-    }
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(identity));
 
-    [HttpGet]
-    public async Task<IActionResult> Registro()
-    {
-        ViewBag.Servidores = await _dao.ObtenerServidoresAsync();
-        return View(); // --> Buscará la vista en Views/Login/Registro.cshtml
-    }
+            return RedirectToAction("Index", "Home");
+        }
 
-    [HttpPost]
-    public async Task<IActionResult> Registro(Cuenta model)
-    {
-        if (!ModelState.IsValid)
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Registro()
         {
             ViewBag.Servidores = await _dao.ObtenerServidoresAsync();
-            return View(model);
+            return View();
         }
 
-        var existenteEmail = await _dao.BuscarCuentaPorEmailAsync(model.Email);
-        if (existenteEmail != null)
+        [HttpPost]
+        public async Task<IActionResult> Registro(Cuenta model)
         {
-            ModelState.AddModelError("", "El correo ya está registrado.");
-            ViewBag.Servidores = await _dao.ObtenerServidoresAsync();
-            return View(model);
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Servidores = await _dao.ObtenerServidoresAsync();
+                return View(model);
+            }
+
+            var existenteEmail = await _dao.BuscarCuentaPorEmailAsync(model.Email);
+            if (existenteEmail != null)
+            {
+                ModelState.AddModelError("", "El correo ya está registrado.");
+                ViewBag.Servidores = await _dao.ObtenerServidoresAsync();
+                return View(model);
+            }
+
+            var existenteNombre = await _dao.BuscarCuentaPorNombreAsync(model.Nombre);
+            if (existenteNombre != null)
+            {
+                ModelState.AddModelError("", "El nombre de usuario ya está en uso.");
+                ViewBag.Servidores = await _dao.ObtenerServidoresAsync();
+                return View(model);
+            }
+
+            await _dao.AltaCuentaAsync(model);
+            return RedirectToAction("Login");
         }
-
-        var existenteNombre = await _dao.BuscarCuentaPorNombreAsync(model.Nombre);
-        if (existenteNombre != null)
-        {
-            ModelState.AddModelError("", "El nombre de usuario ya está en uso.");
-            ViewBag.Servidores = await _dao.ObtenerServidoresAsync();
-            return View(model);
-        }
-
-        await _dao.AltaCuentaAsync(model);
-
-        return RedirectToAction("Login");
     }
 }
+
+
+
 

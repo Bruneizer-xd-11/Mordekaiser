@@ -4,60 +4,71 @@ using Dapper;
 using Mordekaiser.Core;
 using System.Security.Cryptography;
 using System.Text;
+
 namespace Mordekaiser.AdoDapper;
 
 public class DaoDapper : IDao
 {
     private readonly IDbConnection _conexion;
     public DaoDapper(IDbConnection conexion) => _conexion = conexion;
-public Task<CuentaLol> ObtenerCuentaLolPorIdAsync(uint id)
-{
-    return _conexion.QueryFirstOrDefaultAsync<CuentaLol>(
-        "SELECT * FROM CuentaLol WHERE idCuenta = @id",
-        new { id }
-    );
-}
+    public async Task<Cuenta?> ObtenerCuentaPorIdAsync(int id)
+    {
+        return await _conexion.QueryFirstOrDefaultAsync<Cuenta>(
+            "SELECT * FROM Cuenta WHERE idCuenta = @id",
+            new { id }
+        );
+    }
 
-public Task<CuentaValorant?> ObtenerCuentaValorantPorIdAsync(int id)
-{
-    return _conexion.QueryFirstOrDefaultAsync<CuentaValorant?>(
-        "SELECT * FROM CuentaValorant WHERE idCuenta = @id",
-        new { id }
-    );
-}
+    public async Task<int> BajaCuentaAsync(int id)
+    {
+        return await DeleteCuentaAsync((uint)id);
+    }
 
-public Task<Cuenta> ObtenerCuentaPorIdAsync(uint id)
-{
-    return _conexion.QueryFirstOrDefaultAsync<Cuenta>(
-        "SELECT * FROM Cuenta WHERE idCuenta = @id",
-        new { id }
-    );
-}
-public async Task<Cuenta?> LoginAsync(string userOrEmail, string password)
-{
-    using var sha = SHA256.Create();
-    var hashBytes = sha.ComputeHash(Encoding.UTF8.GetBytes(password));
-    var hash = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+    public Task<CuentaLol> ObtenerCuentaLolPorIdAsync(uint id)
+    {
+        return _conexion.QueryFirstOrDefaultAsync<CuentaLol>(
+            "SELECT * FROM CuentaLol WHERE idCuenta = @id",
+            new { id }
+        );
+    }
 
-    string query = @"
-        SELECT * FROM Cuenta
-        WHERE (Nombre = @user OR eMail = @user)
-        AND Contrasena = @pass;
-    ";
+    public Task<CuentaValorant?> ObtenerCuentaValorantPorIdAsync(int id)
+    {
+        return _conexion.QueryFirstOrDefaultAsync<CuentaValorant?>(
+            "SELECT * FROM CuentaValorant WHERE idCuenta = @id",
+            new { id }
+        );
+    }
 
-    return await _conexion.QueryFirstOrDefaultAsync<Cuenta>(query,
-                new { user = userOrEmail, pass = hash });
-}
-public async Task<Cuenta?> BuscarCuentaPorNombreAsync(string nombre)
-{
-    string sql = "SELECT * FROM Cuenta WHERE Nombre = @Nombre";
-    return await _conexion.QueryFirstOrDefaultAsync<Cuenta>(sql, new { Nombre = nombre });
-}
-public async Task<Cuenta?> BuscarCuentaPorEmailAsync(string email)
-{
-    string sql = "SELECT * FROM Cuenta WHERE Email = @Email";
-    return await _conexion.QueryFirstOrDefaultAsync<Cuenta>(sql, new { Email = email });
-}
+    public async Task<Cuenta?> LoginAsync(string userOrEmail, string password)
+    {
+        using var sha = SHA256.Create();
+        var hashBytes = sha.ComputeHash(Encoding.UTF8.GetBytes(password));
+        var hash = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+
+        string query = @"
+            SELECT * FROM Cuenta
+            WHERE (Nombre = @user OR eMail = @user)
+            AND Contrasena = @pass;
+        ";
+
+        return await _conexion.QueryFirstOrDefaultAsync<Cuenta>(
+            query,
+            new { user = userOrEmail, pass = hash }
+        );
+    }
+
+    public async Task<Cuenta?> BuscarCuentaPorNombreAsync(string nombre)
+    {
+        string sql = "SELECT * FROM Cuenta WHERE Nombre = @Nombre";
+        return await _conexion.QueryFirstOrDefaultAsync<Cuenta>(sql, new { Nombre = nombre });
+    }
+
+    public async Task<Cuenta?> BuscarCuentaPorEmailAsync(string email)
+    {
+        string sql = "SELECT * FROM Cuenta WHERE Email = @Email";
+        return await _conexion.QueryFirstOrDefaultAsync<Cuenta>(sql, new { Email = email });
+    }
 
     public async Task AltaServidorAsync(Servidor servidor)
     {
@@ -67,18 +78,19 @@ public async Task<Cuenta?> BuscarCuentaPorEmailAsync(string email)
         parametros.Add("@UnAbreviado", servidor.Abreviado);
         await _conexion.ExecuteAsync("InsertServidor", parametros, commandType: CommandType.StoredProcedure);
     }
-public async Task AltaCuentaAsync(Cuenta cuenta)
-{
-    var parametros = new DynamicParameters();
-    parametros.Add("@UnidCuenta", cuenta.IdCuenta);
-    parametros.Add("@UnidServidor", cuenta.IdServidor); 
-    parametros.Add("@UnNombre", cuenta.Nombre);
-    parametros.Add("@Uncontrasena", cuenta.Contrasena);
-    parametros.Add("@UneMail", cuenta.Email);
-    parametros.Add("@UnRol", cuenta.Rol);
 
-    await _conexion.ExecuteAsync("InsertCuenta", parametros, commandType: CommandType.StoredProcedure);
-}
+    public async Task AltaCuentaAsync(Cuenta cuenta)
+    {
+        var parametros = new DynamicParameters();
+        parametros.Add("@UnidCuenta", cuenta.IdCuenta);
+        parametros.Add("@UnidServidor", cuenta.IdServidor);
+        parametros.Add("@UnNombre", cuenta.Nombre);
+        parametros.Add("@Uncontrasena", cuenta.Contrasena);
+        parametros.Add("@UneMail", cuenta.Email);
+        parametros.Add("@UnRol", cuenta.Rol);
+
+        await _conexion.ExecuteAsync("InsertCuenta", parametros, commandType: CommandType.StoredProcedure);
+    }
 
     public async Task AltaRangoLolAsync(RangoLol rangoLol)
     {
@@ -102,19 +114,19 @@ public async Task AltaCuentaAsync(Cuenta cuenta)
         rangoValorant.idRango = parametros.Get<ushort>("@IdRango");
     }
 
-public async Task AltaCuentaLolAsync(CuentaLol cuentaLol)
-{
-    var parametros = new DynamicParameters();
-    parametros.Add("@UnidCuenta", cuentaLol.IdCuenta);
-    parametros.Add("@UnNombre", cuentaLol.Nombre);
-    parametros.Add("@UnNivel", cuentaLol.Nivel);
-    parametros.Add("@UnEsenciaAzul", cuentaLol.EsenciaAzul);
-    parametros.Add("@UnPuntosRiot", cuentaLol.PuntosRiot);
-    parametros.Add("@UnPuntosLiga", cuentaLol.PuntosLiga);
-    parametros.Add("@UnIdRango", cuentaLol.IdRango);  
+    public async Task AltaCuentaLolAsync(CuentaLol cuentaLol)
+    {
+        var parametros = new DynamicParameters();
+        parametros.Add("@UnidCuenta", cuentaLol.IdCuenta);
+        parametros.Add("@UnNombre", cuentaLol.Nombre);
+        parametros.Add("@UnNivel", cuentaLol.Nivel);
+        parametros.Add("@UnEsenciaAzul", cuentaLol.EsenciaAzul);
+        parametros.Add("@UnPuntosRiot", cuentaLol.PuntosRiot);
+        parametros.Add("@UnPuntosLiga", cuentaLol.PuntosLiga);
+        parametros.Add("@UnIdRango", cuentaLol.IdRango);
 
-    await _conexion.ExecuteAsync("InsertCuentaLol", parametros, commandType: CommandType.StoredProcedure);
-}
+        await _conexion.ExecuteAsync("InsertCuentaLol", parametros, commandType: CommandType.StoredProcedure);
+    }
 
     public async Task AltaCuentaValorantAsync(CuentaValorant cuentaValorant)
     {
@@ -128,6 +140,7 @@ public async Task AltaCuentaLolAsync(CuentaLol cuentaLol)
 
         await _conexion.ExecuteAsync("InsertCuentaValorant", parametros, commandType: CommandType.StoredProcedure);
     }
+
     public async Task AltaTipoObjetoAsync(TipoObjeto tipoObjeto)
     {
         var parametros = new DynamicParameters();
@@ -135,6 +148,7 @@ public async Task AltaCuentaLolAsync(CuentaLol cuentaLol)
         parametros.Add("@UnNombre", tipoObjeto.Nombre, DbType.String);
         await _conexion.ExecuteAsync("InsertTipoObjeto", parametros, commandType: CommandType.StoredProcedure);
     }
+
     public async Task AltaObjetoAsync(Objeto objeto)
     {
         var parametros = new DynamicParameters();
@@ -146,6 +160,7 @@ public async Task AltaCuentaLolAsync(CuentaLol cuentaLol)
         parametros.Add("@IdTipoObjeto", objeto.idTipoObjeto, DbType.Byte);
         await _conexion.ExecuteAsync("InsertObjeto", parametros, commandType: CommandType.StoredProcedure);
     }
+
     public async Task AltaInventarioAsync(Inventario inventario)
     {
         var parametros = new DynamicParameters();
@@ -154,169 +169,196 @@ public async Task AltaCuentaLolAsync(CuentaLol cuentaLol)
         await _conexion.ExecuteAsync("InsertInventario", parametros, commandType: CommandType.StoredProcedure);
         inventario.idInventario = parametros.Get<ushort>("@idInventario");
     }
+
     public async Task<IEnumerable<Servidor>> ObtenerServidoresAsync()
     {
-        var query = "SELECT * FROM Servidor";
-        return await _conexion.QueryAsync<Servidor>(query);
+        return await _conexion.QueryAsync<Servidor>("SELECT * FROM Servidor");
     }
+
     public async Task<Servidor?> ObtenerServidorAsync(byte idServidor)
     {
-        var query = @"SELECT * FROM Servidor WHERE idServidor = @idServidor";
-        return await _conexion.QuerySingleOrDefaultAsync<Servidor>(query, new { idServidor });
+        return await _conexion.QuerySingleOrDefaultAsync<Servidor>(
+            "SELECT * FROM Servidor WHERE idServidor = @idServidor",
+            new { idServidor }
+        );
     }
+
     public async Task<IEnumerable<RangoLol>> ObtenerRangosLolAsync()
     {
-        var query = "SELECT * FROM RangoLol";
-        return await _conexion.QueryAsync<RangoLol>(query);
+        return await _conexion.QueryAsync<RangoLol>("SELECT * FROM RangoLol");
     }
 
     public async Task<RangoLol?> ObtenerRangoLolAsync(byte idRango)
     {
-        var query = @"SELECT * FROM RangoLol WHERE idRango = @idRango";
-        return await _conexion.QuerySingleOrDefaultAsync<RangoLol>(query, new { idRango });
+        return await _conexion.QuerySingleOrDefaultAsync<RangoLol>(
+            "SELECT * FROM RangoLol WHERE idRango = @idRango",
+            new { idRango }
+        );
     }
 
     public async Task<IEnumerable<RangoValorant>> ObtenerRangosValorantAsync()
     {
-        var query = "SELECT * FROM RangoValorant";
-        return await _conexion.QueryAsync<RangoValorant>(query);
+        return await _conexion.QueryAsync<RangoValorant>("SELECT * FROM RangoValorant");
     }
 
     public async Task<IEnumerable<(int IdCuenta, int NivelLol)>> ObtenerNivelesLolAsync()
     {
-        var query = "SELECT IdCuenta, Nivel AS NivelLol FROM CuentaLol";
-        return await _conexion.QueryAsync<(int, int)>(query);
+        return await _conexion.QueryAsync<(int, int)>(
+            "SELECT IdCuenta, Nivel AS NivelLol FROM CuentaLol"
+        );
     }
 
     public async Task<IEnumerable<(int IdCuenta, int NivelValorant)>> ObtenerNivelesValorantAsync()
     {
-        var query = "SELECT IdCuenta, Nivel AS NivelValorant FROM CuentaValorant";
-        return await _conexion.QueryAsync<(int, int)>(query);
+        return await _conexion.QueryAsync<(int, int)>(
+            "SELECT IdCuenta, Nivel AS NivelValorant FROM CuentaValorant"
+        );
     }
+
     public async Task<IEnumerable<Cuenta>> ObtenerCuentaAsync()
     {
-        var query = @"
-        SELECT 
-            c.IdCuenta, 
-            c.Nombre, 
-            c.Contrasena, 
-            c.Email,
-            c.idServidor,
-            s.idServidor,
-            s.Nombre,
-            s.Abreviado
-        FROM Cuenta c
-        JOIN Servidor s ON c.idServidor = s.idServidor"; ;
-        var cuentas = await _conexion.QueryAsync<Cuenta, Servidor, Cuenta>(
-        query,
-        (cuenta, servidor) =>
-        {
-            cuenta.Servidor = servidor;
-            return cuenta;
-        },
-        splitOn: "IdServidor"
-    );
+        var sql = @"
+            SELECT 
+                c.IdCuenta,
+                c.Nombre,
+                c.Contrasena,
+                c.Email,
+                c.idServidor,
+                s.idServidor,
+                s.Nombre,
+                s.Abreviado
+            FROM Cuenta c
+            JOIN Servidor s ON c.idServidor = s.idServidor
+        ";
 
-        return cuentas;
-    }    
-public async Task<IEnumerable<CuentaLol>> ObtenerCuentasLolAsync()
-{
-    var sql = @"
-        SELECT c.*, r.idRango, r.Nombre, r.PuntosLigaNecesario, r.Numero
-        FROM CuentaLol c
-        LEFT JOIN RangoLol r ON c.idRango = r.idRango";
+        return await _conexion.QueryAsync<Cuenta, Servidor, Cuenta>(
+            sql,
+            (cuenta, servidor) =>
+            {
+                cuenta.Servidor = servidor;
+                return cuenta;
+            },
+            splitOn: "idServidor"
+        );
+    }
 
-    return await _conexion.QueryAsync<CuentaLol, RangoLol, CuentaLol>(
-        sql,
-        (cuenta, rango) =>
-        {
-            cuenta.RangoLol = rango;
-            return cuenta;
-        },
-        splitOn: "idRango"
-    );
-}
+    public async Task<IEnumerable<CuentaLol>> ObtenerCuentasLolAsync()
+    {
+        var sql = @"
+            SELECT c.*, r.idRango, r.Nombre, r.PuntosLigaNecesario, r.Numero
+            FROM CuentaLol c
+            LEFT JOIN RangoLol r ON c.idRango = r.idRango
+        ";
 
-public async Task<IEnumerable<CuentaValorant>> ObtenerCuentasValorantAsync()
-{
-    var sql = @"
-        SELECT 
-            cv.idCuenta,
-            cv.Nombre,
-            cv.Nivel,
-            cv.Experiencia,
-            cv.PuntosCompetitivo,
-            cv.idRango,
-            rv.idRango AS rv_idRango,   -- split marker para el segundo objeto
-            rv.Nombre,                  -- mantener nombres que coincidan con la clase
-            rv.Numero,
-            rv.PuntosNecesarios
-        FROM CuentaValorant cv
-        LEFT JOIN RangoValorant rv ON cv.idRango = rv.idRango;";
+        return await _conexion.QueryAsync<CuentaLol, RangoLol, CuentaLol>(
+            sql,
+            (cuenta, rango) =>
+            {
+                cuenta.RangoLol = rango;
+                return cuenta;
+            },
+            splitOn: "idRango"
+        );
+    }
 
-    return await _conexion.QueryAsync<CuentaValorant, RangoValorant, CuentaValorant>(
-        sql,
-        (cv, rv) =>
-        {
-            cv.RangoValorant = rv; 
-            return cv;
-        },
-        splitOn: "rv_idRango"
-    );
-}
+    public async Task<IEnumerable<CuentaValorant>> ObtenerCuentasValorantAsync()
+    {
+        var sql = @"
+            SELECT 
+                cv.idCuenta,
+                cv.Nombre,
+                cv.Nivel,
+                cv.Experiencia,
+                cv.PuntosCompetitivo,
+                cv.idRango,
+                rv.idRango AS rv_idRango,
+                rv.Nombre,
+                rv.Numero,
+                rv.PuntosNecesarios
+            FROM CuentaValorant cv
+            LEFT JOIN RangoValorant rv ON cv.idRango = rv.idRango
+        ";
 
-public async Task BajaCuentaLolAsync(uint idCuenta)
-{
-    var parametros = new DynamicParameters();
-    parametros.Add("@p_idCuenta", idCuenta);
+        return await _conexion.QueryAsync<CuentaValorant, RangoValorant, CuentaValorant>(
+            sql,
+            (cv, rv) =>
+            {
+                cv.RangoValorant = rv;
+                return cv;
+            },
+            splitOn: "rv_idRango"
+        );
+    }
 
-    await _conexion.ExecuteAsync(
-        "DeleteCuentaLol", parametros,commandType: CommandType.StoredProcedure
-    );
-}
+    public async Task BajaCuentaLolAsync(uint idCuenta)
+    {
+        var parametros = new DynamicParameters();
+        parametros.Add("@p_idCuenta", idCuenta);
+
+        await _conexion.ExecuteAsync(
+            "DeleteCuentaLol",
+            parametros,
+            commandType: CommandType.StoredProcedure
+        );
+    }
+
     public async Task<int> DeleteCuentaAsync(uint unidCuenta)
     {
         var parametros = new DynamicParameters();
         parametros.Add("unidCuenta", unidCuenta);
-        return await _conexion.ExecuteAsync("DeleteCuenta", parametros, commandType: CommandType.StoredProcedure);
+        return await _conexion.ExecuteAsync(
+            "DeleteCuenta",
+            parametros,
+            commandType: CommandType.StoredProcedure
+        );
     }
-    public async Task BajaCuentaValorantAsync(int idCuenta)
-{
-    var parametros = new DynamicParameters();
-    parametros.Add("@p_idCuenta", idCuenta);
 
-    await _conexion.ExecuteAsync(
-        "DeleteCuentaValorant",
-        parametros,
-        commandType: CommandType.StoredProcedure
-    );
-}
+    public async Task BajaCuentaValorantAsync(int idCuenta)
+    {
+        var parametros = new DynamicParameters();
+        parametros.Add("@p_idCuenta", idCuenta);
+
+        await _conexion.ExecuteAsync(
+            "DeleteCuentaValorant",
+            parametros,
+            commandType: CommandType.StoredProcedure
+        );
+    }
+
     public async Task BorrarTodosServidoresAsync()
-{
-    const string sql = "DELETE FROM Servidor;";
-    await _conexion.ExecuteAsync(sql);
-}
+    {
+        await _conexion.ExecuteAsync("DELETE FROM Servidor;");
+    }
+
     public async Task<int> DeleteServidorAsync(byte idServidor)
     {
         var parametros = new DynamicParameters();
         parametros.Add("p_unidServidor", idServidor);
-        return await _conexion.ExecuteAsync("DeleteServidor", parametros, commandType: CommandType.StoredProcedure);
+        return await _conexion.ExecuteAsync(
+            "DeleteServidor",
+            parametros,
+            commandType: CommandType.StoredProcedure
+        );
     }
+
     public async Task BajaObjetoAsync(ushort idObjeto)
     {
         var parametros = new DynamicParameters();
         parametros.Add("@idObjeto", idObjeto, DbType.UInt16);
-        await _conexion.ExecuteAsync("DeleteObjeto", parametros, commandType: CommandType.StoredProcedure);
+        await _conexion.ExecuteAsync(
+            "DeleteObjeto",
+            parametros,
+            commandType: CommandType.StoredProcedure
+        );
     }
+
     public async Task<IEnumerable<Objeto>> ObtenerObjetosAsync()
     {
-        var consulta = "SELECT * FROM Objeto";
-        return await _conexion.QueryAsync<Objeto>(consulta);
+        return await _conexion.QueryAsync<Objeto>("SELECT * FROM Objeto");
     }
 
     public async Task<IEnumerable<TipoObjeto>> ObtenerTiposObjetosAsync()
     {
-        var obtener = "SELECT * FROM TipoObjeto";
-        return await _conexion.QueryAsync<TipoObjeto>(obtener);
+        return await _conexion.QueryAsync<TipoObjeto>("SELECT * FROM TipoObjeto");
     }
 }

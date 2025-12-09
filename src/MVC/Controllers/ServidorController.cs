@@ -11,7 +11,7 @@ public class ServidorController : Controller
         _idao = dao;
 
         var usuarioActual = usuarioActualService.ObtenerUsuario();
-        _auth = new AuthService(usuarioActual); // <<< LO QUE FALTABA
+        _auth = new AuthService(usuarioActual); 
     }
 
     public IActionResult Crear()

@@ -1,62 +1,50 @@
-namespace Mordekaiser.Core;
-
-public interface IDao
+namespace Mordekaiser.Core
 {
-
-    Task AltaServidorAsync(Servidor servidor);
-    Task BorrarTodosServidoresAsync();
-    Task AltaCuentaAsync(Cuenta cuenta);
-Task<Cuenta?> BuscarCuentaPorEmailAsync(string email);
-Task<Cuenta?> BuscarCuentaPorNombreAsync(string nombre)   ;
- Task AltaRangoLolAsync(RangoLol rangoLol);
-
-Task<CuentaValorant?> ObtenerCuentaValorantPorIdAsync(int id);
-    Task AltaRangoValorantAsync(RangoValorant rangoValorant);
- Task<CuentaLol?> ObtenerCuentaLolPorIdAsync(uint idCuentaLol);
-
-    Task AltaCuentaLolAsync(CuentaLol cuentaLol);
-
-    Task AltaCuentaValorantAsync(CuentaValorant cuentaValorant);
-
-    Task AltaTipoObjetoAsync(TipoObjeto tipoObjeto);
+    public interface IDao
+    {
+        Task AltaCuentaAsync(Cuenta cuenta);
+        Task<Cuenta?> BuscarCuentaPorEmailAsync(string email);
+        Task<Cuenta?> BuscarCuentaPorNombreAsync(string nombre);
 
 
-    Task AltaObjetoAsync(Objeto objeto);
+        Task<Cuenta?> ObtenerCuentaPorIdAsync(int idCuenta);
+        Task<int> BajaCuentaAsync(int idCuenta);
+        Task<IEnumerable<CuentaLol>> ObtenerCuentasLolAsync();
+        Task<CuentaLol?> ObtenerCuentaLolPorIdAsync(uint idCuentaLol);
 
+        Task AltaCuentaLolAsync(CuentaLol cuentaLol);
+        Task BajaCuentaLolAsync(uint idCuentaLol);
 
-    Task AltaInventarioAsync(Inventario inventario);
+        Task AltaRangoLolAsync(RangoLol rangoLol);
+        Task<RangoLol?> ObtenerRangoLolAsync(byte idRangoLol);
+        Task<IEnumerable<RangoLol>> ObtenerRangosLolAsync();
+        Task<IEnumerable<CuentaValorant>> ObtenerCuentasValorantAsync();
+        Task<CuentaValorant?> ObtenerCuentaValorantPorIdAsync(int id);
 
-    Task<IEnumerable<Servidor>> ObtenerServidoresAsync();
+        Task AltaCuentaValorantAsync(CuentaValorant cuentaValorant);
+        Task BajaCuentaValorantAsync(int idCuenta);
 
+        Task AltaRangoValorantAsync(RangoValorant rangoValorant);
+        Task<IEnumerable<RangoValorant>> ObtenerRangosValorantAsync();
 
-    Task<Servidor?> ObtenerServidorAsync(byte a);
+        Task<IEnumerable<Servidor>> ObtenerServidoresAsync();
+        Task<Servidor?> ObtenerServidorAsync(byte id);
+        Task AltaServidorAsync(Servidor servidor);
+        Task<int> DeleteServidorAsync(byte idServidor);
+        Task BorrarTodosServidoresAsync();
+        Task<IEnumerable<Objeto>> ObtenerObjetosAsync();
+        Task<IEnumerable<TipoObjeto>> ObtenerTiposObjetosAsync();
 
-    Task<RangoLol?> ObtenerRangoLolAsync(byte b);
+        Task AltaTipoObjetoAsync(TipoObjeto tipoObjeto);
+        Task AltaObjetoAsync(Objeto objeto);
+        Task AltaInventarioAsync(Inventario inventario);
+        Task BajaObjetoAsync(ushort idObjeto);
 
+        Task<Cuenta?> LoginAsync(string nombreUsuario, string contrasena);
 
-    Task<IEnumerable<RangoLol>> ObtenerRangosLolAsync();
+        Task<IEnumerable<(int IdCuenta, int NivelLol)>> ObtenerNivelesLolAsync();
+        Task<IEnumerable<(int IdCuenta, int NivelValorant)>> ObtenerNivelesValorantAsync();
 
-
-    Task<IEnumerable<RangoValorant>> ObtenerRangosValorantAsync();
-    Task<IEnumerable<(int IdCuenta, int NivelLol)>> ObtenerNivelesLolAsync();
-    Task<IEnumerable<(int IdCuenta, int NivelValorant)>> ObtenerNivelesValorantAsync();
-
-    Task<IEnumerable<Cuenta>> ObtenerCuentaAsync();
-
-    Task<IEnumerable<CuentaLol>> ObtenerCuentasLolAsync();
-
-    Task<IEnumerable<CuentaValorant>> ObtenerCuentasValorantAsync();
-
-    Task BajaCuentaLolAsync(uint idCuenta);
-    Task <int >DeleteCuentaAsync(uint Cuenta);
-    Task BajaCuentaValorantAsync(int idCuenta);
-
-    Task<int> DeleteServidorAsync(byte idServidor);
-
-    Task BajaObjetoAsync(ushort idObjeto);
-
-    Task<Cuenta?> LoginAsync(string nombreUsuario, string contrasena);
-
-    Task<IEnumerable<Objeto>> ObtenerObjetosAsync();
-    Task<IEnumerable<TipoObjeto>> ObtenerTiposObjetosAsync();
+        Task<IEnumerable<Cuenta>> ObtenerCuentaAsync();
+    }
 }
