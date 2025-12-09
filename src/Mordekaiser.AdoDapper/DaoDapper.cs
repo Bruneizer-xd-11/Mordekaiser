@@ -10,6 +10,29 @@ public class DaoDapper : IDao
 {
     private readonly IDbConnection _conexion;
     public DaoDapper(IDbConnection conexion) => _conexion = conexion;
+public Task<CuentaLol> ObtenerCuentaLolPorIdAsync(uint id)
+{
+    return _conexion.QueryFirstOrDefaultAsync<CuentaLol>(
+        "SELECT * FROM CuentaLol WHERE idCuenta = @id",
+        new { id }
+    );
+}
+
+public Task<CuentaValorant?> ObtenerCuentaValorantPorIdAsync(int id)
+{
+    return _conexion.QueryFirstOrDefaultAsync<CuentaValorant?>(
+        "SELECT * FROM CuentaValorant WHERE idCuenta = @id",
+        new { id }
+    );
+}
+
+public Task<Cuenta> ObtenerCuentaPorIdAsync(uint id)
+{
+    return _conexion.QueryFirstOrDefaultAsync<Cuenta>(
+        "SELECT * FROM Cuenta WHERE idCuenta = @id",
+        new { id }
+    );
+}
 public async Task<Cuenta?> LoginAsync(string userOrEmail, string password)
 {
     using var sha = SHA256.Create();
@@ -242,12 +265,15 @@ public async Task<IEnumerable<CuentaValorant>> ObtenerCuentasValorantAsync()
     );
 }
 
-    public async Task BajaCuentaLolAsync(uint idCuenta)
-    {
-        var parametros = new DynamicParameters();
-        parametros.Add("@IdCuenta", idCuenta);
-        await _conexion.ExecuteAsync("DeleteCuentaLol", parametros, commandType: CommandType.StoredProcedure);
-    }
+public async Task BajaCuentaLolAsync(uint idCuenta)
+{
+    var parametros = new DynamicParameters();
+    parametros.Add("@p_idCuenta", idCuenta);
+
+    await _conexion.ExecuteAsync(
+        "DeleteCuentaLol", parametros,commandType: CommandType.StoredProcedure
+    );
+}
     public async Task<int> DeleteCuentaAsync(uint unidCuenta)
     {
         var parametros = new DynamicParameters();
@@ -255,11 +281,16 @@ public async Task<IEnumerable<CuentaValorant>> ObtenerCuentasValorantAsync()
         return await _conexion.ExecuteAsync("DeleteCuenta", parametros, commandType: CommandType.StoredProcedure);
     }
     public async Task BajaCuentaValorantAsync(int idCuenta)
-    {
-        var parametros = new DynamicParameters();
-        parametros.Add("@IdCuenta", idCuenta);
-        await _conexion.ExecuteAsync("DeleteCuentaValorant", parametros, commandType: CommandType.StoredProcedure);
-    }
+{
+    var parametros = new DynamicParameters();
+    parametros.Add("@p_idCuenta", idCuenta);
+
+    await _conexion.ExecuteAsync(
+        "DeleteCuentaValorant",
+        parametros,
+        commandType: CommandType.StoredProcedure
+    );
+}
     public async Task BorrarTodosServidoresAsync()
 {
     const string sql = "DELETE FROM Servidor;";

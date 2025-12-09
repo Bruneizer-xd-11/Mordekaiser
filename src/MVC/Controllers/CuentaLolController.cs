@@ -46,30 +46,52 @@ namespace MVC.Controllers
                     ViewBag.Rangos = await _dao.ObtenerRangosLolAsync();
                     return View(model);
                 }
-                throw; // re-lanzar si es otro error
+                throw;
             }
 
             return RedirectToAction(nameof(Listado));
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> BorrarTodasLasCuentasLol()
-        {
-            var cuentas = await _dao.ObtenerCuentasLolAsync();
-            foreach (var c in cuentas)
-            {
-                await _dao.BajaCuentaLolAsync(c.IdCuenta);
-            }
-            return RedirectToAction(nameof(Listado));
-        }
+        // [HttpPost]
+        // [ValidateAntiForgeryToken]
+        // public async Task<IActionResult> BorrarTodasLasCuentasLol()
+        // {
+        //     var cuentas = await _dao.ObtenerCuentasLolAsync();
+        //     foreach (var c in cuentas)
+        //     {
+        //         await _dao.BajaCuentaLolAsync(c.IdCuenta);
+        //     }
+        //     return RedirectToAction(nameof(Listado));
+        // }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> BorrarPorId(uint id)
-        {
-            await _dao.BajaCuentaLolAsync(id);
-            return RedirectToAction(nameof(Listado));
-        }
+       public async Task<IActionResult> BorrarPorId(uint id)
+{
+    // Obtener la cuenta LoL
+    var cuenta = await _dao.ObtenerCuentaLolPorIdAsync(id);
+
+    if (cuenta == null)
+    {
+        TempData["Error"] = "La cuenta LoL no existe.";
+        return RedirectToAction("Listado", "CuentaLol");
+    }
+    var usuarioId = HttpContext.Session.GetInt32("UsuarioId");
+
+    if (usuarioId == null)
+    {
+        return Unauthorized();
+    }
+    if (cuenta.IdCuenta != usuarioId)
+    {
+        TempData["Error"] = "No tienes permiso para borrar esta cuenta LoL.";
+        return RedirectToAction("Listado", "CuentaLol");
+    }
+
+    await _dao.BajaCuentaLolAsync(id);
+
+    return RedirectToAction("Listado", "CuentaLol");
+}
+
     }
 }

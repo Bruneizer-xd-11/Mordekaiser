@@ -8,7 +8,7 @@
 <h1>Listado de Cuentas LoL</h1>
 
 <div class="d-flex gap-2 mb-3">
-  <a class="btn btn-success" asp-action="Crear">Crear Cuenta LoL</a>
+    <a class="btn btn-success" asp-action="Crear">Crear Cuenta LoL</a>
 </div>
 
 @if (Model == null || !Model.Any())
@@ -32,35 +32,35 @@ else
             </tr>
         </thead>
         <tbody>
-        @foreach (var cuenta in Model)
-        {
-            <tr>
-                <td>
-                    @if(rol == "Admin" || cuenta.IdCuenta == miId)
-                    {
-                        @cuenta.IdCuenta
-                    }
-                    else
-                    {
-                        <text>-</text>
-                    }
-                </td>
-                <td>@cuenta.Nombre</td>
-                <td>@cuenta.Nivel</td>
-                <td>@cuenta.EsenciaAzul</td>
-                <td>@cuenta.PuntosRiot</td>
-                <td>@cuenta.PuntosLiga</td>
-                <td>@cuenta.IdRango</td>
-                <td>@cuenta.RangoLol?.Nombre</td>
-                <td>
-                    <form asp-action="BorrarPorId" asp-route-id="@cuenta.IdCuenta" method="post" class="d-inline"
-                          onsubmit="return confirm('¿Seguro que deseas borrar esta cuenta LoL?');">
-                        @Html.AntiForgeryToken()
-                        <button type="submit" class="btn btn-danger btn-sm">Borrar</button>
-                    </form>
-                </td>
-            </tr>
-        }
+            @foreach (var cuenta in Model)
+            {
+                <tr>
+                    <td>
+                        @if (rol == "Admin" || cuenta.IdCuenta == miId)
+                        {
+                            @cuenta.IdCuenta
+                        }
+                        else
+                        {
+                            <text>-</text>
+                        }
+                    </td>
+                    <td>@cuenta.Nombre</td>
+                    <td>@cuenta.Nivel</td>
+                    <td>@cuenta.EsenciaAzul</td>
+                    <td>@cuenta.PuntosRiot</td>
+                    <td>@cuenta.PuntosLiga</td>
+                    <td>@cuenta.IdRango</td>
+                    <td>@cuenta.RangoLol?.Nombre</td>
+                    <td>
+                        <form asp-action="BorrarPorId" asp-route-id="@cuenta.IdCuenta" method="post" class="d-inline"
+                            onsubmit="return confirm('¿Seguro que deseas borrar esta cuenta LoL?');">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-danger btn-sm">Borrar</button>
+                        </form>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 }

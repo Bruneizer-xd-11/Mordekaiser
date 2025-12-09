@@ -257,14 +257,15 @@ BEGIN
 END $$
 DELIMITER ;
 
--- Deletes pa borrar
-DROP PROCEDURE IF EXISTS DeleteCuentaLol;
+  -- Deletes pa borrar
+ DROP PROCEDURE IF EXISTS DeleteCuentaLol;
 DELIMITER $$
-CREATE PROCEDURE DeleteCuentaLol (IN IdCuenta INT)
+CREATE PROCEDURE DeleteCuentaLol (IN p_idCuenta INT)
 BEGIN
-  DELETE FROM CuentaLol WHERE idCuenta = IdCuenta;
+    DELETE FROM CuentaLol WHERE idCuenta = p_idCuenta;
 END $$
 DELIMITER ;
+
 
 DROP PROCEDURE IF EXISTS DeleteCuenta;
 DELIMITER $$
@@ -276,10 +277,12 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS DeleteCuentaValorant;
 DELIMITER $$
-CREATE PROCEDURE DeleteCuentaValorant (IN IdCuenta INT)
+
+CREATE PROCEDURE DeleteCuentaValorant (IN p_idCuenta INT)
 BEGIN
-  DELETE FROM CuentaValorant WHERE idCuenta = IdCuenta;
+  DELETE FROM CuentaValorant WHERE idCuenta = p_idCuenta;
 END $$
+
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS DeleteServidor;

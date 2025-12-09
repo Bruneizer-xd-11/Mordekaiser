@@ -46,7 +46,7 @@ public class CuentaValorantController : Controller
                 ViewBag.Rangos = await _dao.ObtenerRangosValorantAsync();
                 return View(model);
             }
-            throw; // re-lanzar si es otra excepción
+            throw; 
         }
 
         return RedirectToAction(nameof(Listado));
@@ -64,10 +64,32 @@ public async Task<IActionResult> BorrarTodasLasCuentasValorant()
 }
 [HttpPost]
 [ValidateAntiForgeryToken]
-public async Task<IActionResult> BorrarPorId(uint id)
+public async Task<IActionResult> BorrarPorId(int id)
 {
+    var cuenta = await _dao.ObtenerCuentaValorantPorIdAsync((int)id);
+
+    if (cuenta == null)
+    {
+        TempData["Error"] = "La cuenta de Valorant no existe.";
+        return RedirectToAction("Listado", "CuentaValorant");
+    }
+    var usuarioId = HttpContext.Session.GetInt32("UsuarioId");
+
+    if (usuarioId == null)
+    {
+        return Unauthorized();
+    }
+
+    if (cuenta.idCuenta != usuarioId)
+    {
+        TempData["Error"] = "No tienes permiso para borrar esta cuenta de Valorant.";
+        return RedirectToAction("Listado", "CuentaValorant");
+    }
+
     await _dao.BajaCuentaValorantAsync((int)id);
-    return RedirectToAction(nameof(Listado));
+
+    return RedirectToAction("Listado", "CuentaValorant");
 }
+
 
 }

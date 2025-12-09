@@ -10,9 +10,9 @@ Task<Cuenta?> BuscarCuentaPorEmailAsync(string email);
 Task<Cuenta?> BuscarCuentaPorNombreAsync(string nombre)   ;
  Task AltaRangoLolAsync(RangoLol rangoLol);
 
-
+Task<CuentaValorant?> ObtenerCuentaValorantPorIdAsync(int id);
     Task AltaRangoValorantAsync(RangoValorant rangoValorant);
-
+ Task<CuentaLol?> ObtenerCuentaLolPorIdAsync(uint idCuentaLol);
 
     Task AltaCuentaLolAsync(CuentaLol cuentaLol);
 
