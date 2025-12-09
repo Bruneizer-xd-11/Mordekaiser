@@ -27,4 +27,4 @@ public class Cuenta
     public CuentaLol? CuentaLol { get; set; }
     public CuentaValorant? CuentaValorant { get; set; }
     public Rol Rol { get; set; }
-}
+}   

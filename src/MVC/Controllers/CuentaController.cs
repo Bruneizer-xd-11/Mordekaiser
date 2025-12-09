@@ -10,25 +10,12 @@ namespace MVC.Controllers
         private readonly IDao _dao;
         public CuentaController(IDao dao) => _dao = dao;
 
-        public async Task<IActionResult> Listado()
-        {
-            var usuarioRol = HttpContext.Session.GetInt32("UsuarioRol") ?? 0;
-            var usuarioId = HttpContext.Session.GetInt32("UsuarioId");
-
-            List<Cuenta> cuentas;
-            if (usuarioRol == (int)Rol.Admin) 
-            {
-                cuentas = (await _dao.ObtenerCuentaAsync()).ToList();
-            }
-            else
-            {
-                cuentas = (await _dao.ObtenerCuentaAsync())
-                            .Where(c => c.IdCuenta == usuarioId)
-                            .ToList();
-            }
-
-            return View(cuentas);
-        }
+       public async Task<IActionResult> Listado()
+{
+    // Trae todas las cuentas, sin importar el rol
+    var cuentas = (await _dao.ObtenerCuentaAsync()).ToList();
+    return View(cuentas);
+}
 
         public async Task<IActionResult> Detalle(int id)
         {

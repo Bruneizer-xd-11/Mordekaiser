@@ -189,7 +189,8 @@ namespace MVC.Controllers
             }
 
             // Guardar rol como entero
-            HttpContext.Session.SetInt32("UsuarioRol", (int)cuenta.Rol);
+           HttpContext.Session.SetString("UsuarioRol", cuenta.Rol.ToString());
+
             HttpContext.Session.SetString("UsuarioNombre", cuenta.Nombre);
             HttpContext.Session.SetInt32("UsuarioId", cuenta.IdCuenta);
 
